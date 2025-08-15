@@ -1,303 +1,156 @@
-Skip to content
-You said:
-I want to make a website that allows you to automatically populate a consent form that you can print as a PDF. 
+import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { Printer, RotateCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
-This is based on an existing PDF in our UPMC system and will have a header and a footer. 
+/**
+ * UPMC CONSENT TO SURGERY OR SPECIAL PROCEDURE
+ * Exact wording & page breaks matched to the provided PDF, with minimal UI.
+ * - No images; pure text layout
+ * - Header + footer on each of 4 pages
+ * - Print to US Letter; uses system serif (Times-like) for fidelity
+ * - The specific cross-page line breaks that appear in the PDF are preserved:
+ *   - End of p1: "...body piercing hardware be" (continues on p2 with "removed prior to surgery.")
+ *   - End of p2: "...may edit, preserve, or destroy all or any part of the" (continues on p3)
+ */
 
-Here is the text as it is in the PDF form pasted next: Patient Name: 
-Identification Number: 
-Facility: 
-Page 1 of 4
-*3CNTT* 3CNTT 02/16/2024
-CONSENT TO SURGERY OR SPECIAL PROCEDURE
-I, ___________________________________ have been asked to read all the information contained in this 
- (Name of patient or Designee)
- consent form and to consent to the procedure described below on behalf of ________________________or 
-(Name of Patient) 
-myself. I have been told that I should ask questions about anything that I do not understand. (If the decisionmaker signing this form is not the patient, references to “I,” “my” or “me” should be read as if referring to “the 
-patient.”)
-I understand that the information in this consent form, in addition to discussions with my physicians and any 
-other written materials they may provide, is intended to help me make an informed decision whether to 
-voluntarily undergo the identified procedure. 
-Diagnosis: I understand that after being examined, treated, and having studies reviewed, I have been diagnosed 
-as having:
-Recommended Procedure: I understand that my physician(s) have recommended that I undergo a procedure 
-known as 
-I understand that a series of the described procedure(s) in the operating room are planned.
-Alternatives. I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge 
-that my physician(s) or physician representative has described the alternative treatments, the risks and benefits 
-of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur 
-during recuperation and the likely medical results should I decide not to undergo the recommended procedure. 
-These treatment alternatives may include:
-Risks of Surgery. I understand that there are inherent risks in the performance of the recommended procedure. 
-These include:
-1. Bleeding: If needed, blood and/or blood products have the following general risks: reactions resulting
-in itching, rash, fever, chills, headache, or shock; respiratory distress (shortness of breath); kidney
-damage; systemic bacterial infection; exposure to blood borne viruses including hepatitis (an
-inflammatory disease affecting the liver) and Human Immunodeficiency Virus (HIV, the virus that
-causes AIDS); and death. Alternatives to transfusion include the use of devices that filter and return
-blood lost in surgery to me or by providing medications that boost my blood count prior to an elective
-procedure. Bleeding and/or severe anemia could put my life in danger or cause permanent brain
-damage. I understand that substitutes for blood or plasma might not work well enough. Blood and/or
-blood products might offer the only chance to preserve my life.
-I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate 
-form entitled Release from Liability for the Refusal of Blood Transfusion.
-If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits 
-and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully 
-explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be 
-Patient Name: 
-Identification Number: 
-Facility: 
-Page 2 of 4
-*3CNTT* 3CNTT 02/16/2024
-CONSENT TO SURGERY OR SPECIAL PROCEDURE
-removed prior to surgery.
-2. Infection: This may occur at the site of surgery or elsewhere depending upon procedure
-performed.
-3. Injury to adjacent organs.
-4. Pain. This should resolve within a few days but may be prolonged.
-5. As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to
-medications, and death, even in healthy patients.
-6. Blood clots. These clots usually develop in the legs and can break free and move through the heart to
-the lungs. In the lungs, they can cause serious interference with breathing, which can lead to death.
-Blood clots are treated with blood-thinning drugs that may need to be taken for an extended period of
-time.
-7. Nerve damage surrounding the surgical site or Damage to nerves from pressure or positioning of the
-arms, legs or back during the surgery. Nerve damage can cause numbness, weakness, paralysis and/or
-pain. In most cases these symptoms are temporary, but in rare cases they can last for extended periods
-or even permanently.
-8. Burns caused by use of electrical equipment that may be needed to stop bleeding or by other equipment.
-9. Wound dehiscence.
-10. Prolonged hospitalization.
-11. Other risks:
-Teaching Facility and Overlapping Surgeries: I understand that the facility is a teaching facility. The health 
-care team may include residents, fellows, students, and skilled healthcare professionals. Credentialed team 
-members may perform all or parts of my procedure under the supervision and guidance of my physician(s). My 
-attending physician may also be caring for one other patient during my surgery but remains responsible to me 
-and will perform or be present for the key portions of the procedure. If unanticipated circumstances require my 
-surgeon to be unavailable during my surgery, another qualified surgeon will promptly come to the operating 
-room. Representatives of medical device companies may be present to provide devices and observe and advise 
-on their use. Who will participate and in what manner will be decided at the time of the procedure and will 
-depend on the availability of individuals with the necessary expertise and on my medical condition. 
-If an accidental exposure to my blood or body fluids occurs to staff during the surgery or procedure, I agree to 
-blood tests for hepatitis B, hepatitis C and HIV.
-I understand that the physician(s) or others may choose to photograph, televise, film, or otherwise record all or 
-any portion of my procedure for medical, scientific, or educational purposes. I consent to the photographing, 
-televising, filming, or other forms of recording of the procedure(s) to be performed, including appropriate 
-portions of my body, body functions or sounds, provided my identity is not revealed. I understand and agree 
-that 1) any photographs, films, or other audio or visual recordings created will be the sole property of the 
-facility: and 2) the facility or any appropriate staff member may edit, preserve, or destroy all or any part of the 
-Patient Name: 
-Identification Number: 
-Facility: 
-Page 3 of 4
-*3CNTT* 3CNTT 02/16/2024
-CONSENT TO SURGERY OR SPECIAL PROCEDURE
-photographs, films, or other audio or visual recordings. Such recordings are not part of the medical record and I 
-understand I cannot obtain a copy. 
-I authorize the disposal or retention, preservation, testing, or use for scientific, educational, or other purposes of 
-all or any portion of specimens, tissues, body parts, or other things, including prostheses and medical/surgical 
-appliances, that may be removed from my body.
-I understand that if any medical device, as defined by federal regulations, is implanted in a patient’s body, the 
-facility is required by law to report to the manufacturer the name, address and social security number of the 
-patient and the description and identity of the device.
-MY SIGNATURE BELOW ACKNOWLEDGES THAT:
-1. I have read (or had read to me), understand and agree to the statements set forth in this consent form.
-2. A physician or representative has explained to me all information referred to in this consent form. I have
-had an opportunity to ask questions and my questions have been answered to my satisfaction, including any
-question I have about the potential use of blood and/or blood products and any risks regarding their use.
-3. All statements requiring completion were filled in before I signed.
-4. No guarantees or assurances concerning the results of the procedure(s) have been made.
-5. I am signing this consent voluntarily. I am not signing due to any coercion or other influence.
-6. I hereby consent and authorize Dr. (my physician(s)) and/or those
-associates, assistants and other health care providers designated by my physician(s) to perform the
-recommended procedure described above. I understand that during the procedure, conditions may become
-apparent that require my physicians or their designees to take steps or perform additional procedures that
-they believe are medically necessary to achieve the desired benefits or for my well-being. I authorize and
-7. request my physician(s) or their designees to perform whatever medical acts or additional procedures they,
-in the exercise of their sole professional judgment, deem reasonable and necessary, and I wave any obligation
-on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to
-give additional consent at that time.
-Witness Signature of patient or person authorized 
-to consent for patient
-Date Time Relationship to patient if signer is not 
-Patient
-I have explained to the patient signing above all the information referred to in this consent form. I have given 
-no guarantee or assurance as to the results that may be obtained. 
-Date Time Signature of Physician or Representative
-Patient Name: 
-Identification Number: 
-Facility: 
-Page 4 of 4
-*3CNTT* 3CNTT 02/16/2024
-CONSENT TO SURGERY OR SPECIAL PROCEDURE
-INTERPRETER’S STATEMENT
-Execute if an interpreter is provided to assist the individual in understanding this informed consent form:
-I have translated the information and advice presented orally to the individual to be treated by the person 
-obtaining this consent.
-In addition, I have sight translated the consent form (read it aloud in his/her language). To the best of my 
-knowledge and belief he/she understood this explanation. 
-Cyracom ID (if applicable)
-Print Name
-Signature (Not required if a Cyracom Interpreter Was Used)
-ChatGPT said:
+const BLANK = (n = 30) => "_".repeat(n);
+const Serif = ({ children, className = "" }) => (
+  <div className={"font-[\"Times New Roman\",Times,serif] " + className}>{children}</div>
+);
 
-Awesome — I put a working single-file React app on the canvas that:
+function Line({ value, length = 28 }) {
+  return (
+    <span className="inline-block align-baseline whitespace-pre">
+      {value?.trim() ? value : BLANK(length)}
+    </span>
+  );
+}
 
-    Lets you enter all the fields (patient name/ID/facility, diagnosis, procedure, alternatives, “other risks,” signer/witness/MD/interpreter details).
+function Field({ id, label, value, onChange, placeholder = "", className = "" }) {
+  return (
+    <div className={"space-y-1 " + className}>
+      <Label htmlFor={id} className="text-xs text-muted-foreground">{label}</Label>
+      <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
+    </div>
+  );
+}
 
-    Renders a true 4-page, print-ready version of your UPMC consent with the exact language you pasted.
+function Area({ id, label, value, onChange, rows = 3, placeholder = "", className = "" }) {
+  return (
+    <div className={"space-y-1 " + className}>
+      <Label htmlFor={id} className="text-xs text-muted-foreground">{label}</Label>
+      <Textarea id={id} value={value} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder} />
+    </div>
+  );
+}
 
-    Repeats the header (Patient Name / Identification Number / Facility / Page X of 4) and footer (*3CNTT* 3CNTT 02/16/2024) on every page.
+function HeaderBar({ onPrint, onReset }) {
+  return (
+    <div className="no-print sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2">
+        <div className="text-sm font-medium">UPMC Consent Builder — Exact PDF Layout</div>
+        <div className="flex items-center gap-2">
+          <Button variant="secondary" onClick={onReset}><RotateCcw className="mr-2 h-4 w-4"/>Reset</Button>
+          <Button onClick={onPrint}><Printer className="mr-2 h-4 w-4"/>Print / Save PDF</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-    Has a Print / Save PDF button that hides the editor and prints on US Letter with proper margins and page breaks.
+function PageShell({ number, total = 4, patientName, idNumber, facility, children }) {
+  return (
+    <div className="sheet relative mx-auto h-[11in] w-[8.5in] bg-white shadow-xl print:shadow-none">
+      {/* Header */}
+      <Serif>
+        <div className="absolute left-0 right-0 top-0 flex h-24 items-end border-b">
+          <div className="grid w-full grid-cols-2 gap-2 px-8 pb-2 text-[10pt] leading-tight">
+            <div className="flex flex-col">
+              <div><span className="font-semibold">Patient Name:</span> <span className="pl-1">{patientName || BLANK(20)}</span></div>
+              <div><span className="font-semibold">Identification Number:</span> <span className="pl-1">{idNumber || BLANK(12)}</span></div>
+            </div>
+            <div className="flex flex-col items-end text-right">
+              <div><span className="font-semibold">Facility:</span> <span className="pl-1">{facility || BLANK(12)}</span></div>
+              <div>Page {number} of {total}</div>
+            </div>
+          </div>
+        </div>
 
-    Uses Tailwind + shadcn/ui for a clean, clinic-friendly UI and saves entries to localStorage so you don’t lose work on refresh.
+        {/* Body */}
+        <div className="content absolute bottom-16 left-0 right-0 top-24 px-8 text-[11pt] leading-[1.22] tracking-tight">
+          <h1 className="mb-3 text-center text-[12pt] font-semibold">CONSENT TO SURGERY OR SPECIAL PROCEDURE</h1>
+          {children}
+        </div>
 
-If you want tweaks (logo placement, barcode, different footer date code, extra checkboxes like “transfusion refused,” or e-signature lines), tell me and I’ll wire them in.
-You said:
-Surgery_Special_Procedure.pdf
-PDF
-Here is the PDF, I need it to follow this format and wording as perfectly as possible without using too many images
-ChatGPT said:
+        {/* Footer */}
+        <div className="footer absolute bottom-0 left-0 right-0 flex h-16 items-center justify-between border-t px-8 text-[9pt]">
+          <div className="font-mono">*3CNTT* 3CNTT 02/16/2024</div>
+          <div className="text-muted-foreground">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+        </div>
+      </Serif>
+    </div>
+  );
+}
 
-Done. I rebuilt the component to mirror your PDF’s exact wording and page breaks (no images), including the two cross-page sentences and the witness/physician/interpreter blocks laid out exactly as written. It prints to US Letter with the repeating header/foote
+export default function ConsentToSurgeryExact() {
+  const [f, setF] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("consent-form-state-v2") || "{}"); } catch { return {}; }
+  });
+  useEffect(() => { try { localStorage.setItem("consent-form-state-v2", JSON.stringify(f)); } catch {} }, [f]);
+  const S = (k, v) => setF((s) => ({ ...s, [k]: v }));
+  const patientNameForProcedure = useMemo(() => f.consentForName?.trim() || f.patientName || "", [f.consentForName, f.patientName]);
 
- 
-ChatGPT can make mistakes. Check important info.
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
+  return (
+    <div className="min-h-screen bg-muted/20">
+      <HeaderBar onPrint={() => window.print()} onReset={() => setF({})} />
+
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 md:grid-cols-[minmax(0,420px)_1fr]">
+        {/* EDITOR */}
+        <motion.div layout className="no-print">
+          <Card>
+            <CardHeader><CardTitle className="text-base">Fill Fields</CardTitle></CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Field id="patientName" label="Patient Name" value={f.patientName || ""} onChange={(v) => S("patientName", v)} />
+                <Field id="idNumber" label="Identification Number" value={f.idNumber || ""} onChange={(v) => S("idNumber", v)} />
+                <Field id="facility" label="Facility" value={f.facility || ""} onChange={(v) => S("facility", v)} />
+                <Field id="designeeName" label="Name of patient or Designee (signer)" value={f.designeeName || ""} onChange={(v) => S("designeeName", v)} />
+                <Field id="consentForName" label="Name of Patient (if signer is a designee)" value={f.consentForName || ""} onChange={(v) => S("consentForName", v)} />
+                <Field id="physicianName" label="Physician(s) Name (Section 6)" value={f.physicianName || ""} onChange={(v) => S("physicianName", v)} />
+              </div>
+              <Area id="diagnosis" label="Diagnosis (free text)" value={f.diagnosis || ""} onChange={(v) => S("diagnosis", v)} rows={3} />
+              <Area id="recommendedProcedure" label="Recommended Procedure (free text)" value={f.recommendedProcedure || ""} onChange={(v) => S("recommendedProcedure", v)} rows={2} />
+              <Area id="alternatives" label="Treatment Alternatives" value={f.alternatives || ""} onChange={(v) => S("alternatives", v)} rows={3} />
+              <Area id="otherRisks" label="Other Risks (Section 11)" value={f.otherRisks || ""} onChange={(v) => S("otherRisks", v)} rows={3} />
+              <div className="grid grid-cols-2 gap-3 border-t pt-4">
+                <Field id="signerDate" label="Signer Date (MM/DD/YYYY)" value={f.signerDate || ""} onChange={(v) => S("signerDate", v)} />
+                <Field id="signerTime" label="Signer Time (HH:MM)" value={f.signerTime || ""} onChange={(v) => S("signerTime", v)} />
+                <Field id="signerRelationship" label="Relationship to patient (if not patient)" value={f.signerRelationship || ""} onChange={(v) => S("signerRelationship", v)} />
+                <Field id="witnessDate" label="Witness Date" value={f.witnessDate || ""} onChange={(v) => S("witnessDate", v)} />
+                <Field id="witnessTime" label="Witness Time" value={f.witnessTime || ""} onChange={(v) => S("witnessTime", v)} />
+                <Field id="cyracom" label="Cyracom ID (if applicable)" value={f.cyracom || ""} onChange={(v) => S("cyracom", v)} />
+                <Field id="interpName" label="Interpreter Print Name" value={f.interpName || ""} onChange={(v) => S("interpName", v)} />
+                <Field id="physSigDate" label="Physician/Rep Date" value={f.physSigDate || ""} onChange={(v) => S("physSigDate", v)} />
+                <Field id="physSigTime" label="Physician/Rep Time" value={f.physSigTime || ""} onChange={(v) => S("physSigTime", v)} />
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* PREVIEW (PRINT) */}
+        <motion.div layout className="space-y-6">
+          <style>{`
+            @page { size: 8.5in 11in; margin: 0; }
+            @media print {
+              body { background: white; }
+              .no-print { display: none !important; }
+              .sheet { box-shadow: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            }
           `}</style>
 
           {/* PAGE 1 */}
@@ -431,4 +284,3 @@ ChatGPT can make mistakes. Check important info.
     </div>
   );
 }
-ChatGPT is still generating a response...
