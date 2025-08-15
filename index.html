@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Consent Builder – Single‑file HTML</title>
+  <title>Consent Builder – Single‑file HTML (Aligned v2)</title>
   <style>
     :root { --bg:#f7f7fb; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb; }
     *{box-sizing:border-box}
@@ -37,19 +37,37 @@
 
     /* Print preview side */
     .sheet{position:relative;width:8.5in;height:11in;background:#fff;margin:0 auto;border:1px solid var(--border);box-shadow:0 3px 24px rgba(0,0,0,.12)}
+
+    /* HEADER — exact three-column alignment */
     .header{position:absolute;left:0;right:0;top:0;height:1.25in;border-bottom:1px solid #000}
-    .hgrid{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.25in .5in .2in .5in;height:100%;align-items:end}
-    .logo{position:absolute;left:.5in;top:.2in;height:.55in;width:auto}
+    .hgrid{display:grid;grid-template-columns:1.35in 2.9in 1fr;align-items:end;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in}
+    .cell-logo{display:flex;align-items:flex-end}
+    .logo{height:.55in;width:auto;display:block}
+    .cell-mid{font:10pt "Times New Roman",Times,serif;line-height:1.1}
+    .cell-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
+    .line{display:inline-block;min-width:10ch}
+
+    /* FOOTER — barcode left, date right */
     .footer{position:absolute;left:0;right:0;bottom:0;height:1in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0 .5in;font-size:9pt}
-    .barwrap{display:flex;align-items:center;gap:.35in}
     .barcode{height:.45in;width:auto}
+    .foot-date{font:10pt "Times New Roman",Times,serif}
+
+    /* BODY */
     .content{position:absolute;left:0;right:0;top:1.25in;bottom:1in;padding:0 .5in;font:11pt "Times New Roman",Times,serif;line-height:1.22;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
     .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
-    .line{display:inline-block;min-width:10ch}
+
+    /* WITNESS/SIGNATURE BLOCK — two-column label/line grid for crisp alignment */
+    .siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
+    .siggrid .label{white-space:nowrap}
+    .uline{display:inline-block;border-bottom:1px solid #000;min-height:14px;vertical-align:-2px}
+    .u-wide{min-width:3.2in}
+    .u-med{min-width:2.0in}
+    .u-short{min-width:1.2in}
+    .u-rel{min-width:3.2in}
 
     /* Print controls */
     @page{size:8.5in 11in;margin:0}
@@ -64,7 +82,7 @@
 <body>
   <div class="topbar no-print">
     <div class="inner">
-      <div><strong>Consent Builder</strong> — Single‑file HTML (no build)</div>
+      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v2)</div>
       <div class="actions">
         <button id="resetBtn" class="btn">Reset</button>
         <button id="printBtn" class="btn primary">Print / Save PDF</button>
@@ -74,7 +92,7 @@
 
   <div class="app">
     <div class="grid">
-      <!-- Left: Human Interface -->
+      <!-- Left: Human Interface (unchanged) -->
       <div class="left no-print" id="left">
         <div class="card">
           <div class="hd">Patient & Surgeons</div>
@@ -224,20 +242,16 @@
 
       <!-- Right: Print Preview (exact wording/pages) -->
       <div class="right">
-        <style>
-          /* keep print CSS close to preview for clarity */
-        </style>
-
         <!-- PAGE 1 -->
         <div class="sheet">
           <div class="header">
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
             <div class="hgrid">
-              <div>
+              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
+              <div class="cell-mid">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
               </div>
-              <div style="text-align:right">
+              <div class="cell-right">
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
                 <div>Page 1 of 4</div>
               </div>
@@ -277,24 +291,21 @@
             <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be</p>
           </div>
           <div class="footer">
-            <div class="barwrap">
-              <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-              <div style="font-family:ui-monospace,Consolas,monospace">*3CNTT* 3CNTT 02/16/2024</div>
-            </div>
-            <div class="muted">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+            <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+            <div class="foot-date">2/16/2024</div>
           </div>
         </div>
 
         <!-- PAGE 2 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
             <div class="hgrid">
-              <div>
+              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
+              <div class="cell-mid">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
               </div>
-              <div style="text-align:right">
+              <div class="cell-right">
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
                 <div>Page 2 of 4</div>
               </div>
@@ -325,24 +336,21 @@
             <p>I understand that the physician(s) or others may choose to photograph, televise, film, or otherwise record all or any portion of my procedure for medical, scientific, or educational purposes. I consent to the photographing, televising, filming, or other forms of recording of the procedure(s) to be performed, including appropriate portions of my body, body functions or sounds, provided my identity is not revealed. I understand and agree that 1) any photographs, films, or other audio or visual recordings created will be the sole property of the facility: and 2) the facility or any appropriate staff member may edit, preserve, or destroy all or any part of the</p>
           </div>
           <div class="footer">
-            <div class="barwrap">
-              <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-              <div style="font-family:ui-monospace,Consolas,monospace">*3CNTT* 3CNTT 02/16/2024</div>
-            </div>
-            <div class="muted">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+            <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+            <div class="foot-date">2/16/2024</div>
           </div>
         </div>
 
         <!-- PAGE 3 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
             <div class="hgrid">
-              <div>
+              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
+              <div class="cell-mid">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
               </div>
-              <div style="text-align:right">
+              <div class="cell-right">
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
                 <div>Page 3 of 4</div>
               </div>
@@ -369,24 +377,21 @@
             </ol>
           </div>
           <div class="footer">
-            <div class="barwrap">
-              <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-              <div style="font-family:ui-monospace,Consolas,monospace">*3CNTT* 3CNTT 02/16/2024</div>
-            </div>
-            <div class="muted">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+            <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+            <div class="foot-date">2/16/2024</div>
           </div>
         </div>
 
         <!-- PAGE 4 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
             <div class="hgrid">
-              <div>
+              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
+              <div class="cell-mid">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
               </div>
-              <div style="text-align:right">
+              <div class="cell-right">
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
                 <div>Page 4 of 4</div>
               </div>
@@ -395,50 +400,52 @@
           <div class="content">
             <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
 
-            <div style="display:grid;gap:.25in;font-size:10pt">
-              <div>
-                <div><strong>Witness</strong> <span style="display:inline-block;min-width:3.2in;border-bottom:1px solid #000">&nbsp;</span></div>
-                <div><strong>Signature of patient or person authorized to consent for patient</strong> <span style="display:inline-block;min-width:2in;border-bottom:1px solid #000">&nbsp;</span></div>
-                <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:.25in">
-                  <div><strong>Date</strong>: <span class="inlineLine signerDate"></span></div>
-                  <div><strong>Time</strong>: <span class="inlineLine signerTime"></span></div>
-                  <div><strong>Relationship to patient if signer is not Patient</strong>: <span class="inlineLine signerRel"></span></div>
-                </div>
-              </div>
+            <div class="siggrid" style="margin-bottom:.25in">
+              <div class="label">Witness</div>
+              <div class="uline u-wide"></div>
 
-              <div style="border-top:1px solid #000;padding-top:.2in">
-                <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
-                <div style="display:grid;grid-template-columns:auto 1fr;gap:.15in .25in;align-items:center">
-                  <div><strong>Date</strong></div>
-                  <div><span class="inlineLine physDate"></span></div>
-                  <div><strong>Time</strong></div>
-                  <div><span class="inlineLine physTime"></span></div>
-                  <div><strong>Signature of Physician or Representative</strong></div>
-                  <div style="border-bottom:1px solid #000">&nbsp;</div>
-                  <div><strong>Printed name</strong></div>
-                  <div><span class="inlineLine physName"></span></div>
-                </div>
-              </div>
+              <div class="label">Signature of patient or person authorized to consent for patient</div>
+              <div class="uline u-med"></div>
 
-              <div style="border-top:1px solid #000;padding-top:.2in">
-                <div style="font-weight:700">INTERPRETER’S STATEMENT</div>
-                <p>Execute if an interpreter is provided to assist the individual in understanding this informed consent form:</p>
-                <p>I have translated the information and advice presented orally to the individual to be treated by the person obtaining this consent.</p>
-                <p>In addition, I have sight translated the consent form (read it aloud in his/her language). To the best of my knowledge and belief he/she understood this explanation.</p>
-                <div class="list">
-                  <div><strong>Cyracom ID (if applicable)</strong>: <span class="inlineLine cyracom"></span></div>
-                  <div><strong>Print Name</strong>: <span class="inlineLine interpName"></span></div>
-                  <div><strong>Signature</strong>: <span style="display:inline-block;min-width:2.2in;border-bottom:1px solid #000">&nbsp;</span> <span class="muted" style="font-size:9pt">(Not required if a Cyracom Interpreter Was Used)</span></div>
-                </div>
+              <div class="label">Date:</div>
+              <div class="uline u-short"><span class="signerDate"></span></div>
+
+              <div class="label">Time:</div>
+              <div class="uline u-short"><span class="signerTime"></span></div>
+
+              <div class="label">Relationship to patient if signer is not Patient:</div>
+              <div class="uline u-rel"><span class="signerRel"></span></div>
+            </div>
+
+            <div style="border-top:1px solid #000;padding-top:.2in;margin-bottom:.25in">
+              <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:.15in .25in;align-items:center;font-size:10pt">
+                <div><strong>Date</strong></div>
+                <div class="uline u-short"><span class="physDate"></span></div>
+                <div><strong>Time</strong></div>
+                <div class="uline u-short"><span class="physTime"></span></div>
+                <div><strong>Signature of Physician or Representative</strong></div>
+                <div class="uline u-wide">&nbsp;</div>
+                <div><strong>Printed name</strong></div>
+                <div class="uline u-rel"><span class="physName"></span></div>
+              </div>
+            </div>
+
+            <div style="border-top:1px solid #000;padding-top:.2in">
+              <div style="font-weight:700">INTERPRETER’S STATEMENT</div>
+              <p>Execute if an interpreter is provided to assist the individual in understanding this informed consent form:</p>
+              <p>I have translated the information and advice presented orally to the individual to be treated by the person obtaining this consent.</p>
+              <p>In addition, I have sight translated the consent form (read it aloud in his/her language). To the best of my knowledge and belief he/she understood this explanation.</p>
+              <div class="list" style="font-size:10pt">
+                <div><strong>Cyracom ID (if applicable)</strong>: <span class="uline u-short cyracom"></span></div>
+                <div><strong>Print Name</strong>: <span class="uline u-rel interpName"></span></div>
+                <div><strong>Signature</strong>: <span class="uline u-wide"></span> <span class="muted" style="font-size:9pt">(Not required if a Cyracom Interpreter Was Used)</span></div>
               </div>
             </div>
           </div>
           <div class="footer">
-            <div class="barwrap">
-              <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-              <div style="font-family:ui-monospace,Consolas,monospace">*3CNTT* 3CNTT 02/16/2024</div>
-            </div>
-            <div class="muted">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+            <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+            <div class="foot-date">2/16/2024</div>
           </div>
         </div>
 
@@ -461,10 +468,7 @@
     }
 
     // ---------- State & persistence ----------
-    const defaults = {
-      selectedProcKeys: [],
-      selectedSurgeons: [],
-    };
+    const defaults = { selectedProcKeys: [], selectedSurgeons: [] };
     let f = {...defaults};
     let catalog = [];
     let surgeons = [];
@@ -522,7 +526,7 @@
         const id = 'proc_'+p.key;
         const el = document.createElement('label');
         el.className = 'check';
-        el.innerHTML = `<input type="checkbox" id="${id}"> <div><div style="font-weight:600">${p.name}</div>${p.risks && p.risks.length? `<div class="muted" style="font-size:.8rem">Risks: ${p.risks.join(', ')}</div>`:''}</div>`;
+        el.innerHTML = `<input type=\"checkbox\" id=\"${id}\"> <div><div style=\"font-weight:600\">${p.name}</div>${p.risks && p.risks.length? `<div class=\"muted\" style=\"font-size:.8rem\">Risks: ${p.risks.join(', ')}</div>`:''}</div>`;
         const cb = el.querySelector('input');
         cb.checked = (f.selectedProcKeys||[]).includes(p.key);
         cb.addEventListener('change', () => {
@@ -537,7 +541,7 @@
 
     // Inputs bind
     function bindInputs(){
-      $$('input[data-field], textarea[data-field]').forEach(el => {
+      document.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
         const k = el.dataset.field;
         el.value = f[k] || '';
         el.addEventListener('input', () => {
@@ -589,14 +593,13 @@
       f.physicianName = joined || f.physicianName || '';
       save();
       // reflect in inputs if untouched
-      if(!touched.rec){ const el=$('#recommendedProcedure'); if(el) el.value=f.recommendedProcedure||''; }
-      if(!touched.risks){ const el=$('#otherRisks'); if(el) el.value=f.otherRisks||''; }
+      if(!touched.rec){ const el=document.getElementById('recommendedProcedure'); if(el) el.value=f.recommendedProcedure||''; }
+      if(!touched.risks){ const el=document.getElementById('otherRisks'); if(el) el.value=f.otherRisks||''; }
     }
 
     // ---------- Rendering: print side ----------
-    function setText(sel, txt){ $$(sel).forEach(el => el.textContent = (txt && txt.trim())? txt : BLANK(18)); }
-    function setLine(sel, txt, len=18){ $$(sel).forEach(el => el.textContent = (txt && txt.trim())? txt : BLANK(len)); }
-    function setBlock(id, txt){ const el=$(id); if(el) el.textContent = txt||''; }
+    function setLine(sel, txt, len=18){ document.querySelectorAll(sel).forEach(el => el.textContent = (txt && txt.trim())? txt : '_'.repeat(len)); }
+    function setBlock(id, txt){ const el=document.querySelector(id); if(el) el.textContent = txt||''; }
 
     function renderPreview(){
       setLine('.hdrPatientName', f.patientName, 20);
@@ -616,10 +619,10 @@
       setLine('.signerDate', f.signerDate, 12);
       setLine('.signerTime', f.signerTime, 10);
       setLine('.signerRel', f.signerRelationship, 22);
-      setLine('.physDate', f.physSigDate, 14);
-      setLine('.physTime', f.physSigTime, 12);
+      setLine('.physDate', f.physSigDate, 12);
+      setLine('.physTime', f.physSigTime, 10);
       setLine('.physName', f.physSigName || f.physicianName, 24);
-      setLine('.cyracom', f.cyracom, 18);
+      setLine('.cyracom', f.cyracom, 14);
       setLine('.interpName', f.interpName, 24);
     }
 
@@ -636,7 +639,7 @@ Alternatives: ${f.alternatives||''}
 Other risks: ${f.otherRisks||''}
 
 Surgeon(s): ${f.physicianName||''}`.trim());
-      $('#reviewBox').value = review;
+      document.getElementById('reviewBox').value = review;
     }
 
     // ---------- Init ----------
