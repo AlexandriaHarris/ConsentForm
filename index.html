@@ -77,6 +77,22 @@
       .sheet{border:none;box-shadow:none}
       img{print-color-adjust:exact;-webkit-print-color-adjust:exact}
     }
+    /* --- Header layout overrides --- */
+.header .logo { position: static; height: .55in; width: auto; display: block; }
+.hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in;align-items:end}
+.hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+.hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
+.pageNo{font:10pt "Times New Roman",Times,serif}
+
+/* --- Footer minimal --- */
+.foot-date{font:10pt "Times New Roman",Times,serif}
+
+/* --- Witness/signature grid --- */
+.siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
+.siggrid .label{white-space:nowrap}
+.uline{display:inline-block;border-bottom:1px solid #000;min-height:14px;vertical-align:-2px}
+.u-wide{min-width:3.2in}.u-med{min-width:2.0in}.u-short{min-width:1.2in}.u-rel{min-width:3.2in}
+
   </style>
 </head>
 <body>
@@ -245,17 +261,20 @@
         <!-- PAGE 1 -->
         <div class="sheet">
           <div class="header">
-            <div class="hgrid">
-              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
-              <div class="cell-mid">
-                <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
-                <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-              </div>
-              <div class="cell-right">
-                <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-                <div>Page 1 of 4</div>
-              </div>
-            </div>
+  <div class="hdr">
+    <div class="hdr-left">
+      <div class="pageNo">Page 1 of 4</div>
+      <img class="logo" src="gTlSit7.png" alt="UPMC" />
+    </div>
+    <div class="hdr-right">
+      <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+      <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+      <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+      <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
+    </div>
+  </div>
+</div>
+
           </div>
           <div class="content">
             <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
