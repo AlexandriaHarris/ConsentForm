@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Consent Builder – Single‑file HTML (Aligned v2)</title>
+  <title>Consent Builder – Single‑file HTML (Aligned v3)</title>
   <style>
     :root { --bg:#f7f7fb; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb; }
     *{box-sizing:border-box}
@@ -38,13 +38,13 @@
     /* Print preview side */
     .sheet{position:relative;width:8.5in;height:11in;background:#fff;margin:0 auto;border:1px solid var(--border);box-shadow:0 3px 24px rgba(0,0,0,.12)}
 
-    /* HEADER — exact three-column alignment */
+    /* HEADER — page number above logo (left), patient/MRN/DOB/facility on right */
     .header{position:absolute;left:0;right:0;top:0;height:1.25in;border-bottom:1px solid #000}
-    .hgrid{display:grid;grid-template-columns:1.35in 2.9in 1fr;align-items:end;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in}
-    .cell-logo{display:flex;align-items:flex-end}
+    .hdr{display:grid;grid-template-columns:1.6in 1fr;align-items:end;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in}
+    .hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+    .pageNo{font:10pt "Times New Roman",Times,serif}
     .logo{height:.55in;width:auto;display:block}
-    .cell-mid{font:10pt "Times New Roman",Times,serif;line-height:1.1}
-    .cell-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
+    .hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER — barcode left, date right */
@@ -77,28 +77,12 @@
       .sheet{border:none;box-shadow:none}
       img{print-color-adjust:exact;-webkit-print-color-adjust:exact}
     }
-    /* --- Header layout overrides --- */
-.header .logo { position: static; height: .55in; width: auto; display: block; }
-.hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in;align-items:end}
-.hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
-.hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
-.pageNo{font:10pt "Times New Roman",Times,serif}
-
-/* --- Footer minimal --- */
-.foot-date{font:10pt "Times New Roman",Times,serif}
-
-/* --- Witness/signature grid --- */
-.siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
-.siggrid .label{white-space:nowrap}
-.uline{display:inline-block;border-bottom:1px solid #000;min-height:14px;vertical-align:-2px}
-.u-wide{min-width:3.2in}.u-med{min-width:2.0in}.u-short{min-width:1.2in}.u-rel{min-width:3.2in}
-
   </style>
 </head>
 <body>
   <div class="topbar no-print">
     <div class="inner">
-      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v2)</div>
+      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v3)</div>
       <div class="actions">
         <button id="resetBtn" class="btn">Reset</button>
         <button id="printBtn" class="btn primary">Print / Save PDF</button>
@@ -108,7 +92,7 @@
 
   <div class="app">
     <div class="grid">
-      <!-- Left: Human Interface (unchanged) -->
+      <!-- Left: Human Interface -->
       <div class="left no-print" id="left">
         <div class="card">
           <div class="hd">Patient & Surgeons</div>
@@ -119,7 +103,7 @@
                 <input type="text" id="patientName" data-field="patientName" />
               </div>
               <div>
-                <label for="dob">Date of Birth (not printed)</label>
+                <label for="dob">Date of Birth</label>
                 <input type="text" id="dob" data-field="dob" placeholder="MM/DD/YYYY" />
               </div>
               <div>
@@ -261,20 +245,18 @@
         <!-- PAGE 1 -->
         <div class="sheet">
           <div class="header">
-  <div class="hdr">
-    <div class="hdr-left">
-      <div class="pageNo">Page 1 of 4</div>
-      <img class="logo" src="gTlSit7.png" alt="UPMC" />
-    </div>
-    <div class="hdr-right">
-      <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
-      <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-      <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
-      <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-    </div>
-  </div>
-</div>
-
+            <div class="hdr">
+              <div class="hdr-left">
+                <div class="pageNo">Page 1 of 4</div>
+                <img class="logo" src="gTlSit7.png" alt="UPMC" />
+              </div>
+              <div class="hdr-right">
+                <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+                <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+                <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+                <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
+              </div>
+            </div>
           </div>
           <div class="content">
             <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
@@ -318,15 +300,16 @@
         <!-- PAGE 2 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <div class="hgrid">
-              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
-              <div class="cell-mid">
+            <div class="hdr">
+              <div class="hdr-left">
+                <div class="pageNo">Page 2 of 4</div>
+                <img class="logo" src="gTlSit7.png" alt="UPMC" />
+              </div>
+              <div class="hdr-right">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-              </div>
-              <div class="cell-right">
+                <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-                <div>Page 2 of 4</div>
               </div>
             </div>
           </div>
@@ -363,15 +346,16 @@
         <!-- PAGE 3 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <div class="hgrid">
-              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
-              <div class="cell-mid">
+            <div class="hdr">
+              <div class="hdr-left">
+                <div class="pageNo">Page 3 of 4</div>
+                <img class="logo" src="gTlSit7.png" alt="UPMC" />
+              </div>
+              <div class="hdr-right">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-              </div>
-              <div class="cell-right">
+                <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-                <div>Page 3 of 4</div>
               </div>
             </div>
           </div>
@@ -404,15 +388,16 @@
         <!-- PAGE 4 -->
         <div class="sheet" style="margin-top:1rem">
           <div class="header">
-            <div class="hgrid">
-              <div class="cell-logo"><img class="logo" src="gTlSit7.png" alt="UPMC" /></div>
-              <div class="cell-mid">
+            <div class="hdr">
+              <div class="hdr-left">
+                <div class="pageNo">Page 4 of 4</div>
+                <img class="logo" src="gTlSit7.png" alt="UPMC" />
+              </div>
+              <div class="hdr-right">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
                 <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-              </div>
-              <div class="cell-right">
+                <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
                 <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-                <div>Page 4 of 4</div>
               </div>
             </div>
           </div>
@@ -584,7 +569,8 @@
     // Add procedure
     $('#addProcBtn').addEventListener('click', () => {
       const name = $('#procName').value.trim(); if(!name) return;
-      const risksCsv = $('#procRisks').value; const risks = uniq(risksCsv.split(/[\n,]/));
+      const risksCsv = $('#procRisks').value; const risks = uniq(risksCsv.split(/[
+,]/));
       const key = (name.toUpperCase().replace(/[^A-Z0-9]+/g,'-') + '-' + Math.random().toString(36).slice(2,7).toUpperCase());
       catalog.push({key, name, risks});
       $('#procName').value=''; $('#procRisks').value='';
@@ -623,6 +609,7 @@
     function renderPreview(){
       setLine('.hdrPatientName', f.patientName, 20);
       setLine('.hdrId', f.idNumber, 12);
+      setLine('.hdrDob', f.dob, 12);
       setLine('.hdrFacility', f.facility, 12);
 
       setLine('.designeeName', f.designeeName, 28);
