@@ -76,8 +76,17 @@
     }
 
     /* Print preview side */
-    .sheet{position:relative;width:8.5in;height:11in;background:#fff;margin:0 auto;border:1px solid var(--border);box-shadow:0 3px 24px rgba(0,0,0,.12)}
-
+    .sheet {
+  position: relative;
+  width: 8.5in;
+  height: 11in;
+  background: #fff;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 3px 24px rgba(0,0,0,.12);
+  page-break-after: always;
+  page-break-inside: avoid;
+}
     /* HEADER layout */
     .header{position:absolute;left:0;right:0;top:0;height:1.25in;border-bottom:1px solid #000}
     .hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in;align-items:end}
@@ -92,11 +101,11 @@
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
-   .footer {
+.footer {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0; /* Keep at absolute bottom */
+  bottom: 0;
   height: 0.5in;
   border-top: 1px solid #000;
   display: flex;
@@ -104,23 +113,24 @@
   justify-content: space-between;
   padding: 0 0.5in;
   font-size: 9pt;
-  box-sizing: border-box; /* Include padding in height calculation */
+  box-sizing: border-box;
+  background: white; /* Ensure footer has background */
+  z-index: 10; /* Keep footer on top */
 }
     .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
     /* BODY */
-   .content {
+  .content {
   position: absolute;
-  margin: 0.08in 0;
   left: 0.5in;
   right: 0.5in;
   top: 1.25in;
-  bottom: 0.7in; /* Increased from 0.5in to ensure footer fits */
+  bottom: 0.6in; /* Leave space for footer + small buffer */
   padding: 0;
   font: 11pt "Times New Roman", Times, serif;
   line-height: 1;
-  overflow: hidden;
+  overflow: hidden; /* Critical - hide any overflow */
 }
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
     .small{font-size:9pt;text-align:center}
@@ -169,44 +179,74 @@
       overflow: hidden;
     }
     
-    @media print {
-      body {
-        background: #fff;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-      }
-
-  .sheet {
-    width: 8.5in !important;
-    height: 11in !important; /* Force exact page height */
+@media print {
+  @page {
+    size: letter;
+    margin: 0;
+  }
+  
+  body {
     margin: 0;
     padding: 0;
-    border: none;
-    box-shadow: none;
+  }
+  
+  .sheet {
+    width: 8.5in !important;
+    height: 11in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
     page-break-after: always;
     page-break-inside: avoid;
-    position: relative; /* Ensure absolute positioning context */}
-      
-      
-      .no-print {
-        display: none !important;
-      }
-      
-      img {
-        max-width: 100%;
-        height: 80%;
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-      
-      @page :footer {
-        display: none;
-      }
-      @page :header {
-        display: none;
-      }
-    }
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .content {
+    position: absolute !important;
+    left: 0.5in !important;
+    right: 0.5in !important;
+    top: 1.25in !important;
+    bottom: 0.6in !important;
+    overflow: hidden !important;
+    max-height: calc(11in - 1.25in - 0.6in) !important; /* Explicit max height */
+  }
+  
+  .footer {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 0.5in !important;
+    page-break-inside: avoid !important;
+    page-break-before: avoid !important;
+  }
+  
+  /* Prevent content from breaking pages inappropriately */
+  p, .ol, .dash, .signature-section {
+    page-break-inside: avoid;
+  }
+}
+
+/* Additional fixes for content spacing */
+.content p {
+  margin: 0.08in 0; /* Tighter paragraph spacing */
+}
+
+.content .ol li {
+  margin: 0.06in 0; /* Tighter list spacing */
+}
+
+/* Ensure signature sections don't overflow */
+.signature-section {
+  page-break-inside: avoid;
+}
+
+/* For the interpreter section on page 4 */
+.content > div:last-child {
+  page-break-inside: avoid;
+}
   </style>
 </head>
 <body>
