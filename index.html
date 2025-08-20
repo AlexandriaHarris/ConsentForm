@@ -166,19 +166,19 @@
   position: relative;
   border-bottom: 1px solid #000;
   min-width: 3in;
-  padding-bottom: 20px;  /* Changed from 0 to 20px to reserve space for the label */
+  padding-bottom: 0;
   line-height: 1.1;
-  margin-bottom: 5px;  /* Add some margin to prevent overlap with text below */
+  margin-bottom: 22px;  /* Even more space for larger text */
 }
 .field-container .field-text {
   display: inline-block;
 }
 .field-container .field-label {
   position: absolute;
-  top: 20px;  /* Position below the line */
+  top: 16px;  /* Slightly lower */
   left: 0;
   right: 0;
-  font-size: 10pt;
+  font-size: 9pt;  /* Compromise between 8pt and 10pt */
   text-align: center;
   line-height: 1;
 }
