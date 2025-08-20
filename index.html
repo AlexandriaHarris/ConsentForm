@@ -92,35 +92,36 @@
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
-    .footer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 0.5in;
-      border-top: 1px solid #000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 0.5in;
-      font-size: 9pt;
-      page-break-inside: avoid;
-    }
+   .footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; /* Keep at absolute bottom */
+  height: 0.5in;
+  border-top: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5in;
+  font-size: 9pt;
+  box-sizing: border-box; /* Include padding in height calculation */
+}
     .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
     /* BODY */
-    .content {
-      position: absolute;
-      left: 0.5in;
-      right: 0.5in;
-      top: 1.25in;
-      bottom: .5in;
-      padding: 0;
-      font: 11pt "Times New Roman", Times, serif;
-      line-height: 1;
-      overflow: hidden;
-    }
+   .content {
+  position: absolute;
+  margin: 0.08in 0;
+  left: 0.5in;
+  right: 0.5in;
+  top: 1.25in;
+  bottom: 0.7in; /* Increased from 0.5in to ensure footer fits */
+  padding: 0;
+  font: 11pt "Times New Roman", Times, serif;
+  line-height: 1;
+  overflow: hidden;
+}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
@@ -175,16 +176,18 @@
         padding: 0;
         width: 100%;
       }
+
+  .sheet {
+    width: 8.5in !important;
+    height: 11in !important; /* Force exact page height */
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    page-break-after: always;
+    page-break-inside: avoid;
+    position: relative; /* Ensure absolute positioning context */}
       
-      .sheet {
-        width: 100%;
-        height: 11in;
-        margin: 0;
-        padding: 0;
-        border: none;
-        box-shadow: none;
-        page-break-after: always;
-      }
       
       .no-print {
         display: none !important;
@@ -1011,8 +1014,8 @@ function populateSurgeonDropdown() {
     ];
 
     const ADDITIONAL_SURGEONS = [
-      'José P. Zevallos',
-      'Eric W. Wang',
+      'José Zevallos',
+      'Eric Wang',
       'Cuneyt M. Alper',
       'Gregory J. Basura',
       'Zachary Bennett',
