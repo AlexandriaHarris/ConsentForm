@@ -645,7 +645,10 @@
       setLine('.signerRel', f.signerRelationship, 22);
       setLine('.physDate', f.physSigDate, 12);
       setLine('.physTime', f.physSigTime, 10);
-      setLine('.physName', f.physSigName || f.physicianName, 24);
+      // Do not fall back to the selected surgeon list for the printed
+      // physician/representative name.  This line should remain blank unless
+      // the user enters a printed name in the "Physician/Representative" field.
+      setLine('.physName', f.physSigName, 24);
       setLine('.cyracom', f.cyracom, 14);
       setLine('.interpName', f.interpName, 24);
     }
