@@ -761,6 +761,151 @@
         requiresLaterality:true
       },
     ];
+const ADDITIONAL_PROCEDURES = [
+      {
+        key: 'TRACH',
+        name: 'Tracheostomy',
+        risks: [
+          'bleeding',
+          'infection',
+          'subcutaneous emphysema',
+          'pneumothorax',
+          'tracheal stenosis',
+          'tracheoinnominate fistula (rare but life-threatening)',
+          'tube dislodgement/obstruction',
+          'voice changes'
+        ],
+        alternatives: [
+          'Prolonged intubation (if short-term need)',
+          'Non-invasive ventilation (e.g., BiPAP/CPAP)'
+        ]
+      },
+      {
+        key: 'THYROID',
+        name: 'Thyroidectomy (Total/Partial)',
+        risks: [
+          'hypocalcemia (due to parathyroid injury)',
+          'recurrent laryngeal nerve injury (hoarseness, aspiration)',
+          'superior laryngeal nerve injury (voice fatigue, pitch changes)',
+          'bleeding/hematoma (risk of airway compromise)',
+          'infection',
+          'need for lifelong thyroid hormone replacement (if total thyroidectomy)',
+          'scarring'
+        ],
+        alternatives: [
+          'Observation (for benign nodules)',
+          'Radioactive iodine therapy (for hyperthyroidism)',
+          'Medical management (e.g., thyroid suppression)'
+        ],
+        requiresLaterality: true
+      },
+      {
+        key: 'ESOPH',
+        name: 'Esophagoscopy (Rigid/Flexible)',
+        risks: [
+          'perforation (rare but serious)',
+          'bleeding',
+          'infection',
+          'dental injury',
+          'aspiration',
+          'sore throat'
+        ],
+        alternatives: [
+          'Barium swallow study',
+          'CT/MRI imaging',
+          'Medical management (e.g., PPIs for GERD)'
+        ]
+      },
+      {
+        key: 'FB',
+        name: 'Foreign Body Removal (Ear/Nose/Throat)',
+        risks: [
+          'mucosal trauma',
+          'bleeding',
+          'infection',
+          'failure to retrieve (requiring further intervention)',
+          'aspiration (if dislodged into airway)'
+        ],
+        alternatives: [
+          'Observation (if non-obstructive and likely to pass spontaneously)',
+          'Endoscopic removal under general anesthesia (if high risk)'
+        ],
+        requiresLaterality: true
+      },
+      {
+        key: 'PAROTID',
+        name: 'Parotidectomy',
+        risks: [
+          'facial nerve injury (temporary or permanent weakness/paralysis)',
+          'Frey\'s syndrome (gustatory sweating)',
+          'salivary fistula',
+          'hematoma',
+          'numbness of earlobe',
+          'scarring'
+        ],
+        alternatives: [
+          'Observation (for benign lesions)',
+          'Fine-needle aspiration/biopsy',
+          'Radiation therapy (for malignancy)'
+        ],
+        requiresLaterality: true
+      },
+      {
+        key: 'UPPP',
+        name: 'Uvulopalatopharyngoplasty (UPPP)',
+        risks: [
+          'bleeding',
+          'infection',
+          'nasal regurgitation/velopharyngeal insufficiency',
+          'throat pain/dysphagia',
+          'recurrence of obstructive sleep apnea',
+          'voice changes'
+        ],
+        alternatives: [
+          'CPAP therapy',
+          'Oral appliance',
+          'Weight loss/lifestyle modifications'
+        ]
+      }
+    ];
+
+    const ADDITIONAL_SURGEONS = [
+      'José Zevallos',
+      'Eric Wang',
+      'Cuneyt M. Alper',
+      'Gregory J. Basura',
+      'Zachary Bennett',
+      'David H. Chi',
+      'Steven B. Chinn',
+      'Garret Choby',
+      'Kevin J. Contrera',
+      'Joseph E. Dohar',
+      'David E. Eibling',
+      'Bridget C. Hathaway',
+      'Noel Jabbour',
+      'Jonas T. Johnson',
+      'Thomas M. Kaffenberger',
+      'Seungwon Kim',
+      'Dennis J. Kitsko',
+      'Raymond C. Maguire',
+      'Jessica H. Maxwell',
+      'Eugene N. Myers',
+      'Philip Perez',
+      'Peter L. Santa Maria',
+      'Chloe Santa Maria',
+      'Jeffrey P. Simons',
+      'Joshua D. Smith',
+      'Libby J. Smith',
+      'Carl H. Snyderman',
+      'Ryan J. Soose',
+      'Matthew E. Spector',
+      'Shaum Sridharan',
+      'Amanda Stapleton',
+      'Sandra Stinnett',
+      'Allison Tobey',
+      'Rachel L. Whelan',
+      'Christina M. Yver'
+    ];
 
 function load(){
   try{ f = JSON.parse(localStorage.getItem('consent-html-state')||'{}') }catch{ f={} }
@@ -1012,152 +1157,7 @@ function renderSelectedSurgeons() {
     });
 
     // Additional procedures and surgeons
-    const ADDITIONAL_PROCEDURES = [
-      {
-        key: 'TRACH',
-        name: 'Tracheostomy',
-        risks: [
-          'bleeding',
-          'infection',
-          'subcutaneous emphysema',
-          'pneumothorax',
-          'tracheal stenosis',
-          'tracheoinnominate fistula (rare but life-threatening)',
-          'tube dislodgement/obstruction',
-          'voice changes'
-        ],
-        alternatives: [
-          'Prolonged intubation (if short-term need)',
-          'Non-invasive ventilation (e.g., BiPAP/CPAP)'
-        ]
-      },
-      {
-        key: 'THYROID',
-        name: 'Thyroidectomy (Total/Partial)',
-        risks: [
-          'hypocalcemia (due to parathyroid injury)',
-          'recurrent laryngeal nerve injury (hoarseness, aspiration)',
-          'superior laryngeal nerve injury (voice fatigue, pitch changes)',
-          'bleeding/hematoma (risk of airway compromise)',
-          'infection',
-          'need for lifelong thyroid hormone replacement (if total thyroidectomy)',
-          'scarring'
-        ],
-        alternatives: [
-          'Observation (for benign nodules)',
-          'Radioactive iodine therapy (for hyperthyroidism)',
-          'Medical management (e.g., thyroid suppression)'
-        ],
-        requiresLaterality: true
-      },
-      {
-        key: 'ESOPH',
-        name: 'Esophagoscopy (Rigid/Flexible)',
-        risks: [
-          'perforation (rare but serious)',
-          'bleeding',
-          'infection',
-          'dental injury',
-          'aspiration',
-          'sore throat'
-        ],
-        alternatives: [
-          'Barium swallow study',
-          'CT/MRI imaging',
-          'Medical management (e.g., PPIs for GERD)'
-        ]
-      },
-      {
-        key: 'FB',
-        name: 'Foreign Body Removal (Ear/Nose/Throat)',
-        risks: [
-          'mucosal trauma',
-          'bleeding',
-          'infection',
-          'failure to retrieve (requiring further intervention)',
-          'aspiration (if dislodged into airway)'
-        ],
-        alternatives: [
-          'Observation (if non-obstructive and likely to pass spontaneously)',
-          'Endoscopic removal under general anesthesia (if high risk)'
-        ],
-        requiresLaterality: true
-      },
-      {
-        key: 'PAROTID',
-        name: 'Parotidectomy',
-        risks: [
-          'facial nerve injury (temporary or permanent weakness/paralysis)',
-          'Frey\'s syndrome (gustatory sweating)',
-          'salivary fistula',
-          'hematoma',
-          'numbness of earlobe',
-          'scarring'
-        ],
-        alternatives: [
-          'Observation (for benign lesions)',
-          'Fine-needle aspiration/biopsy',
-          'Radiation therapy (for malignancy)'
-        ],
-        requiresLaterality: true
-      },
-      {
-        key: 'UPPP',
-        name: 'Uvulopalatopharyngoplasty (UPPP)',
-        risks: [
-          'bleeding',
-          'infection',
-          'nasal regurgitation/velopharyngeal insufficiency',
-          'throat pain/dysphagia',
-          'recurrence of obstructive sleep apnea',
-          'voice changes'
-        ],
-        alternatives: [
-          'CPAP therapy',
-          'Oral appliance',
-          'Weight loss/lifestyle modifications'
-        ]
-      }
-    ];
-
-    const ADDITIONAL_SURGEONS = [
-      'José Zevallos',
-      'Eric Wang',
-      'Cuneyt M. Alper',
-      'Gregory J. Basura',
-      'Zachary Bennett',
-      'David H. Chi',
-      'Steven B. Chinn',
-      'Garret Choby',
-      'Kevin J. Contrera',
-      'Joseph E. Dohar',
-      'David E. Eibling',
-      'Bridget C. Hathaway',
-      'Noel Jabbour',
-      'Jonas T. Johnson',
-      'Thomas M. Kaffenberger',
-      'Seungwon Kim',
-      'Dennis J. Kitsko',
-      'Raymond C. Maguire',
-      'Jessica H. Maxwell',
-      'Eugene N. Myers',
-      'Philip Perez',
-      'Peter L. Santa Maria',
-      'Chloe Santa Maria',
-      'Jeffrey P. Simons',
-      'Joshua D. Smith',
-      'Libby J. Smith',
-      'Carl H. Snyderman',
-      'Ryan J. Soose',
-      'Matthew E. Spector',
-      'Shaum Sridharan',
-      'Amanda Stapleton',
-      'Sandra Stinnett',
-      'Allison Tobey',
-      'Rachel L. Whelan',
-      'Christina M. Yver'
-    ];
-
+    
   
 
     // ---------- Derived text (auto) ----------
