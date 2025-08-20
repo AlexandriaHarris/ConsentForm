@@ -2946,7 +2946,14 @@ function renderProcedures(){
       save();
       if(!touched.rec){ const el=document.getElementById('recommendedProcedure'); if(el) el.value=f.recommendedProcedure||''; }
       if(!touched.risks){ const el=document.getElementById('otherRisks'); if(el) el.value=f.otherRisks||''; }
-      const autoAlts = uniq(selectedProcs.flatMap(p=>p.alternatives||[]));
+  // Deduplicate alternatives using the same approach as risks
+const allAlts = selectedProcs.flatMap(p=>p.alternatives||[]).filter(Boolean);
+const altMap = {};
+allAlts.forEach(alt => {
+  const norm = alt.toLowerCase().trim();
+  if(!altMap[norm]) altMap[norm] = alt.trim();
+});
+const autoAlts = Object.values(altMap);
       const autoAltString = autoAlts.length? autoAlts.join(', ') : '';
       if(!touched.alts) f.alternatives = autoAltString;
       if(!touched.alts){ const el=document.getElementById('alternatives'); if(el) el.value=f.alternatives||''; }
