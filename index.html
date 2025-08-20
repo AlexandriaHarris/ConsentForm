@@ -79,7 +79,10 @@
        at the bottom of the page.  A larger bottom value prevents
        long paragraphs from running into the footer, especially when
        dynamic fields contain a lot of text. */
-    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.6in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
+    /* The main content area sits between the header and footer.  Increase
+     * the bottom inset slightly to ensure that long paragraphs do not
+     * encroach on the footer when printed. */
+    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.8in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
     .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
@@ -89,7 +92,13 @@
     /* WITNESS/SIGNATURE BLOCK */
     .siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
     .siggrid .label{white-space:nowrap}
-    .uline{display:inline-block;border-bottom:1px solid #000;min-height:14px;vertical-align:-2px}
+    /* A generic underline used for fill‑in blanks.  We deliberately avoid
+     * setting a min‑height or vertical offset here because those can
+     * inadvertently draw two parallel lines when nested inside other
+     * containers.  A simple 1px bottom border creates a single, crisp line.
+     * The width of the blank is controlled via additional classes (e.g.
+     * u-date-time, u-med, u-rel, etc.). */
+    .uline{display:inline-block;border-bottom:1px solid #000;padding-bottom:0;vertical-align:baseline}
     .u-wide{min-width:3.2in}
     .u-med{min-width:2.0in}
     .u-short{min-width:1.2in}
@@ -112,9 +121,16 @@
     .sig-field{display:flex;gap:.05in;align-items:baseline}
     .flex-grow{flex:1 1 auto}
 
-    /* Field container for inline blanks with label underneath */
-    .field-container{display:inline-block;position:relative;border-bottom:1px solid #000;min-width:3in;padding-bottom:1px;line-height:14px}
+    /* Field container for inline blanks with a label underneath.  This is used
+     * on page 1 for the “Name of patient or Designee” and “Name of Patient”
+     * blanks.  Remove extra padding that could create a second line under
+     * the blank; the line itself comes from the border-bottom.  The
+     * line height is kept modest to align the text with the surrounding
+     * paragraph. */
+    .field-container{display:inline-block;position:relative;border-bottom:1px solid #000;min-width:3in;padding-bottom:0;line-height:1.1}
     .field-container .field-text{display:inline-block}
+    /* Position the label just below the underline.  The 14px offset roughly
+     * corresponds to the height of the text above plus a small gap. */
     .field-container .field-label{position:absolute;top:14px;left:0;right:0;font-size:7pt;text-align:center;line-height:1}
 
     /* Print controls */
