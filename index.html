@@ -7,7 +7,7 @@
   <style>
     :root { --bg:#f7f7fb; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb; }
     *{box-sizing:border-box}
-    html,body{height:95%}
+    html,body{height:100%}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;color:var(--ink);background:linear-gradient(#fafafa,#f2f4f8)}
     h1,h2,h3{margin:0 0 .5rem}
     .app{max-width:1120px;margin:0 auto;padding:1rem}
@@ -48,8 +48,8 @@
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
-    .footer{position:absolute;left:0;right:0;bottom:0;height:0.40in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0.15in;font-size:9pt}
-    .barcode{height:.35in;width:auto}
+    .footer{position:absolute;left:0;right:0;bottom:0;height:1in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0 .5in;font-size:9pt}
+    .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
     /* BODY */
@@ -77,7 +77,7 @@
      */
     .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.4in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:1rem;border-bottom:1px solid #000;padding-bottom:.2rem;white-space:pre-wrap}
+    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
@@ -183,6 +183,8 @@
           <div class="hd">Procedures (multi‑select) & Risk Library</div>
           <div class="bd">
             <div id="procList" class="list"></div>
+            <!-- Laterality controls for procedures that require it -->
+            <div id="lateralitySection" class="list" style="margin-top:.5rem; display:none"></div>
             <div class="border" style="margin-top:.75rem">
               <div style="font-weight:600;margin-bottom:.25rem">Add a procedure</div>
               <div class="list">
@@ -190,6 +192,8 @@
                 <textarea id="procRisks" rows="3" placeholder="Risks (comma or newline separated)"></textarea>
                 <!-- new field to capture alternatives for a procedure -->
                 <textarea id="procAlts" rows="2" placeholder="Alternatives (comma or newline separated)"></textarea>
+                <!-- checkbox to mark whether the new procedure requires laterality -->
+                <label style="display:flex;align-items:center;font-size:.75rem"><input type="checkbox" id="procLaterality" style="margin-right:.25rem">Requires laterality (L/R/B)</label>
                 <div style="text-align:right"><button class="btn" id="addProcBtn">Add to Catalog</button></div>
               </div>
             </div>
@@ -563,7 +567,7 @@
     }
 
     // ---------- State & persistence ----------
-    const defaults = { selectedProcKeys: [], selectedSurgeons: [] };
+    const defaults = { selectedProcKeys: [], selectedSurgeons: [], laterality: {} };
     let f = {...defaults};
     let catalog = [];
     let surgeons = [];
@@ -611,6 +615,7 @@
         name:'Neck Mass Excision',
         risks:['nerve injury (e.g., marginal mandibular, spinal accessory)','seroma/hematoma','infection','scarring'],
         alternatives:['Biopsy or fine-needle aspiration','Observation','Radiologic monitoring']
+        ,requiresLaterality:true
       },
     ];
 
@@ -668,7 +673,51 @@
         });
         list.appendChild(el);
       });
+    // After rendering procedures, update the laterality controls
+    renderLaterality();
     }
+
+  // Render laterality selectors for procedures that require it
+  function renderLaterality(){
+    const container = document.getElementById('lateralitySection');
+    if(!container) return;
+    // Clear previous controls
+    container.innerHTML = '';
+    // Determine selected procedures that require laterality
+    const selectedProcs = (f.selectedProcKeys||[]).map(key => catalog.find(p=>p && p.key===key)).filter(Boolean);
+    selectedProcs.forEach(proc => {
+      if(proc.requiresLaterality){
+        const row = document.createElement('div');
+        row.className = 'laterality-row';
+        // label and select control
+        const selId = 'lat_'+proc.key;
+        row.innerHTML = `<label style="font-size:.8rem;margin-right:.25rem">${proc.name} laterality:</label>`;
+        const select = document.createElement('select');
+        select.id = selId;
+        select.style.marginLeft = '0.25rem';
+        ['','Left','Right','Bilateral'].forEach(opt => {
+          const option = document.createElement('option');
+          option.value = opt;
+          option.textContent = opt ? opt : 'Select...';
+          select.appendChild(option);
+        });
+        // Set current selection
+        if(f.laterality && f.laterality[proc.key]){
+          select.value = f.laterality[proc.key];
+        }
+        // Update laterality on change
+        select.addEventListener('change', () => {
+          if(!f.laterality) f.laterality = {};
+          f.laterality[proc.key] = select.value || '';
+          // Save and update derived fields
+          save(); updateDerived(); renderPreview(); renderReview();
+        });
+        row.appendChild(select);
+        container.appendChild(row);
+      }
+    });
+    container.style.display = container.children.length ? 'block' : 'none';
+  }
 
     // Inputs bind
     function bindInputs(){
@@ -702,8 +751,10 @@
       const risks = uniq(risksCsv.split(/[\n,]/));
       const alternatives = uniq(altsCsv.split(/[\n,]/));
       const key = (name.toUpperCase().replace(/[^A-Z0-9]+/g,'-') + '-' + Math.random().toString(36).slice(2,7).toUpperCase());
-      catalog.push({key, name, risks, alternatives});
-      $('#procName').value=''; $('#procRisks').value=''; $('#procAlts').value='';
+      const lateralityRequired = $('#procLaterality').checked;
+      catalog.push({key, name, risks, alternatives, requiresLaterality: lateralityRequired});
+      // reset input fields
+      $('#procName').value=''; $('#procRisks').value=''; $('#procAlts').value=''; $('#procLaterality').checked = false;
       save(); renderProcedures(); updateDerived(); renderPreview(); renderReview();
     });
 
@@ -741,11 +792,30 @@
 
     // ---------- Derived text (auto) ----------
     function updateDerived(){
-      const selectedProcs = (f.selectedProcKeys||[]).map(key => catalog.find(p=>p.key===key)).filter(Boolean);
-      const names = selectedProcs.map(p=>p.name);
-      const autoRecommended = names.length===0? '' : (names.length===1? names[0] : (names.length===2? names.join(' and ') : names.slice(0,-1).join('; ')+'; and '+names[names.length-1]));
-      const autoRisks = uniq(selectedProcs.flatMap(p=>p.risks||[]));
-      const autoOtherRisks = autoRisks.length? ('Procedure-specific risks: '+autoRisks.join(', ')+'.') : '';
+      const selectedProcs = (f.selectedProcKeys||[]).map(key => catalog.find(p=>p && p.key===key)).filter(Boolean);
+      // Build names including laterality if required
+      const namesWithLat = selectedProcs.map(p => {
+        let nm = p.name;
+        if(p.requiresLaterality){
+          const lat = f.laterality && f.laterality[p.key];
+          if(lat){ nm += ' ('+lat+')'; }
+        }
+        return nm;
+      });
+      // Compose recommended procedure string
+      let autoRecommended = '';
+      if(namesWithLat.length===1){ autoRecommended = namesWithLat[0]; }
+      else if(namesWithLat.length===2){ autoRecommended = namesWithLat.join(' and '); }
+      else if(namesWithLat.length>2){ autoRecommended = namesWithLat.slice(0,-1).join('; ') + '; and ' + namesWithLat[namesWithLat.length-1]; }
+      // Collect and normalize risks to deduplicate across case/spacing
+      const allRisks = selectedProcs.flatMap(p=>p.risks||[]).filter(Boolean);
+      const riskMap = {};
+      allRisks.forEach(risk => {
+        const norm = risk.toLowerCase().trim();
+        if(!riskMap[norm]) riskMap[norm] = risk.trim();
+      });
+      const autoRisks = Object.values(riskMap);
+      const autoOtherRisks = autoRisks.length ? ('Procedure-specific risks: ' + autoRisks.join(', ') + '.') : '';
       if(!touched.rec) f.recommendedProcedure = autoRecommended;
       if(!touched.risks) f.otherRisks = autoOtherRisks;
       // Physician from surgeons
@@ -760,6 +830,8 @@
       const autoAltString = autoAlts.length? autoAlts.join(', ') : '';
       if(!touched.alts) f.alternatives = autoAltString;
       if(!touched.alts){ const el=document.getElementById('alternatives'); if(el) el.value=f.alternatives||''; }
+      // Refresh laterality controls when procedures change
+      renderLaterality();
     }
 
     // ---------- Rendering: print side ----------
