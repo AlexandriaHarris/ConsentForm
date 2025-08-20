@@ -2481,8 +2481,8 @@ function renderSelectedSurgeons() {
         populateSurgeonDropdown();
         renderSelectedSurgeons();
        updateDerived();
-renderPreview();
-generatePages();  // Add this line
+generatePages();  // Create the pages first
+renderPreview();  // Then populate the content
 renderReview();
       }
     }
@@ -2492,8 +2492,8 @@ renderReview();
       save();
       renderSelectedSurgeons();
   updateDerived();
-renderPreview();
-generatePages();  // Add this line
+generatePages();  // Create the pages first
+renderPreview();  // Then populate the content
 renderReview();
     }
 
@@ -2568,8 +2568,8 @@ function renderProcedures(){
             
             save(); 
 updateDerived();
-renderPreview();
-generatePages();  // Add this line
+generatePages();  // Create the pages first
+renderPreview();  // Then populate the content
 renderReview();
             renderProcedures(); // Re-render to update button states
           };
@@ -2754,64 +2754,75 @@ function generatePages() {
   const rightPanel = document.querySelector('.right');
   rightPanel.innerHTML = ''; // Clear existing pages
   
-  // First, let's check how much content we have
+  // Check content length to determine if we need extra pages
   const proceduresLength = (f.recommendedProcedure || '').length;
   const diagnosisLength = (f.diagnosis || '').length;
   const alternativesLength = (f.alternatives || '').length;
   const otherRisksLength = (f.otherRisks || '').length;
   
-  // Determine if we need to split page 1
+  // Determine if content will overflow standard page 1
   const needsSplitPage1 = proceduresLength > 400 || diagnosisLength > 300 || alternativesLength > 300;
+  const totalPages = needsSplitPage1 ? 5 : 4;
   
-  if (needsSplitPage1) {
-    // Page 1 - Split version (only intro and diagnosis/procedures)
-    const page1 = document.createElement('div');
-    page1.className = 'sheet';
-    page1.innerHTML = `
-      <div class="header">
-        <div class="hdr">
-          <div class="hdr-left">
-            <div class="pageNo">Page 1 of 5+</div>
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
-          </div>
-          <div class="hdr-right">
-            <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-            <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-            <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-            <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
-          </div>
+  // Page 1
+  const page1 = document.createElement('div');
+  page1.className = 'sheet';
+  page1.innerHTML = `
+    <div class="header">
+      <div class="hdr">
+        <div class="hdr-left">
+          <div class="pageNo">Page 1 of ${totalPages}</div>
+          <img class="logo" src="gTlSit7.png" alt="UPMC" />
+        </div>
+        <div class="hdr-right">
+          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
         </div>
       </div>
-      <div class="content" style="overflow: hidden; max-height: 8.75in;">
-        <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-        <p>
-          I,
-          <span class="field-container">
-            <span class="field-text designeeName">${f.designeeName || '_'.repeat(28)}</span>
-            <span class="field-label">(Name of patient or Designee)</span>
-          </span>
-          have been asked to read all the information contained in this consent form and to consent to the procedure described below on behalf of
-          <span class="field-container">
-            <span class="field-text consentForName">${f.consentForName || f.patientName || '_'.repeat(28)}</span>
-            <span class="field-label">(Name of Patient)</span>
-          </span>
-          or myself. I have been told that I should ask questions about anything that I do not understand. (If the decision‑maker signing this form is not the patient, references to "I," "my" or "me" should be read as if referring to "the patient.")
-        </p>
-        <p>I understand that the information in this consent form, in addition to discussions with my physicians and any other written materials they may provide, is intended to help me make an informed decision whether to voluntarily undergo the identified procedure.</p>
-        <p><strong>Diagnosis:</strong> I understand that after being examined, treated, and having studies reviewed, I have been diagnosed as having:</p>
-        <div class="dash" style="min-height:0.5rem; max-height: 2in; overflow: hidden;">${f.diagnosis || ''}</div>
-        <p><strong>Recommended Procedure:</strong> I understand that my physician(s) have recommended that I undergo a procedure known as</p>
-        <div class="dash" style="max-height: 3in; overflow: hidden;">${f.recommendedProcedure || ''}</div>
-        <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
-      </div>
-      <div class="footer">
-        <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-        <div class="foot-date">2/16/2024</div>
-      </div>
-    `;
-    rightPanel.appendChild(page1);
-    
-    // Page 1b - Continuation (alternatives and risks intro)
+    </div>
+    <div class="content" style="${needsSplitPage1 ? 'max-height: 8.5in; overflow: hidden;' : ''}">
+      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+      <p>
+        I,
+        <span class="field-container">
+          <span class="field-text designeeName"></span>
+          <span class="field-label">(Name of patient or Designee)</span>
+        </span>
+        have been asked to read all the information contained in this consent form and to consent to the procedure described below on behalf of
+        <span class="field-container">
+          <span class="field-text consentForName"></span>
+          <span class="field-label">(Name of Patient)</span>
+        </span>
+        or myself. I have been told that I should ask questions about anything that I do not understand. (If the decision‑maker signing this form is not the patient, references to "I," "my" or "me" should be read as if referring to "the patient.")
+      </p>
+      <p>I understand that the information in this consent form, in addition to discussions with my physicians and any other written materials they may provide, is intended to help me make an informed decision whether to voluntarily undergo the identified procedure.</p>
+      <p><strong>Diagnosis:</strong> I understand that after being examined, treated, and having studies reviewed, I have been diagnosed as having:</p>
+      <div class="dash" id="p1_diagnosis" style="min-height:0.5rem${needsSplitPage1 ? '; max-height: 2in; overflow: hidden' : ''}"></div>
+      <p><strong>Recommended Procedure:</strong> I understand that my physician(s) have recommended that I undergo a procedure known as</p>
+      <div class="dash" id="p1_recommended" style="${needsSplitPage1 ? 'max-height: 3in; overflow: hidden' : ''}"></div>
+      <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
+      ${!needsSplitPage1 ? `
+        <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
+        <div class="dash" id="p1_alternatives" style="min-height:0.5rem"></div>
+        <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
+        <ol class="ol">
+          <li><strong>Bleeding:</strong> If needed, blood and/or blood products have the following general risks: reactions resulting in itching, rash, fever, chills, headache, or shock; respiratory distress (shortness of breath); kidney damage; systemic bacterial infection; exposure to blood borne viruses including hepatitis (an inflammatory disease affecting the liver) and Human Immunodeficiency Virus (HIV, the virus that causes AIDS); and death. Alternatives to transfusion include the use of devices that filter and return blood lost in surgery to me or by providing medications that boost my blood count prior to an elective procedure. Bleeding and/or severe anemia could put my life in danger or cause permanent brain damage. I understand that substitutes for blood or plasma might not work well enough. Blood and/or blood products might offer the only chance to preserve my life.</li>
+        </ol>
+        <p>____  I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate form entitled Release from Liability for the Refusal of Blood Transfusion.</p>
+        <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be removed prior to surgery.</p>
+      ` : ''}
+    </div>
+    <div class="footer">
+      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+      <div class="foot-date">2/16/2024</div>
+    </div>
+  `;
+  rightPanel.appendChild(page1);
+
+  // If we need to split, add continuation page
+  if (needsSplitPage1) {
     const page1b = document.createElement('div');
     page1b.className = 'sheet';
     page1b.style.marginTop = '1rem';
@@ -2819,28 +2830,24 @@ function generatePages() {
       <div class="header">
         <div class="hdr">
           <div class="hdr-left">
-            <div class="pageNo">Page 2 of 5+</div>
+            <div class="pageNo">Page 2 of ${totalPages}</div>
             <img class="logo" src="gTlSit7.png" alt="UPMC" />
           </div>
           <div class="hdr-right">
-            <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-            <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-            <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-            <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
+            <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+            <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+            <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+            <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
           </div>
         </div>
       </div>
       <div class="content">
         <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
         <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
-        <div class="dash" style="min-height:0.5rem; max-height: 2in; overflow: hidden;">${f.alternatives || ''}</div>
+        <div class="dash" id="p1_alternatives" style="min-height:0.5rem"></div>
         <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
         <ol class="ol">
           <li><strong>Bleeding:</strong> If needed, blood and/or blood products have the following general risks: reactions resulting in itching, rash, fever, chills, headache, or shock; respiratory distress (shortness of breath); kidney damage; systemic bacterial infection; exposure to blood borne viruses including hepatitis (an inflammatory disease affecting the liver) and Human Immunodeficiency Virus (HIV, the virus that causes AIDS); and death. Alternatives to transfusion include the use of devices that filter and return blood lost in surgery to me or by providing medications that boost my blood count prior to an elective procedure. Bleeding and/or severe anemia could put my life in danger or cause permanent brain damage. I understand that substitutes for blood or plasma might not work well enough. Blood and/or blood products might offer the only chance to preserve my life.</li>
-          <li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li>
-          <li>Injury to adjacent organs.</li>
-          <li>Pain. This should resolve within a few days but may be prolonged.</li>
-          <li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>
         </ol>
         <p>____  I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate form entitled Release from Liability for the Refusal of Blood Transfusion.</p>
         <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be removed prior to surgery.</p>
@@ -2851,94 +2858,35 @@ function generatePages() {
       </div>
     `;
     rightPanel.appendChild(page1b);
-    
-  } else {
-    // Original Page 1 - for normal amount of content
-    const page1 = document.createElement('div');
-    page1.className = 'sheet';
-    page1.innerHTML = `
-      <div class="header">
-        <div class="hdr">
-          <div class="hdr-left">
-            <div class="pageNo">Page 1 of 4</div>
-            <img class="logo" src="gTlSit7.png" alt="UPMC" />
-          </div>
-          <div class="hdr-right">
-            <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-            <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-            <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-            <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-        <p>
-          I,
-          <span class="field-container">
-            <span class="field-text designeeName">${f.designeeName || '_'.repeat(28)}</span>
-            <span class="field-label">(Name of patient or Designee)</span>
-          </span>
-          have been asked to read all the information contained in this consent form and to consent to the procedure described below on behalf of
-          <span class="field-container">
-            <span class="field-text consentForName">${f.consentForName || f.patientName || '_'.repeat(28)}</span>
-            <span class="field-label">(Name of Patient)</span>
-          </span>
-          or myself. I have been told that I should ask questions about anything that I do not understand. (If the decision‑maker signing this form is not the patient, references to "I," "my" or "me" should be read as if referring to "the patient.")
-        </p>
-        <p>I understand that the information in this consent form, in addition to discussions with my physicians and any other written materials they may provide, is intended to help me make an informed decision whether to voluntarily undergo the identified procedure.</p>
-        <p><strong>Diagnosis:</strong> I understand that after being examined, treated, and having studies reviewed, I have been diagnosed as having:</p>
-        <div class="dash" style="min-height:0.5rem">${f.diagnosis || ''}</div>
-        <p><strong>Recommended Procedure:</strong> I understand that my physician(s) have recommended that I undergo a procedure known as</p>
-        <div class="dash">${f.recommendedProcedure || ''}</div>
-        <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
-        <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
-        <div class="dash" style="min-height:0.5rem">${f.alternatives || ''}</div>
-        <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
-        <ol class="ol">
-          <li><strong>Bleeding:</strong> If needed, blood and/or blood products have the following general risks: reactions resulting in itching, rash, fever, chills, headache, or shock; respiratory distress (shortness of breath); kidney damage; systemic bacterial infection; exposure to blood borne viruses including hepatitis (an inflammatory disease affecting the liver) and Human Immunodeficiency Virus (HIV, the virus that causes AIDS); and death. Alternatives to transfusion include the use of devices that filter and return blood lost in surgery to me or by providing medications that boost my blood count prior to an elective procedure. Bleeding and/or severe anemia could put my life in danger or cause permanent brain damage. I understand that substitutes for blood or plasma might not work well enough. Blood and/or blood products might offer the only chance to preserve my life.</li>
-        </ol>
-        <p>____  I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate form entitled Release from Liability for the Refusal of Blood Transfusion.</p>
-        <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be removed prior to surgery.</p>
-      </div>
-      <div class="footer">
-        <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-        <div class="foot-date">2/16/2024</div>
-      </div>
-    `;
-    rightPanel.appendChild(page1);
   }
-  
-  // Continue with remaining pages...
-  generateRemainingPages(rightPanel, needsSplitPage1);
-}
 
-function generateRemainingPages(rightPanel, hasExtraPages) {
-  const pageOffset = hasExtraPages ? 1 : 0;
-  
-  // Standard risks page
-  const risksPage = document.createElement('div');
-  risksPage.className = 'sheet';
-  risksPage.style.marginTop = '1rem';
-  risksPage.innerHTML = `
+  // Page 2 (or 3 if split)
+  const page2 = document.createElement('div');
+  page2.className = 'sheet';
+  page2.style.marginTop = '1rem';
+  const page2Num = needsSplitPage1 ? 3 : 2;
+  page2.innerHTML = `
     <div class="header">
       <div class="hdr">
         <div class="hdr-left">
-          <div class="pageNo">Page ${2 + pageOffset} of ${4 + pageOffset}</div>
+          <div class="pageNo">Page ${page2Num} of ${totalPages}</div>
           <img class="logo" src="gTlSit7.png" alt="UPMC" />
         </div>
         <div class="hdr-right">
-          <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-          <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-          <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-          <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
+          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
         </div>
       </div>
     </div>
     <div class="content">
       <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-      ${hasExtraPages ? '' : '<ol class="ol" start="2"><li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li><li>Injury to adjacent organs.</li><li>Pain. This should resolve within a few days but may be prolonged.</li><li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>'}
-      <ol class="ol" start="${hasExtraPages ? '6' : '5'}">
+      <ol class="ol" start="2">
+        <li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li>
+        <li>Injury to adjacent organs.</li>
+        <li>Pain. This should resolve within a few days but may be prolonged.</li>
+        <li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>
         <li>Blood clots. These clots usually develop in the legs and can break free and move through the heart to the lungs. In the lungs, they can cause serious interference with breathing, which can lead to death. Blood clots are treated with blood‑thinning drugs that may need to be taken for an extended period of time.</li>
         <li>Nerve damage surrounding the surgical site or Damage to nerves from pressure or positioning of the arms, legs or back during the surgery. Nerve damage can cause numbness, weakness, paralysis and/or pain. In most cases these symptoms are temporary, but in rare cases they can last for extended periods or even permanently.</li>
         <li>Burns caused by use of electrical equipment that may be needed to stop bleeding or by other equipment.</li>
@@ -2946,7 +2894,7 @@ function generateRemainingPages(rightPanel, hasExtraPages) {
         <li>Prolonged hospitalization.</li>
         <li>Other risks:</li>
       </ol>
-      <div class="dash" style="min-height:3rem; max-height:3.5in; overflow:hidden;">${f.otherRisks || ''}</div>
+      <div class="dash" id="p2_otherRisks" style="min-height:3rem"></div>
       <p><strong>Teaching Facility and Overlapping Surgeries:</strong> I understand that the facility is a teaching facility. The health care team may include residents, fellows, students, and skilled healthcare professionals. Credentialed team members may perform all or parts of my procedure under the supervision and guidance of my physician(s). My attending physician may also be caring for one other patient during my surgery but remains responsible to me and will perform or be present for the key portions of the procedure. If unanticipated circumstances require my surgeon to be unavailable during my surgery, another qualified surgeon will promptly come to the operating room. Representatives of medical device companies may be present to provide devices and observe and advise on their use. Who will participate and in what manner will be decided at the time of the procedure and will depend on the availability of individuals with the necessary expertise and on my medical condition.</p>
       <p>If an accidental exposure to my blood or body fluids occurs to staff during the surgery or procedure, I agree to blood tests for hepatitis B, hepatitis C and HIV.</p>
       <p>I understand that the physician(s) or others may choose to photograph, televise, film, or otherwise record all or any portion of my procedure for medical, scientific, or educational purposes. I consent to the photographing, televising, filming, or other forms of recording of the procedure(s) to be performed, including appropriate portions of my body, body functions or sounds, provided my identity is not revealed. I understand and agree that 1) any photographs, films, or other audio or visual recordings created will be the sole property of the facility: and 2) the facility or any appropriate staff member may edit, preserve, or destroy all or any part of the</p>
@@ -2956,183 +2904,13 @@ function generateRemainingPages(rightPanel, hasExtraPages) {
       <div class="foot-date">2/16/2024</div>
     </div>
   `;
-  rightPanel.appendChild(risksPage);
-  
-  // Continue with the acknowledgment and signature pages
-  addSignaturePages(rightPanel, hasExtraPages);
-}
- 
-function createPage(pageNum) {
-  const sheet = document.createElement('div');
-  sheet.className = 'sheet';
-  if (pageNum > 1) sheet.style.marginTop = '1rem';
-  
-  sheet.innerHTML = `
-    <div class="header">
-      <div class="hdr">
-        <div class="hdr-left">
-          <div class="pageNo">Page ${pageNum} of 4+</div>
-          <img class="logo" src="gTlSit7.png" alt="UPMC" />
-        </div>
-        <div class="hdr-right">
-          <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-          <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-          <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-          <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="content"></div>
-    <div class="footer">
-      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-      <div class="foot-date">2/16/2024</div>
-    </div>
-  `;
-  
-  return sheet;
-}
+  rightPanel.appendChild(page2);
 
-function addSignaturePages(rightPanel) {
-  // Page 3
-  const page3 = document.createElement('div');
-  page3.className = 'sheet';
-  page3.style.marginTop = '1rem';
-  page3.innerHTML = `
-    <div class="header">
-      <div class="hdr">
-        <div class="hdr-left">
-          <div class="pageNo">Page 3 of 4</div>
-          <img class="logo" src="gTlSit7.png" alt="UPMC" />
-        </div>
-        <div class="hdr-right">
-          <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-          <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-          <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-          <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="content">
-      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-      <p>photographs, films, or other audio or visual recordings. Such recordings are not part of the medical record and I understand I cannot obtain a copy.</p>
-      <p>I authorize the disposal or retention, preservation, testing, or use for scientific, educational, or other purposes of all or any portion of specimens, tissues, body parts, or other things, including prostheses and medical/surgical appliances, that may be removed from my body.</p>
-      <p>I understand that if any medical device, as defined by federal regulations, is implanted in a patient's body, the facility is required by law to report to the manufacturer the name, address and social security number of the patient and the description and identity of the device.</p>
-      <p style="font-weight:700">MY SIGNATURE BELOW ACKNOWLEDGES THAT:</p>
-      <ol class="ol">
-        <li>I have read (or had read to me), understand and agree to the statements set forth in this consent form.</li>
-        <li>A physician or representative has explained to me all information referred to in this consent form. I have had an opportunity to ask questions and my questions have been answered to my satisfaction, including any question I have about the potential use of blood and/or blood products and any risks regarding their use.</li>
-        <li>All statements requiring completion were filled in before I signed.</li>
-        <li>No guarantees or assurances concerning the results of the procedure(s) have been made.</li>
-        <li>I am signing this consent voluntarily. I am not signing due to any coercion or other influence.</li>
-        <li>I hereby consent and authorize Dr. <span class="physicianName" style="display:inline-block;border-bottom:1px solid #000;min-width:2in">${f.physicianName || '_'.repeat(24)}</span> (my physician(s)) and/or those associates, assistants and other health care providers designated by my physician(s) to perform the recommended procedure described above. I understand that during the procedure, conditions may become apparent that require my physicians or their designees to take steps or perform additional procedures that they believe are medically necessary to achieve the desired benefits or for my well‑being.</li>
-        <li>I authorize and request my physician(s) or their designees to perform whatever medical acts or additional procedures they, in the exercise of their sole professional judgment, deem reasonable and necessary, and I waive any obligation on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to give additional consent at that time.</li>
-      </ol>
-    </div>
-    <div class="footer">
-      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-      <div class="foot-date">2/16/2024</div>
-    </div>
-  `;
-  rightPanel.appendChild(page3);
-
-  // Page 4
-  const page4 = document.createElement('div');
-  page4.className = 'sheet';
-  page4.style.marginTop = '1rem';
-  page4.innerHTML = `
-    <div class="header">
-      <div class="hdr">
-        <div class="hdr-left">
-          <div class="pageNo">Page 4 of 4</div>
-          <img class="logo" src="gTlSit7.png" alt="UPMC" />
-        </div>
-        <div class="hdr-right">
-          <div><strong>Patient Name:</strong> <span class="hdrPatientName line">${f.patientName || '_'.repeat(20)}</span></div>
-          <div><strong>Identification Number:</strong> <span class="hdrId line">${f.idNumber || '_'.repeat(12)}</span></div>
-          <div><strong>Date of Birth:</strong> <span class="hdrDob line">${f.dob || '_'.repeat(12)}</span></div>
-          <div><strong>Facility:</strong> <span class="hdrFacility line">${f.facility || '_'.repeat(12)}</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="content">
-      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-      <div class="signature-section" style="margin-bottom:.25in">
-        <div class="signature-row">
-          <div class="sig-field">
-            <span>Date:</span>
-            <span class="uline u-date-time">${f.witnessDate || '_'.repeat(12)}</span>
-          </div>
-          <div class="sig-field">
-            <span>Time:</span>
-            <span class="uline u-date-time">${f.witnessTime || '_'.repeat(10)}</span>
-          </div>
-          <div class="sig-field flex-grow" style="justify-content:space-between;">
-            <span>Witness</span>
-            <span class="uline u-med">${f.witnessName || '_'.repeat(24)}</span>
-          </div>
-        </div>
-        <div class="signature-row">
-          <div class="sig-field">
-            <span>Date:</span>
-            <span class="uline u-date-time">${f.signerDate || '_'.repeat(12)}</span>
-          </div>
-          <div class="sig-field">
-            <span>Time:</span>
-            <span class="uline u-date-time">${f.signerTime || '_'.repeat(10)}</span>
-          </div>
-          <div class="sig-field flex-grow" style="justify-content:space-between;">
-            <span>Signature of patient or person authorized to consent for patient</span>
-            <span class="uline u-med"></span>
-          </div>
-        </div>
-        <div class="signature-row">
-          <div class="sig-field flex-grow" style="justify-content:space-between;">
-            <span>Relationship to patient if signer is not Patient:</span>
-            <span class="uline u-rel">${f.signerRelationship || '_'.repeat(22)}</span>
-          </div>
-        </div>
-      </div>
-      <div style="padding-top:.2in;margin-bottom:.25in">
-        <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
-        <div class="signature-row">
-          <div class="sig-field">
-            <span>Date</span>
-            <span class="uline u-date-time">${f.physSigDate || '_'.repeat(12)}</span>
-          </div>
-          <div class="sig-field">
-            <span>Time</span>
-            <span class="uline u-date-time">${f.physSigTime || '_'.repeat(10)}</span>
-          </div>
-          <div class="sig-field flex-grow" style="justify-content:space-between;">
-            <span>Signature of Physician or Representative</span>
-            <span class="uline u-med"></span>
-          </div>
-        </div>
-        <div class="signature-row">
-          <div class="sig-field flex-grow" style="justify-content:space-between;">
-            <span>Printed name</span>
-            <span class="uline u-rel">${f.physSigName || '_'.repeat(24)}</span>
-          </div>
-        </div>
-      </div>
-      <div style="border-top:1px solid #000;padding-top:.2in">
-        <div style="font-weight:700">INTERPRETER'S STATEMENT</div>
-        <p>Execute if an interpreter is provided to assist the individual in understanding this informed consent form:</p>
-        <p>I have translated the information and advice presented orally to the individual to be treated by the person obtaining this consent.</p>
-        <p>In addition, I have sight translated the consent form (read it aloud in his/her language). To the best of my knowledge and belief he/she understood this explanation.</p>
-        <div class="list" style="font-size:10pt">
-          <div><strong>Cyracom ID (if applicable)</strong>: <span class="uline u-short">${f.cyracom || '_'.repeat(14)}</span></div>
-          <div><strong>Print Name</strong>: <span class="uline u-rel">${f.interpName || '_'.repeat(24)}</span></div>
-          <div><strong>Signature</strong>: <span class="uline u-wide"></span> <span class="muted" style="font-size:9pt">(Not required if a Cyracom Interpreter Was Used)</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="footer">
-      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-      <div class="foot-date">2/16/2024</div>
-    </div>
-  `;
-  rightPanel.appendChild(page4);
+  // Add remaining signature pages
+  addSignaturePages(rightPanel, needsSplitPage1);
+  
+  // NOW populate the fields after the DOM is created
+  renderPreview();
 }
     // ---------- Review text ----------
     function renderReview(){
@@ -3157,8 +2935,8 @@ Surgeon(s): ${f.physicianName||''}`.trim());
     renderProcedures();
     bindInputs();
  updateDerived();
-renderPreview();
-generatePages();  // Add this line
+generatePages();  // Create the pages first
+renderPreview();  // Then populate the content
 renderReview();
   </script>
 </body>
