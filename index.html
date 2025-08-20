@@ -75,9 +75,9 @@
      * fits comfortably on the page.  If further padding is required,
      * increase the bottom value again.
      */
-    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.3in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
+    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.4in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:2rem;border-bottom:1px solid #000;padding-bottom:.2rem;white-space:pre-wrap}
+    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
@@ -93,6 +93,20 @@
 
     /* narrower line used for date and time fields in the signature section */
     .u-date-time{min-width:1.0in}
+
+    /* Signature section flex layout
+     * The signature rows consist of up to three fields (Date, Time, and Signature).
+     * Without explicit layout rules, each field would stack vertically, leading to
+     * unwanted extra blank lines.  Define row and field containers using flexbox
+     * so the items sit on a single line.  The gap values are tuned to roughly
+     * match the spacing in the original PDF.  Flex‑grow lets the long
+     * signature label and line expand to fill the remaining space, while
+     * narrower date/time fields remain compact.  See the markup in the
+     * signature section (page 4) for usage.
+     */
+    .signature-row{display:flex;gap:.25in;align-items:baseline;margin:.05in 0;font-size:10pt}
+    .sig-field{display:flex;gap:.05in;align-items:baseline}
+    .flex-grow{flex:1 1 auto}
 
     /* Field container for inline blanks with label underneath */
     .field-container{display:inline-block;position:relative;border-bottom:1px solid #000;min-width:3in;padding-bottom:1px;line-height:14px}
@@ -320,7 +334,7 @@
             <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
 
             <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
-            <div class="dash" id="p1_alternatives" style="min-height:0.5rem"></div>
+            <div class="dash" id="p1_alternatives" style="min-height:1.5rem"></div>
 
             <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
             <ol class="ol">
@@ -443,54 +457,69 @@
           <div class="content">
             <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
 
-            <!-- Signature section redesigned per updated requirements -->
-            <div style="margin-bottom:.25in">
+            <!-- Signature section redesigned to eliminate double underlines and use flexible layout -->
+            <div class="signature-section" style="margin-bottom:.25in">
               <!-- Witness row: Date, Time, Witness -->
-              <div style="display:grid;grid-template-columns:auto auto auto auto auto 1fr;column-gap:.2in;font-size:10pt">
-                <div>Date:</div>
-                <div class="uline u-date-time"><span class="witnessDate"></span></div>
-                <div>Time:</div>
-                <div class="uline u-date-time"><span class="witnessTime"></span></div>
-                <div>Witness</div>
-                <div class="uline u-med"><span class="witnessName"></span></div>
+              <div class="signature-row">
+                <div class="sig-field">
+                  <span>Date:</span>
+                  <span class="uline u-date-time"><span class="witnessDate"></span></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time:</span>
+                  <span class="uline u-date-time"><span class="witnessTime"></span></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
+                  <span>Witness</span>
+                  <span class="uline u-med"><span class="witnessName"></span></span>
+                </div>
               </div>
               <!-- Patient signature row: Date, Time, Signature -->
-              <div style="display:grid;grid-template-columns:auto auto auto auto 1fr;column-gap:.2in;margin-top:.14in;font-size:10pt">
-                <div>Date:</div>
-                <div class="uline u-date-time"><span class="signerDate"></span></div>
-                <div>Time:</div>
-                <div class="uline u-date-time"><span class="signerTime"></span></div>
-                <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              <div class="signature-row">
+                <div class="sig-field">
+                  <span>Date:</span>
+                  <span class="uline u-date-time"><span class="signerDate"></span></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time:</span>
+                  <span class="uline u-date-time"><span class="signerTime"></span></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Signature of patient or person authorized to consent for patient</span>
                   <span class="uline u-med"></span>
                 </div>
               </div>
               <!-- Relationship row -->
-              <div style="display:grid;grid-template-columns:auto 1fr;column-gap:.2in;margin-top:.14in;font-size:10pt">
-                <div>Relationship to patient if signer is not Patient:</div>
-                <div class="uline u-rel"><span class="signerRel"></span></div>
+              <div class="signature-row">
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
+                  <span>Relationship to patient if signer is not Patient:</span>
+                  <span class="uline u-rel"><span class="signerRel"></span></span>
+                </div>
               </div>
             </div>
 
             <!-- Physician statement and signature block -->
-            <div style="border-top:1px solid #000;padding-top:.2in;margin-bottom:.25in">
+            <!-- Remove the top border here to avoid creating an extra horizontal line after the
+                 patient/relationship rows. We leave padding to separate the sections. -->
+            <div style="padding-top:.2in;margin-bottom:.25in">
               <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
-              <!-- First row: Date, Time, Physician signature -->
-              <div style="display:grid;grid-template-columns:auto auto auto auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt">
-                <div>Date</div>
-                <div class="uline u-date-time"><span class="physDate"></span></div>
-                <div>Time</div>
-                <div class="uline u-date-time"><span class="physTime"></span></div>
-                <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              <!-- Physician signature rows using flexible layout -->
+              <div class="signature-row">
+                <div class="sig-field">
+                  <span>Date</span>
+                  <span class="uline u-date-time"><span class="physDate"></span></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time</span>
+                  <span class="uline u-date-time"><span class="physTime"></span></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Signature of Physician or Representative</span>
                   <span class="uline u-med"></span>
                 </div>
-                <!-- Second row: printed name aligned under signature -->
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              </div>
+              <div class="signature-row">
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Printed name</span>
                   <span class="uline u-rel"><span class="physName"></span></span>
                 </div>
