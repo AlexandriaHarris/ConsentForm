@@ -1587,6 +1587,7 @@ function renderSelectedSurgeons() {
     // Make removeSurgeon available globally for onclick
     window.removeSurgeon = removeSurgeon;
 
+
 function renderProcedures(){
   const list = $('#procList');
   list.innerHTML = '';
@@ -1614,61 +1615,86 @@ function renderProcedures(){
     
     procs.forEach(p => {
       const id = 'proc_'+p.key;
+      const container = document.createElement('div');
+      container.style.marginLeft = '0.5rem';
+      
       const el = document.createElement('label');
       el.className = 'check';
-      el.style.marginLeft = '0.5rem'; // Indent procedures under specialty
-      // REMOVED RISKS FROM HERE - just show the name
       el.innerHTML = `<input type="checkbox" id="${id}"> <div style="font-weight:600">${p.name}</div>`;
+      
       const cb = el.querySelector('input');
       cb.checked = (f.selectedProcKeys||[]).includes(p.key);
+      
+      // Add laterality buttons if required
+      if(p.requiresLaterality && cb.checked) {
+        const latButtons = document.createElement('div');
+        latButtons.style.cssText = 'margin-left:1.5rem; margin-top:0.25rem; display:flex; gap:0.25rem';
+        
+        ['Left', 'Right', 'Bilateral'].forEach(side => {
+          const btn = document.createElement('button');
+          btn.textContent = side;
+          btn.className = 'btn';
+          btn.style.cssText = 'padding:0.25rem 0.5rem; font-size:0.75rem';
+          
+          // Highlight if this is the selected laterality
+          if(f.laterality && f.laterality[p.key] === side) {
+            btn.style.background = '#111827';
+            btn.style.color = '#fff';
+          }
+          
+          btn.onclick = (e) => {
+            e.preventDefault();
+            if(!f.laterality) f.laterality = {};
+            
+            // If clicking the same button, deselect it
+            if(f.laterality[p.key] === side) {
+              f.laterality[p.key] = '';
+            } else {
+              f.laterality[p.key] = side;
+            }
+            
+            save(); 
+            updateDerived(); 
+            renderPreview(); 
+            renderReview();
+            renderProcedures(); // Re-render to update button states
+          };
+          
+          latButtons.appendChild(btn);
+        });
+        
+        container.appendChild(el);
+        container.appendChild(latButtons);
+      } else {
+        container.appendChild(el);
+      }
+      
       cb.addEventListener('change', () => {
         const set = new Set(f.selectedProcKeys||[]);
-        if(cb.checked) set.add(p.key); else set.delete(p.key);
+        if(cb.checked) {
+          set.add(p.key);
+        } else {
+          set.delete(p.key);
+          // Clear laterality when unchecking
+          if(f.laterality && f.laterality[p.key]) {
+            delete f.laterality[p.key];
+          }
+        }
         f.selectedProcKeys = Array.from(set);
-        updateDerived(); save(); renderPreview(); renderReview();
+        updateDerived(); 
+        save(); 
+        renderPreview(); 
+        renderReview();
+        renderProcedures(); // Re-render to show/hide laterality buttons
       });
-      list.appendChild(el);
+      
+      list.appendChild(container);
     });
   });
   
-  renderLaterality();
+  // Remove the old renderLaterality() call since we're handling it inline now
+  // renderLaterality();
 }
-
-    function renderLaterality(){
-      const container = document.getElementById('lateralitySection');
-      if(!container) return;
-      container.innerHTML = '';
-      const selectedProcs = (f.selectedProcKeys||[]).map(key => catalog.find(p=>p && p.key===key)).filter(Boolean);
-      selectedProcs.forEach(proc => {
-        if(proc.requiresLaterality){
-          const row = document.createElement('div');
-          row.className = 'laterality-row';
-          const selId = 'lat_'+proc.key;
-          row.innerHTML = `<label style="font-size:.8rem;margin-right:.25rem">${proc.name} laterality:</label>`;
-          const select = document.createElement('select');
-          select.id = selId;
-          select.style.marginLeft = '0.25rem';
-          ['','Left','Right','Bilateral'].forEach(opt => {
-            const option = document.createElement('option');
-            option.value = opt;
-            option.textContent = opt ? opt : 'Select...';
-            select.appendChild(option);
-          });
-          if(f.laterality && f.laterality[proc.key]){
-            select.value = f.laterality[proc.key];
-          }
-          select.addEventListener('change', () => {
-            if(!f.laterality) f.laterality = {};
-            f.laterality[proc.key] = select.value || '';
-            save(); updateDerived(); renderPreview(); renderReview();
-          });
-          row.appendChild(select);
-          container.appendChild(row);
-        }
-      });
-      container.style.display = container.children.length ? 'block' : 'none';
-    }
-
     // Inputs bind
     function bindInputs(){
       document.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
@@ -1767,7 +1793,6 @@ function renderProcedures(){
       const autoAltString = autoAlts.length? autoAlts.join(', ') : '';
       if(!touched.alts) f.alternatives = autoAltString;
       if(!touched.alts){ const el=document.getElementById('alternatives'); if(el) el.value=f.alternatives||''; }
-      renderLaterality();
     }
 
     // ---------- Rendering: print side ----------
