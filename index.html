@@ -104,8 +104,10 @@
     .u-short{min-width:1.2in}
     .u-rel{min-width:3.2in}
 
-    /* narrower line used for date and time fields in the signature section */
-    .u-date-time{min-width:1.0in}
+    /* narrower line used for date and time fields in the signature section.  A
+     * width of about three‑quarters of an inch keeps the date/time blanks
+     * compact so they don't visually compete with the longer signature line. */
+    .u-date-time{min-width:0.75in}
 
     /* Signature section flex layout
      * The signature rows consist of up to three fields (Date, Time, and Signature).
@@ -644,6 +646,111 @@
         // requiresLaterality=true triggers the UI to request laterality.
         requiresLaterality:true
       },
+      {
+  key: 'TRACH',
+  name: 'Tracheostomy',
+  risks: [
+    'bleeding',
+    'infection',
+    'subcutaneous emphysema',
+    'pneumothorax',
+    'tracheal stenosis',
+    'tracheoinnominate fistula (rare but life-threatening)',
+    'tube dislodgement/obstruction',
+    'voice changes'
+  ],
+  alternatives: [
+    'Prolonged intubation (if short-term need)',
+    'Non-invasive ventilation (e.g., BiPAP/CPAP)'
+  ]
+},
+{
+  key: 'THYROID',
+  name: 'Thyroidectomy (Total/Partial)',
+  risks: [
+    'hypocalcemia (due to parathyroid injury)',
+    'recurrent laryngeal nerve injury (hoarseness, aspiration)',
+    'superior laryngeal nerve injury (voice fatigue, pitch changes)',
+    'bleeding/hematoma (risk of airway compromise)',
+    'infection',
+    'need for lifelong thyroid hormone replacement (if total thyroidectomy)',
+    'scarring'
+  ],
+  alternatives: [
+    'Observation (for benign nodules)',
+    'Radioactive iodine therapy (for hyperthyroidism)',
+    'Medical management (e.g., thyroid suppression)'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'ESOPH',
+  name: 'Esophagoscopy (Rigid/Flexible)',
+  risks: [
+    'perforation (rare but serious)',
+    'bleeding',
+    'infection',
+    'dental injury',
+    'aspiration',
+    'sore throat'
+  ],
+  alternatives: [
+    'Barium swallow study',
+    'CT/MRI imaging',
+    'Medical management (e.g., PPIs for GERD)'
+  ]
+},
+{
+  key: 'FB',
+  name: 'Foreign Body Removal (Ear/Nose/Throat)',
+  risks: [
+    'mucosal trauma',
+    'bleeding',
+    'infection',
+    'failure to retrieve (requiring further intervention)',
+    'aspiration (if dislodged into airway)'
+  ],
+  alternatives: [
+    'Observation (if non-obstructive and likely to pass spontaneously)',
+    'Endoscopic removal under general anesthesia (if high risk)'
+  ],
+  requiresLaterality: true  // For ear/nose foreign bodies
+},
+{
+  key: 'PAROTID',
+  name: 'Parotidectomy',
+  risks: [
+    'facial nerve injury (temporary or permanent weakness/paralysis)',
+    'Frey’s syndrome (gustatory sweating)',
+    'salivary fistula',
+    'hematoma',
+    'numbness of earlobe',
+    'scarring'
+  ],
+  alternatives: [
+    'Observation (for benign lesions)',
+    'Fine-needle aspiration/biopsy',
+    'Radiation therapy (for malignancy)'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'UPPP',
+  name: 'Uvulopalatopharyngoplasty (UPPP)',
+  risks: [
+    'bleeding',
+    'infection',
+    'nasal regurgitation/velopharyngeal insufficiency',
+    'throat pain/dysphagia',
+    'recurrence of obstructive sleep apnea',
+    'voice changes'
+  ],
+  alternatives: [
+    'CPAP therapy',
+    'Oral appliance',
+    'Weight loss/lifestyle modifications'
+  ]
+}
     ];
 
     function load(){
@@ -753,6 +860,20 @@
         el.value = f[k] || '';
         el.addEventListener('input', () => {
           f[k] = el.value;
+          // When the signer date changes, automatically propagate that value to
+          // the witness and physician dates.  This keeps all signature dates
+          // consistent without requiring the user to re‑enter them in
+          // multiple places.  We update both the persisted state and the
+          // corresponding input elements so the form reflects the change
+          // immediately.
+          if(k === 'signerDate') {
+            f.witnessDate = el.value;
+            f.physSigDate = el.value;
+            const wInput = document.getElementById('witnessDate');
+            if(wInput) wInput.value = el.value;
+            const pInput = document.getElementById('physSigDate');
+            if(pInput) pInput.value = el.value;
+          }
           if(k==='recommendedProcedure') touched.rec = true;
           if(k==='otherRisks') touched.risks = true;
           if(k==='alternatives') touched.alts = true;
