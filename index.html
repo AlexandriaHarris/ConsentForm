@@ -84,12 +84,12 @@
      * encroach on the footer when printed. */
     .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.8in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:0.5rem;border-bottom:1px solid #000;padding-bottom:.2rem;white-space:pre-wrap}
+    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
 
-    /* WITNESS/SIGNATURE BLOCK */ 
+    /* WITNESS/SIGNATURE BLOCK */
     .siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
     .siggrid .label{white-space:nowrap}
     /* A generic underline used for fill‑in blanks.  We deliberately avoid
@@ -227,7 +227,7 @@
           <div class="bd list">
             <div>
               <label for="diagnosis">Diagnosis</label>
-              <textarea id="diagnosis" data-field="diagnosis" rows="1"></textarea>
+              <textarea id="diagnosis" data-field="diagnosis" rows="3"></textarea>
             </div>
             <div>
               <label for="recommendedProcedure">Recommended Procedure (auto from selection — you can edit)</label>
@@ -249,14 +249,16 @@
           <div class="hd">Signatures & Times</div>
           <div class="bd">
             <div class="row">
+              <!-- Row 1: unified signature date and signer time -->
               <div>
-                <label for="signerDate">Signer Date (MM/DD/YYYY)</label>
+                <label for="signerDate">Signature Date (MM/DD/YYYY)</label>
                 <input type="text" id="signerDate" data-field="signerDate" />
               </div>
               <div>
                 <label for="signerTime">Signer Time (HH:MM)</label>
                 <input type="text" id="signerTime" data-field="signerTime" />
               </div>
+              <!-- Row 2: signer name and relationship -->
               <div>
                 <label for="signerName">Printed name — patient or authorized person</label>
                 <input type="text" id="signerName" data-field="signerName" />
@@ -265,30 +267,25 @@
                 <label for="signerRelationship">Relationship to patient (if not patient)</label>
                 <input type="text" id="signerRelationship" data-field="signerRelationship" />
               </div>
+              <!-- Row 3: witness name and witness time -->
               <div>
                 <label for="witnessName">Witness (printed name)</label>
                 <input type="text" id="witnessName" data-field="witnessName" />
               </div>
               <div>
-                <label for="witnessDate">Witness Date</label>
-                <input type="text" id="witnessDate" data-field="witnessDate" />
-              </div>
-              <div>
                 <label for="witnessTime">Witness Time</label>
                 <input type="text" id="witnessTime" data-field="witnessTime" />
               </div>
+              <!-- Row 4: physician name and physician time -->
               <div>
                 <label for="physSigName">Physician/Representative (printed name)</label>
                 <input type="text" id="physSigName" data-field="physSigName" />
               </div>
               <div>
-                <label for="physSigDate">Physician/Rep Date</label>
-                <input type="text" id="physSigDate" data-field="physSigDate" />
-              </div>
-              <div>
                 <label for="physSigTime">Physician/Rep Time</label>
                 <input type="text" id="physSigTime" data-field="physSigTime" />
               </div>
+              <!-- Row 5: interpreter fields -->
               <div>
                 <label for="cyracom">Interpreter Cyracom ID (if applicable)</label>
                 <input type="text" id="cyracom" data-field="cyracom" />
@@ -487,34 +484,39 @@
             <div class="signature-section" style="margin-bottom:.25in">
               <!-- Witness row: Date, Time, Witness -->
               <div class="signature-row">
-  <div class="sig-field">
-    <span>Date:</span>
-    <span class="uline u-date-time witnessDate"></span>
-  </div>
-  <div class="sig-field">
-    <span>Time:</span>
-    <span class="uline u-date-time witnessTime"></span>
-  </div>
-  <div class="sig-field flex-grow" style="justify-content:space-between;">
-    <span>Witness</span>
-    <span class="uline u-med witnessName"></span>
-  </div>
-</div>
+                <div class="sig-field">
+                  <span>Date:</span>
+                  <!-- Use a single element for the blank line.  Nesting a span inside
+                       another span that draws a border results in two parallel
+                       underlines.  Assign the witnessDate class directly to
+                       the underlined element so the script can fill it. -->
+                  <span class="uline u-date-time witnessDate"></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time:</span>
+                  <span class="uline u-date-time witnessTime"></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
+                  <span>Witness</span>
+                  <span class="uline u-med witnessName"></span>
+                </div>
+              </div>
               <!-- Patient signature row: Date, Time, Signature -->
               <div class="signature-row">
-  <div class="sig-field">
-    <span>Date:</span>
-    <span class="uline u-date-time signerDate"></span>
-  </div>
-  <div class="sig-field">
-    <span>Time:</span>
-    <span class="uline u-date-time signerTime"></span>
-  </div>
-  <div class="sig-field flex-grow" style="justify-content:space-between;">
-    <span>Signature of patient or person authorized to consent for patient</span>
-    <span class="uline u-med"></span>
-  </div>
-</div>
+                <div class="sig-field">
+                  <span>Date:</span>
+                  <span class="uline u-date-time signerDate"></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time:</span>
+                  <span class="uline u-date-time signerTime"></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
+                  <span>Signature of patient or person authorized to consent for patient</span>
+                  <!-- leave blank for signature line; no class needed -->
+                  <span class="uline u-med"></span>
+                </div>
+              </div>
               <!-- Relationship row -->
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
@@ -531,19 +533,19 @@
               <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
               <!-- Physician signature rows using flexible layout -->
               <div class="signature-row">
-  <div class="sig-field">
-    <span>Date</span>
-    <span class="uline u-date-time physDate"></span>
-  </div>
-  <div class="sig-field">
-    <span>Time</span>
-    <span class="uline u-date-time physTime"></span>
-  </div>
-  <div class="sig-field flex-grow" style="justify-content:space-between;">
-    <span>Signature of Physician or Representative</span>
-    <span class="uline u-med"></span>
-  </div>
-</div>
+                <div class="sig-field">
+                  <span>Date</span>
+                  <span class="uline u-date-time physDate"></span>
+                </div>
+                <div class="sig-field">
+                  <span>Time</span>
+                  <span class="uline u-date-time physTime"></span>
+                </div>
+                <div class="sig-field flex-grow" style="justify-content:space-between;">
+                  <span>Signature of Physician or Representative</span>
+                  <span class="uline u-med"></span>
+                </div>
+              </div>
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Printed name</span>
@@ -641,111 +643,6 @@
         // requiresLaterality=true triggers the UI to request laterality.
         requiresLaterality:true
       },
-      {
-  key: 'TRACH',
-  name: 'Tracheostomy',
-  risks: [
-    'bleeding',
-    'infection',
-    'subcutaneous emphysema',
-    'pneumothorax',
-    'tracheal stenosis',
-    'tracheoinnominate fistula (rare but life-threatening)',
-    'tube dislodgement/obstruction',
-    'voice changes'
-  ],
-  alternatives: [
-    'Prolonged intubation (if short-term need)',
-    'Non-invasive ventilation (e.g., BiPAP/CPAP)'
-  ]
-},
-{
-  key: 'THYROID',
-  name: 'Thyroidectomy (Total/Partial)',
-  risks: [
-    'hypocalcemia (due to parathyroid injury)',
-    'recurrent laryngeal nerve injury (hoarseness, aspiration)',
-    'superior laryngeal nerve injury (voice fatigue, pitch changes)',
-    'bleeding/hematoma (risk of airway compromise)',
-    'infection',
-    'need for lifelong thyroid hormone replacement (if total thyroidectomy)',
-    'scarring'
-  ],
-  alternatives: [
-    'Observation (for benign nodules)',
-    'Radioactive iodine therapy (for hyperthyroidism)',
-    'Medical management (e.g., thyroid suppression)'
-  ],
-  requiresLaterality: true
-},
-{
-  key: 'ESOPH',
-  name: 'Esophagoscopy (Rigid/Flexible)',
-  risks: [
-    'perforation (rare but serious)',
-    'bleeding',
-    'infection',
-    'dental injury',
-    'aspiration',
-    'sore throat'
-  ],
-  alternatives: [
-    'Barium swallow study',
-    'CT/MRI imaging',
-    'Medical management (e.g., PPIs for GERD)'
-  ]
-},
-{
-  key: 'FB',
-  name: 'Foreign Body Removal (Ear/Nose/Throat)',
-  risks: [
-    'mucosal trauma',
-    'bleeding',
-    'infection',
-    'failure to retrieve (requiring further intervention)',
-    'aspiration (if dislodged into airway)'
-  ],
-  alternatives: [
-    'Observation (if non-obstructive and likely to pass spontaneously)',
-    'Endoscopic removal under general anesthesia (if high risk)'
-  ],
-  requiresLaterality: true  // For ear/nose foreign bodies
-},
-{
-  key: 'PAROTID',
-  name: 'Parotidectomy',
-  risks: [
-    'facial nerve injury (temporary or permanent weakness/paralysis)',
-    'Frey’s syndrome (gustatory sweating)',
-    'salivary fistula',
-    'hematoma',
-    'numbness of earlobe',
-    'scarring'
-  ],
-  alternatives: [
-    'Observation (for benign lesions)',
-    'Fine-needle aspiration/biopsy',
-    'Radiation therapy (for malignancy)'
-  ],
-  requiresLaterality: true
-},
-{
-  key: 'UPPP',
-  name: 'Uvulopalatopharyngoplasty (UPPP)',
-  risks: [
-    'bleeding',
-    'infection',
-    'nasal regurgitation/velopharyngeal insufficiency',
-    'throat pain/dysphagia',
-    'recurrence of obstructive sleep apnea',
-    'voice changes'
-  ],
-  alternatives: [
-    'CPAP therapy',
-    'Oral appliance',
-    'Weight loss/lifestyle modifications'
-  ]
-}
     ];
 
     function load(){
