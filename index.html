@@ -1617,7 +1617,8 @@ function renderProcedures(){
       const el = document.createElement('label');
       el.className = 'check';
       el.style.marginLeft = '0.5rem'; // Indent procedures under specialty
-      el.innerHTML = `<input type="checkbox" id="${id}"> <div><div style="font-weight:600">${p.name}</div>${p.risks && p.risks.length? `<div class="muted" style="font-size:.8rem">Risks: ${p.risks.join(', ')}</div>`:''}</div>`;
+      // REMOVED RISKS FROM HERE - just show the name
+      el.innerHTML = `<input type="checkbox" id="${id}"> <div style="font-weight:600">${p.name}</div>`;
       const cb = el.querySelector('input');
       cb.checked = (f.selectedProcKeys||[]).includes(p.key);
       cb.addEventListener('change', () => {
