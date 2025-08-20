@@ -757,7 +757,7 @@ function populateSurgeonDropdown() {
   dropdown.innerHTML = '<option value="">-- Select Surgeon --</option>';
   
   // Function to convert "Firstname Lastname" to "Lastname, Firstname"
-  function formatSurgeionName(name) {
+  function formatSurgeonName(name) {
     const parts = name.trim().split(' ');
     if (parts.length < 2) return name;
     
