@@ -2915,6 +2915,150 @@ function generatePages() {
   // NOW populate the fields after the DOM is created
   renderPreview();
 }
+    function addSignaturePages(rightPanel, hasExtraPage) {
+  const pageOffset = hasExtraPage ? 1 : 0;
+  
+  // Page 3 (or 4 if extra page)
+  const page3 = document.createElement('div');
+  page3.className = 'sheet';
+  page3.style.marginTop = '1rem';
+  page3.innerHTML = `
+    <div class="header">
+      <div class="hdr">
+        <div class="hdr-left">
+          <div class="pageNo">Page ${3 + pageOffset} of ${4 + pageOffset}</div>
+          <img class="logo" src="gTlSit7.png" alt="UPMC" />
+        </div>
+        <div class="hdr-right">
+          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+      <p>photographs, films, or other audio or visual recordings. Such recordings are not part of the medical record and I understand I cannot obtain a copy.</p>
+      <p>I authorize the disposal or retention, preservation, testing, or use for scientific, educational, or other purposes of all or any portion of specimens, tissues, body parts, or other things, including prostheses and medical/surgical appliances, that may be removed from my body.</p>
+      <p>I understand that if any medical device, as defined by federal regulations, is implanted in a patient's body, the facility is required by law to report to the manufacturer the name, address and social security number of the patient and the description and identity of the device.</p>
+      <p style="font-weight:700">MY SIGNATURE BELOW ACKNOWLEDGES THAT:</p>
+      <ol class="ol">
+        <li>I have read (or had read to me), understand and agree to the statements set forth in this consent form.</li>
+        <li>A physician or representative has explained to me all information referred to in this consent form. I have had an opportunity to ask questions and my questions have been answered to my satisfaction, including any question I have about the potential use of blood and/or blood products and any risks regarding their use.</li>
+        <li>All statements requiring completion were filled in before I signed.</li>
+        <li>No guarantees or assurances concerning the results of the procedure(s) have been made.</li>
+        <li>I am signing this consent voluntarily. I am not signing due to any coercion or other influence.</li>
+        <li>I hereby consent and authorize Dr. <span class="physicianName" style="display:inline-block;border-bottom:1px solid #000;min-width:2in"></span> (my physician(s)) and/or those associates, assistants and other health care providers designated by my physician(s) to perform the recommended procedure described above. I understand that during the procedure, conditions may become apparent that require my physicians or their designees to take steps or perform additional procedures that they believe are medically necessary to achieve the desired benefits or for my well‑being.</li>
+        <li>I authorize and request my physician(s) or their designees to perform whatever medical acts or additional procedures they, in the exercise of their sole professional judgment, deem reasonable and necessary, and I waive any obligation on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to give additional consent at that time.</li>
+      </ol>
+    </div>
+    <div class="footer">
+      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+      <div class="foot-date">2/16/2024</div>
+    </div>
+  `;
+  rightPanel.appendChild(page3);
+
+  // Page 4 (or 5 if extra page)
+  const page4 = document.createElement('div');
+  page4.className = 'sheet';
+  page4.style.marginTop = '1rem';
+  page4.innerHTML = `
+    <div class="header">
+      <div class="hdr">
+        <div class="hdr-left">
+          <div class="pageNo">Page ${4 + pageOffset} of ${4 + pageOffset}</div>
+          <img class="logo" src="gTlSit7.png" alt="UPMC" />
+        </div>
+        <div class="hdr-right">
+          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+      <div class="signature-section" style="margin-bottom:.25in">
+        <div class="signature-row">
+          <div class="sig-field">
+            <span>Date:</span>
+            <span class="uline u-date-time witnessDate"></span>
+          </div>
+          <div class="sig-field">
+            <span>Time:</span>
+            <span class="uline u-date-time witnessTime"></span>
+          </div>
+          <div class="sig-field flex-grow" style="justify-content:space-between;">
+            <span>Witness</span>
+            <span class="uline u-med witnessName"></span>
+          </div>
+        </div>
+        <div class="signature-row">
+          <div class="sig-field">
+            <span>Date:</span>
+            <span class="uline u-date-time signerDate"></span>
+          </div>
+          <div class="sig-field">
+            <span>Time:</span>
+            <span class="uline u-date-time signerTime"></span>
+          </div>
+          <div class="sig-field flex-grow" style="justify-content:space-between;">
+            <span>Signature of patient or person authorized to consent for patient</span>
+            <span class="uline u-med"></span>
+          </div>
+        </div>
+        <div class="signature-row">
+          <div class="sig-field flex-grow" style="justify-content:space-between;">
+            <span>Relationship to patient if signer is not Patient:</span>
+            <span class="uline u-rel signerRelationship"></span>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top:.2in;margin-bottom:.25in">
+        <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
+        <div class="signature-row">
+          <div class="sig-field">
+            <span>Date</span>
+            <span class="uline u-date-time physSigDate"></span>
+          </div>
+          <div class="sig-field">
+            <span>Time</span>
+            <span class="uline u-date-time physSigTime"></span>
+          </div>
+          <div class="sig-field flex-grow" style="justify-content:space-between;">
+            <span>Signature of Physician or Representative</span>
+            <span class="uline u-med"></span>
+          </div>
+        </div>
+        <div class="signature-row">
+          <div class="sig-field flex-grow" style="justify-content:space-between;">
+            <span>Printed name</span>
+            <span class="uline u-rel physSigName"></span>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #000;padding-top:.2in">
+        <div style="font-weight:700">INTERPRETER'S STATEMENT</div>
+        <p>Execute if an interpreter is provided to assist the individual in understanding this informed consent form:</p>
+        <p>I have translated the information and advice presented orally to the individual to be treated by the person obtaining this consent.</p>
+        <p>In addition, I have sight translated the consent form (read it aloud in his/her language). To the best of my knowledge and belief he/she understood this explanation.</p>
+        <div class="list" style="font-size:10pt">
+          <div><strong>Cyracom ID (if applicable)</strong>: <span class="uline u-short cyracom"></span></div>
+          <div><strong>Print Name</strong>: <span class="uline u-rel interpName"></span></div>
+          <div><strong>Signature</strong>: <span class="uline u-wide"></span> <span class="muted" style="font-size:9pt">(Not required if a Cyracom Interpreter Was Used)</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+      <div class="foot-date">2/16/2024</div>
+    </div>
+  `;
+  rightPanel.appendChild(page4);
+}
     // ---------- Review text ----------
     function renderReview(){
       const review = (
