@@ -53,7 +53,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 1in; /* Fixed footer height */
+  height: 0.5in; /* Fixed footer height */
   border-top: 1px solid #000;
   display: flex;
   align-items: center;
@@ -209,7 +209,7 @@
   /* Ensure images print properly */
   img {
     max-width: 100%;
-    height: auto;
+    height: 80%;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
@@ -430,14 +430,14 @@
             </p>
 
             <p><strong>Diagnosis:</strong> I understand that after being examined, treated, and having studies reviewed, I have been diagnosed as having:</p>
-            <div class="dash" id="p1_diagnosis"></div>
+            <div class="dash" id="p1_diagnosis" style="min-height:0.5rem"></div>
 
             <p><strong>Recommended Procedure:</strong> I understand that my physician(s) have recommended that I undergo a procedure known as</p>
             <div class="dash" id="p1_recommended"></div>
             <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
 
             <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
-            <div class="dash" id="p1_alternatives" style="min-height:1.5rem"></div>
+            <div class="dash" id="p1_alternatives" style="min-height:0.5rem"></div>
 
             <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
             <ol class="ol">
