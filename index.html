@@ -271,15 +271,21 @@
             </div>
 
             <div style="margin-top:.75rem">
-              <div style="font-weight:600;margin-bottom:.25rem">Select surgeon(s)</div>
-              <div id="surgeonList" class="list"></div>
-              <div class="actions" style="margin-top:.5rem">
-                <input id="newSurgeon" type="text" placeholder="Add surgeon full name" />
-                <button class="btn" id="addSurgeonBtn">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div style="font-weight:600;margin-bottom:.25rem">Select surgeon(s)</div>
+  <div class="row">
+    <div>
+      <label for="surgeonDropdown">Select from list:</label>
+      <select id="surgeonDropdown" class="btn" style="width:100%;padding:.5rem .75rem;">
+        <option value="">-- Select Surgeon --</option>
+      </select>
+    </div>
+    <div>
+      <label for="newSurgeon">Or enter manually:</label>
+      <input id="newSurgeon" type="text" placeholder="Enter surgeon full name" />
+    </div>
+  </div>
+  <div id="selectedSurgeons" class="list" style="margin-top:.5rem"></div>
+</div>
 
         <div class="card" style="margin-top:1rem">
           <div class="hd">Procedures (multi‑select) & Risk Library</div>
