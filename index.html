@@ -163,8 +163,15 @@
 .flex-grow{flex:1 1 auto}
 .field-container{display:inline-block;position:relative;border-bottom:1px solid #000;min-width:3in;padding-bottom:0;line-height:1.1}
 .field-container .field-text{display:inline-block}
-.field-container .field-label{position:absolute;top:14px;left:0;right:0;font-size:7pt;text-align:center;line-height:1}
-
+.field-container .field-label {
+  position: absolute;
+  top: 18px;  /* Increased from 14px for more vertical padding */
+  left: 0;
+  right: 0;
+  font-size: 8pt;  /* Increased from 7pt for better readability */
+  text-align: center;
+  line-height: 1;
+}
     /* Print controls */
     @page {
       size: letter;
