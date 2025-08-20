@@ -769,6 +769,154 @@
   },
 ];
 const ADDITIONAL_PROCEDURES = [
+  // ========== COMMON CONSULT PROCEDURES ==========
+  {
+    key: 'TRACH_EMERGENT',
+    name: 'Emergent Tracheostomy',
+    specialty: 'Consult/Emergency',
+    risks: ['bleeding', 'pneumothorax', 'subcutaneous emphysema', 'tracheal injury', 'false passage', 'cardiac arrest', 'tracheoinnominate fistula', 'tracheal stenosis', 'infection', 'tube dislodgement'],
+    alternatives: ['Continued intubation', 'Cricothyrotomy', 'Awake fiberoptic intubation']
+  },
+  {
+    key: 'CRIC',
+    name: 'Cricothyrotomy',
+    specialty: 'Consult/Emergency',
+    risks: ['bleeding', 'false passage', 'subcutaneous emphysema', 'laryngeal injury', 'voice changes', 'subglottic stenosis', 'infection'],
+    alternatives: ['Tracheostomy', 'Intubation', 'Needle cricothyrotomy']
+  },
+  {
+    key: 'DLB_FB',
+    name: 'Direct Laryngoscopy/Bronchoscopy with Foreign Body Removal',
+    specialty: 'Consult/Emergency',
+    risks: ['dental injury', 'laryngeal edema', 'bronchospasm', 'pneumothorax', 'failure to retrieve', 'pushing FB deeper', 'mucosal injury', 'bleeding', 'need for thoracotomy'],
+    alternatives: ['Flexible bronchoscopy', 'Observation (if asymptomatic)', 'Surgical removal via thoracotomy']
+  },
+  {
+    key: 'ESOPH_FB',
+    name: 'Esophagoscopy with Foreign Body Removal',
+    specialty: 'Consult/Emergency',
+    risks: ['esophageal perforation', 'mediastinitis', 'bleeding', 'dental injury', 'failure to retrieve', 'pushing FB into stomach', 'mucosal tear', 'stricture formation'],
+    alternatives: ['Observation (for smooth objects)', 'Surgery', 'Push into stomach (for certain food boluses)']
+  },
+  {
+    key: 'EPISTAXIS_OR',
+    name: 'Operative Control of Epistaxis',
+    specialty: 'Consult/Emergency',
+    risks: ['rebleeding', 'septal perforation', 'sinusitis', 'nasal obstruction', 'mucosal necrosis', 'facial numbness (if arterial ligation)', 'palatal numbness'],
+    alternatives: ['Nasal packing', 'Cauterization in clinic', 'Embolization']
+  },
+  {
+    key: 'I_AND_D_DEEP_NECK',
+    name: 'I&D Deep Neck Space Abscess',
+    specialty: 'Consult/Emergency',
+    risks: ['vascular injury', 'nerve injury', 'airway compromise', 'mediastinitis', 'sepsis', 'fistula formation', 'need for multiple surgeries', 'scarring'],
+    alternatives: ['IV antibiotics alone', 'Needle aspiration', 'Interventional radiology drainage']
+  },
+  {
+    key: 'PERITONSILLAR_OR',
+    name: 'Peritonsillar Abscess Drainage (OR)',
+    specialty: 'Consult/Emergency',
+    risks: ['bleeding', 'aspiration', 'recurrence', 'carotid injury (rare)', 'airway obstruction', 'deep neck space extension'],
+    alternatives: ['Bedside I&D', 'IV antibiotics alone', 'Quinsy tonsillectomy']
+  },
+  {
+    key: 'FLEXIBLE_LARYNGOSCOPY',
+    name: 'Bedside Flexible Laryngoscopy',
+    specialty: 'Consult/Emergency',
+    risks: ['epistaxis', 'laryngospasm', 'vasovagal response', 'nasal discomfort'],
+    alternatives: ['Mirror examination', 'CT/MRI imaging', 'Direct laryngoscopy in OR']
+  },
+  // ========== TRAUMA / EMERGENCY ==========
+  {
+    key: 'NASAL_FX_CLOSED',
+    name: 'Closed Nasal Fracture Reduction',
+    specialty: 'Trauma',
+    risks: ['epistaxis', 'septal hematoma', 'incomplete reduction', 'need for open reduction', 'nasal deformity', 'sinusitis'],
+    alternatives: ['Observation/healing without intervention', 'Open reduction', 'Delayed revision rhinoplasty']
+  },
+  {
+    key: 'NASAL_FX_OPEN',
+    name: 'Open Nasal Fracture Reduction',
+    specialty: 'Trauma',
+    risks: ['bleeding', 'infection', 'scarring', 'septal perforation', 'nasal deformity', 'need for revision', 'sinusitis'],
+    alternatives: ['Closed reduction', 'Observation', 'Delayed reconstruction']
+  },
+  {
+    key: 'SEPTAL_HEMATOMA',
+    name: 'Septal Hematoma Drainage',
+    specialty: 'Trauma',
+    risks: ['reaccumulation', 'septal abscess', 'septal perforation', 'saddle nose deformity', 'bleeding', 'infection'],
+    alternatives: ['Needle aspiration', 'Observation (not recommended)']
+  },
+  {
+    key: 'FACIAL_FX_ORIF',
+    name: 'Facial Fracture ORIF',
+    specialty: 'Trauma',
+    risks: ['hardware infection/exposure', 'malunion/nonunion', 'nerve injury', 'scarring', 'asymmetry', 'malocclusion', 'hardware failure', 'need for hardware removal'],
+    alternatives: ['Conservative management', 'Closed reduction', 'External fixation'],
+    requiresLaterality: true // for zygoma, orbital, etc.
+  },
+  {
+    key: 'ORBITAL_FLOOR',
+    name: 'Orbital Floor Fracture Repair',
+    specialty: 'Trauma',
+    risks: ['diplopia', 'enophthalmos', 'ectropion', 'vision loss', 'implant infection/extrusion', 'infraorbital numbness', 'restricted eye movement'],
+    alternatives: ['Observation', 'Delayed repair'],
+    requiresLaterality: true
+  },
+  {
+    key: 'MANDIBLE_FX',
+    name: 'Mandible Fracture ORIF',
+    specialty: 'Trauma',
+    risks: ['malocclusion', 'nonunion/malunion', 'infection', 'tooth injury/loss', 'inferior alveolar nerve injury', 'hardware failure', 'TMJ dysfunction', 'need for hardware removal'],
+    alternatives: ['Maxillomandibular fixation (MMF) alone', 'Conservative management'],
+    requiresLaterality: true
+  },
+  {
+    key: 'FRONTAL_SINUS_FX',
+    name: 'Frontal Sinus Fracture Repair',
+    specialty: 'Trauma',
+    risks: ['CSF leak', 'mucocele formation', 'frontal sinusitis', 'forehead numbness', 'contour deformity', 'brain injury', 'meningitis'],
+    alternatives: ['Observation', 'Obliteration', 'Cranialization']
+  },
+  {
+    key: 'TEMPORAL_BONE_FX',
+    name: 'Temporal Bone Fracture Management',
+    specialty: 'Trauma',
+    risks: ['hearing loss', 'facial paralysis', 'CSF leak', 'vertigo', 'cholesteatoma formation', 'meningitis', 'vascular injury'],
+    alternatives: ['Conservative management', 'Observation'],
+    requiresLaterality: true
+  },
+  {
+    key: 'AURICULAR_HEMATOMA',
+    name: 'Auricular Hematoma Drainage',
+    specialty: 'Trauma',
+    risks: ['reaccumulation', 'cauliflower ear deformity', 'perichondritis', 'cartilage necrosis', 'cosmetic deformity'],
+    alternatives: ['Needle aspiration', 'Observation (not recommended)'],
+    requiresLaterality: true
+  },
+  {
+    key: 'AURICULAR_LAC',
+    name: 'Complex Auricular Laceration Repair',
+    specialty: 'Trauma',
+    risks: ['infection/perichondritis', 'cartilage necrosis', 'cosmetic deformity', 'notching', 'hematoma'],
+    alternatives: ['Simple closure', 'Healing by secondary intention'],
+    requiresLaterality: true
+  },
+  {
+    key: 'PENETRATING_NECK',
+    name: 'Neck Exploration for Penetrating Trauma',
+    specialty: 'Trauma',
+    risks: ['vascular injury', 'nerve injury', 'airway injury', 'esophageal injury', 'thoracic duct injury', 'pneumothorax', 'stroke', 'death'],
+    alternatives: ['Observation', 'Angiography/embolization', 'Endoscopic evaluation only']
+  },
+  {
+    key: 'LARYNGEAL_FX',
+    name: 'Laryngeal Fracture Repair',
+    specialty: 'Trauma',
+    risks: ['voice changes', 'airway stenosis', 'need for tracheostomy', 'aspiration', 'vocal cord paralysis', 'chronic dysphonia'],
+    alternatives: ['Conservative management', 'Observation with airway monitoring']
+  },
   // ========== OTOLOGY / NEUROTOLOGY ==========
   {
     key: 'COCHLEAR',
@@ -892,8 +1040,331 @@ const ADDITIONAL_PROCEDURES = [
     ],
     requiresLaterality: true
   },
+  {
+    key: 'STAPEDECTOMY',
+    name: 'Stapedectomy/Stapedotomy',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss/deafness',
+      'vertigo/dizziness',
+      'taste disturbance',
+      'tinnitus',
+      'facial nerve injury (rare)',
+      'perilymph fistula',
+      'prosthesis displacement',
+      'reparative granuloma',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Hearing aids',
+      'Observation',
+      'Stapedotomy (if stapedectomy planned)',
+      'No treatment'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'OSSICULOPLASTY',
+    name: 'Ossiculoplasty/Ossicular Chain Reconstruction',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss/no improvement',
+      'prosthesis extrusion/displacement',
+      'vertigo/dizziness',
+      'tinnitus',
+      'facial nerve injury (rare)',
+      'taste disturbance',
+      'infection',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Hearing aids',
+      'Observation',
+      'Bone conduction hearing device'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'CANALPLASTY',
+    name: 'Canalplasty',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss',
+      'ear canal stenosis',
+      'chronic drainage',
+      'need for periodic cleaning',
+      'exposed bone/granulation tissue',
+      'tinnitus',
+      'vertigo',
+      'facial nerve injury (rare)'
+    ],
+    alternatives: [
+      'Observation',
+      'Regular ear cleaning',
+      'Hearing aids (if appropriate)'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'BAHA',
+    name: 'Bone-Anchored Hearing Aid (BAHA) Implant',
+    specialty: 'Otology',
+    risks: [
+      'implant failure/loss',
+      'skin irritation/infection around abutment',
+      'skin overgrowth',
+      'wound healing problems',
+      'bleeding/hematoma',
+      'need for revision surgery',
+      'failure to achieve benefit',
+      'numbness around implant site'
+    ],
+    alternatives: [
+      'Traditional hearing aids',
+      'Cochlear implant (if candidate)',
+      'Observation',
+      'Middle ear implant'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'LABYRINTHECTOMY',
+    name: 'Labyrinthectomy',
+    specialty: 'Otology',
+    risks: [
+      'complete hearing loss in operated ear',
+      'vertigo/imbalance',
+      'facial nerve injury',
+      'CSF leak',
+      'meningitis',
+      'tinnitus',
+      'persistent disequilibrium',
+      'need for vestibular rehabilitation'
+    ],
+    alternatives: [
+      'Medical management',
+      'Intratympanic gentamicin',
+      'Endolymphatic sac surgery',
+      'Vestibular nerve section'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'ENDO_SAC',
+    name: 'Endolymphatic Sac Decompression/Shunt',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss',
+      'persistent vertigo',
+      'facial nerve injury',
+      'CSF leak',
+      'tinnitus',
+      'failure to improve symptoms',
+      'need for additional procedures'
+    ],
+    alternatives: [
+      'Medical management (diuretics, low salt diet)',
+      'Intratympanic steroids',
+      'Intratympanic gentamicin',
+      'Labyrinthectomy',
+      'Vestibular nerve section'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'SCD_REPAIR',
+    name: 'Superior Canal Dehiscence Repair',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss',
+      'persistent symptoms',
+      'vertigo/dizziness',
+      'CSF leak',
+      'facial nerve injury',
+      'intracranial complications',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Observation',
+      'Avoidance of triggers',
+      'Round window reinforcement'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'PERILYMPH_FISTULA',
+    name: 'Perilymph Fistula Repair',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss/no improvement',
+      'persistent vertigo',
+      'tinnitus',
+      'failure to seal fistula',
+      'facial nerve injury (rare)',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Conservative management (bed rest, head elevation)',
+      'Observation',
+      'Blood patch injection'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'GLOMUS',
+    name: 'Glomus Tumor Excision',
+    specialty: 'Otology',
+    risks: [
+      'hearing loss',
+      'facial nerve injury/paralysis',
+      'lower cranial nerve injury (swallowing/voice)',
+      'CSF leak',
+      'bleeding/stroke',
+      'pulsatile tinnitus persistence',
+      'tumor recurrence',
+      'need for radiation therapy'
+    ],
+    alternatives: [
+      'Observation',
+      'Radiation therapy',
+      'Stereotactic radiosurgery',
+      'Embolization alone'
+    ],
+    requiresLaterality: true
+  },
 
-  // ========== HEAD & NECK ONCOLOGY ==========
+  // ========== RHINOLOGY/SINUS ==========
+  {
+    key: 'POLYPECTOMY',
+    name: 'Nasal Polypectomy',
+    specialty: 'Rhinology',
+    risks: [
+      'bleeding',
+      'recurrence of polyps',
+      'adhesions/scarring',
+      'infection',
+      'need for revision surgery',
+      'temporary smell disturbance'
+    ],
+    alternatives: [
+      'Topical steroids',
+      'Oral steroids',
+      'Biologic therapy (dupilumab)',
+      'Observation'
+    ]
+  },
+  {
+    key: 'SPHENOIDOTOMY',
+    name: 'Sphenoidotomy',
+    specialty: 'Rhinology',
+    risks: [
+      'CSF leak',
+      'bleeding (including carotid injury)',
+      'vision changes/blindness',
+      'meningitis',
+      'pituitary gland injury',
+      'scarring/stenosis'
+    ],
+    alternatives: [
+      'Medical management',
+      'Observation',
+      'Balloon sinuplasty'
+    ]
+  },
+  {
+    key: 'FRONTAL_SINUS',
+    name: 'Frontal Sinusotomy/Draf Procedure',
+    specialty: 'Rhinology',
+    risks: [
+      'CSF leak',
+      'bleeding',
+      'frontal sinus stenosis/closure',
+      'mucocele formation',
+      'chronic frontal sinusitis',
+      'need for revision surgery',
+      'orbital injury'
+    ],
+    alternatives: [
+      'Medical management',
+      'Balloon sinuplasty',
+      'Frontal sinus obliteration',
+      'Observation'
+    ]
+  },
+  {
+    key: 'NASAL_FRACTURE',
+    name: 'Nasal Fracture Reduction',
+    specialty: 'Rhinology',
+    risks: [
+      'persistent deformity',
+      'nasal obstruction',
+      'bleeding/septal hematoma',
+      'need for septorhinoplasty',
+      'infection'
+    ],
+    alternatives: [
+      'Observation (if minimal deformity)',
+      'Delayed septorhinoplasty'
+    ]
+  },
+  {
+    key: 'EPISTAXIS',
+    name: 'Epistaxis Control (Cautery/Packing/Artery Ligation)',
+    specialty: 'Rhinology',
+    risks: [
+      'rebleeding',
+      'nasal obstruction',
+      'sinusitis',
+      'septal perforation',
+      'toxic shock syndrome (with packing)',
+      'facial numbness (with artery ligation)'
+    ],
+    alternatives: [
+      'Conservative measures (pressure, ice)',
+      'Topical hemostatic agents',
+      'Embolization'
+    ]
+  },
+  {
+    key: 'CSF_REPAIR',
+    name: 'CSF Leak Repair',
+    specialty: 'Rhinology',
+    risks: [
+      'failure to seal leak',
+      'meningitis',
+      'intracranial complications',
+      'bleeding',
+      'anosmia (loss of smell)',
+      'need for lumbar drain',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Conservative management (bed rest)',
+      'Lumbar drain alone',
+      'Observation (small leaks)'
+    ]
+  },
+  {
+    key: 'DCR',
+    name: 'Dacryocystorhinostomy (DCR)',
+    specialty: 'Rhinology',
+    risks: [
+      'persistent epiphora (tearing)',
+      'bleeding',
+      'infection',
+      'scarring/closure of ostium',
+      'CSF leak (rare)',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'Dacryocystoplasty',
+      'Jones tube placement',
+      'Conservative management'
+    ],
+    requiresLaterality: true
+  },
+
+  // ========== HEAD & NECK ==========
   {
     key: 'GLOSSECTOMY',
     name: 'Glossectomy (Partial/Hemi/Total)',
@@ -916,7 +1387,6 @@ const ADDITIONAL_PROCEDURES = [
       'Combined chemoradiation',
       'Observation (for benign lesions)'
     ]
-    requiresLaterality: true
   },
   {
     key: 'LARYNGECTOMY',
@@ -962,7 +1432,6 @@ const ADDITIONAL_PROCEDURES = [
       'Chemotherapy',
       'Combined chemoradiation'
     ]
-    requiresLaterality: true
   },
   {
     key: 'MAXILLECTOMY',
@@ -986,7 +1455,6 @@ const ADDITIONAL_PROCEDURES = [
       'Combined chemoradiation',
       'Endoscopic resection (select cases)'
     ]
-    requiresLaterality: true
   },
   {
     key: 'NECK_DISSECTION',
@@ -1012,6 +1480,146 @@ const ADDITIONAL_PROCEDURES = [
     requiresLaterality: true
   },
   {
+    key: 'SUBMANDIBULAR',
+    name: 'Submandibular Gland Excision',
+    specialty: 'Head & Neck',
+    risks: [
+      'marginal mandibular nerve injury (lower lip weakness)',
+      'lingual nerve injury (tongue numbness)',
+      'hypoglossal nerve injury (tongue weakness)',
+      'bleeding/hematoma',
+      'infection',
+      'salivary fistula',
+      'scarring'
+    ],
+    alternatives: [
+      'Sialendoscopy',
+      'Observation',
+      'Medical management',
+      'Stone removal only'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'RANULA',
+    name: 'Ranula/Mucocele Excision',
+    specialty: 'Head & Neck',
+    risks: [
+      'recurrence',
+      'lingual nerve injury',
+      'bleeding',
+      'infection',
+      'damage to submandibular duct',
+      'floor of mouth scarring'
+    ],
+    alternatives: [
+      'Marsupialization',
+      'Sclerotherapy',
+      'Observation'
+    ]
+  },
+  {
+    key: 'BRANCHIAL',
+    name: 'Branchial Cleft Cyst Excision',
+    specialty: 'Head & Neck',
+    risks: [
+      'nerve injury (based on location)',
+      'recurrence/incomplete excision',
+      'infection',
+      'hematoma',
+      'scarring',
+      'fistula formation'
+    ],
+    alternatives: [
+      'Observation',
+      'Sclerotherapy',
+      'Incision and drainage (if infected)'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'TGDC',
+    name: 'Thyroglossal Duct Cyst Excision (Sistrunk)',
+    specialty: 'Head & Neck',
+    risks: [
+      'recurrence',
+      'infection',
+      'hematoma',
+      'hypothyroidism (if thyroid tissue removed)',
+      'scarring',
+      'difficulty swallowing'
+    ],
+    alternatives: [
+      'Observation',
+      'Sclerotherapy',
+      'Simple cyst excision'
+    ]
+  },
+  {
+    key: 'LYMPH_BIOPSY',
+    name: 'Lymph Node Biopsy (Excisional/Incisional)',
+    specialty: 'Head & Neck',
+    risks: [
+      'bleeding',
+      'infection',
+      'nerve injury (location dependent)',
+      'lymphatic leak',
+      'scarring',
+      'non-diagnostic specimen'
+    ],
+    alternatives: [
+      'Fine needle aspiration',
+      'Core needle biopsy',
+      'Observation',
+      'Imaging surveillance'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'SKIN_LESION',
+    name: 'Skin Lesion Excision with/without Reconstruction',
+    specialty: 'Head & Neck',
+    risks: [
+      'scarring',
+      'infection',
+      'bleeding',
+      'incomplete excision',
+      'recurrence',
+      'nerve injury',
+      'poor cosmetic outcome',
+      'need for revision'
+    ],
+    alternatives: [
+      'Mohs surgery',
+      'Radiation therapy',
+      'Topical therapies',
+      'Cryotherapy',
+      'Observation'
+    ]
+  },
+  {
+    key: 'TEMPORAL_BONE',
+    name: 'Temporal Bone Resection',
+    specialty: 'Head & Neck',
+    risks: [
+      'hearing loss/deafness',
+      'facial nerve paralysis',
+      'CSF leak',
+      'meningitis',
+      'brain injury',
+      'bleeding/stroke',
+      'vertigo',
+      'lower cranial nerve injury'
+    ],
+    alternatives: [
+      'Radiation therapy',
+      'Chemotherapy',
+      'Observation',
+      'Palliative care'
+    ],
+    requiresLaterality: true
+  },
+  {
     key: 'TORS_BOT',
     name: 'TORS Base of Tongue Resection',
     specialty: 'Head & Neck',
@@ -1033,7 +1641,6 @@ const ADDITIONAL_PROCEDURES = [
       'Open surgical approach',
       'Transoral laser microsurgery'
     ]
-    requiresLaterality: true
   },
   {
     key: 'TORS_TONSIL',
@@ -1060,6 +1667,247 @@ const ADDITIONAL_PROCEDURES = [
     requiresLaterality: true
   },
 
+  // ========== LARYNGOLOGY/AIRWAY ==========
+  {
+    key: 'ESOPH',
+    name: 'Esophagoscopy (Rigid/Flexible)',
+    specialty: 'Laryngology',
+    risks: [
+      'perforation (rare but serious)',
+      'bleeding',
+      'infection',
+      'dental injury',
+      'aspiration',
+      'sore throat'
+    ],
+    alternatives: [
+      'Barium swallow study',
+      'CT/MRI imaging',
+      'Medical management (e.g., PPIs for GERD)'
+    ]
+  },
+  {
+    key: 'TRACH',
+    name: 'Tracheostomy',
+    specialty: 'Laryngology',
+    risks: [
+      'bleeding',
+      'infection',
+      'subcutaneous emphysema',
+      'pneumothorax',
+      'tracheal stenosis',
+      'tracheoinnominate fistula (rare but life-threatening)',
+      'tube dislodgement/obstruction',
+      'voice changes'
+    ],
+    alternatives: [
+      'Prolonged intubation (if short-term need)',
+      'Non-invasive ventilation (e.g., BiPAP/CPAP)'
+    ]
+  },
+  {
+    key: 'MICROLARYNGOSCOPY',
+    name: 'Microlaryngoscopy with Excision/Biopsy',
+    specialty: 'Laryngology',
+    risks: [
+      'voice changes/hoarseness',
+      'dental injury',
+      'bleeding',
+      'airway obstruction',
+      'aspiration',
+      'scarring of vocal folds',
+      'need for tracheostomy'
+    ],
+    alternatives: [
+      'Office-based biopsy',
+      'Voice therapy',
+      'Medical management',
+      'Observation'
+    ]
+  },
+  {
+    key: 'THYROPLASTY',
+    name: 'Vocal Fold Medialization/Thyroplasty',
+    specialty: 'Laryngology',
+    risks: [
+      'voice worsening',
+      'airway obstruction',
+      'implant extrusion/migration',
+      'hematoma',
+      'infection',
+      'need for revision',
+      'aspiration'
+    ],
+    alternatives: [
+      'Vocal fold injection',
+      'Voice therapy',
+      'Arytenoid adduction',
+      'Observation'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'VF_AUG',
+    name: 'Vocal Fold Augmentation/Injection',
+    specialty: 'Laryngology',
+    risks: [
+      'voice changes/worsening',
+      'airway obstruction',
+      'aspiration',
+      'injection material migration',
+      'granuloma formation',
+      'under or over-correction',
+      'temporary results requiring repeat injection',
+      'hematoma',
+      'infection',
+      'allergic reaction to material',
+      'need for revision procedure'
+    ],
+    alternatives: [
+      'Voice therapy',
+      'Observation',
+      'Thyroplasty (surgical implant)',
+      'Arytenoid adduction',
+      'No treatment'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'ARYTENOID',
+    name: 'Arytenoidectomy/Arytenoidopexy',
+    specialty: 'Laryngology',
+    risks: [
+      'aspiration',
+      'voice changes',
+      'airway stenosis',
+      'granulation tissue',
+      'need for tracheostomy',
+      'failure to improve airway'
+    ],
+    alternatives: [
+      'Tracheostomy',
+      'Vocal fold lateralization',
+      'Posterior cordotomy',
+      'Observation'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'ZENKERS',
+    name: 'Zenker\'s Diverticulectomy',
+    specialty: 'Laryngology',
+    risks: [
+      'perforation',
+      'mediastinitis',
+      'recurrent laryngeal nerve injury',
+      'fistula formation',
+      'recurrence',
+      'bleeding',
+      'infection'
+    ],
+    alternatives: [
+      'Endoscopic stapling/division',
+      'Cricopharyngeal myotomy alone',
+      'Observation',
+      'Dietary modification'
+    ]
+  },
+  {
+    key: 'CRICOPHARYNGEAL',
+    name: 'Cricopharyngeal Myotomy',
+    specialty: 'Laryngology',
+    risks: [
+      'perforation',
+      'fistula',
+      'recurrent laryngeal nerve injury',
+      'bleeding',
+      'infection',
+      'failure to improve swallowing'
+    ],
+    alternatives: [
+      'Botox injection',
+      'Dilation',
+      'Observation',
+      'Dietary modification'
+    ]
+  },
+  {
+    key: 'LARYNGEAL_CLEFT',
+    name: 'Laryngeal Cleft Repair',
+    specialty: 'Laryngology',
+    risks: [
+      'aspiration persistence',
+      'airway obstruction',
+      'need for tracheostomy',
+      'voice changes',
+      'dehiscence of repair',
+      'need for feeding tube'
+    ],
+    alternatives: [
+      'Conservative management (thickened feeds)',
+      'Injection augmentation',
+      'Observation'
+    ]
+  },
+  {
+    key: 'AIRWAY_DILATION',
+    name: 'Airway Balloon Dilation',
+    specialty: 'Laryngology',
+    risks: [
+      'airway perforation',
+      'bleeding',
+      'temporary airway obstruction',
+      'restenosis',
+      'need for tracheostomy',
+      'subcutaneous emphysema'
+    ],
+    alternatives: [
+      'Laser treatment',
+      'Surgical resection',
+      'Tracheostomy',
+      'Observation'
+    ]
+  },
+  {
+    key: 'SUPRAGLOTTOPLASTY',
+    name: 'Supraglottoplasty',
+    specialty: 'Laryngology',
+    risks: [
+      'aspiration',
+      'bleeding',
+      'airway obstruction',
+      'supraglottic stenosis',
+      'need for revision',
+      'failure to improve symptoms'
+    ],
+    alternatives: [
+      'Observation',
+      'Positioning',
+      'CPAP',
+      'Tracheostomy'
+    ]
+  },
+  {
+    key: 'CRICOTRACHEAL',
+    name: 'Cricotracheal Resection',
+    specialty: 'Laryngology',
+    risks: [
+      'restenosis',
+      'voice changes',
+      'aspiration',
+      'recurrent laryngeal nerve injury',
+      'need for tracheostomy',
+      'anastomotic dehiscence',
+      'subcutaneous emphysema'
+    ],
+    alternatives: [
+      'Endoscopic management',
+      'Permanent tracheostomy',
+      'T-tube placement',
+      'Laryngotracheal reconstruction'
+    ]
+  },
+
   // ========== RECONSTRUCTIVE ==========
   {
     key: 'ALT_FLAP',
@@ -1084,7 +1932,6 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Primary closure (if possible)'
     ]
-    requiresLaterality: true
   },
   {
     key: 'FIBULA_FLAP',
@@ -1108,7 +1955,6 @@ const ADDITIONAL_PROCEDURES = [
       'Prosthetic reconstruction',
       'No reconstruction'
     ]
-    requiresLaterality: true
   },
   {
     key: 'RFFF',
@@ -1132,7 +1978,6 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Primary closure (if possible)'
     ]
-    requiresLaterality: true
   },
   {
     key: 'SCAPULA_FLAP',
@@ -1156,7 +2001,6 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Prosthetic reconstruction'
     ]
-    requiresLaterality: true
   },
 
   // ========== ENDOCRINE ==========
@@ -1200,72 +2044,7 @@ const ADDITIONAL_PROCEDURES = [
     requiresLaterality: true
   },
 
-  // ========== LARYNGOLOGY ==========
-  {
-    key: 'ESOPH',
-    name: 'Esophagoscopy (Rigid/Flexible)',
-    specialty: 'Laryngology',
-    risks: [
-      'perforation (rare but serious)',
-      'bleeding',
-      'infection',
-      'dental injury',
-      'aspiration',
-      'sore throat'
-    ],
-    alternatives: [
-      'Barium swallow study',
-      'CT/MRI imaging',
-      'Medical management (e.g., PPIs for GERD)'
-    ]
-  },
-  {
-    key: 'TRACH',
-    name: 'Tracheostomy',
-    specialty: 'Laryngology',
-    risks: [
-      'bleeding',
-      'infection',
-      'subcutaneous emphysema',
-      'pneumothorax',
-      'tracheal stenosis',
-      'tracheoinnominate fistula (rare but life-threatening)',
-      'tube dislodgement/obstruction',
-      'voice changes'
-    ],
-    alternatives: [
-      'Prolonged intubation (if short-term need)',
-      'Non-invasive ventilation (e.g., BiPAP/CPAP)'
-    ]
-  },
-  {
-    key: 'VF_AUG',
-    name: 'Vocal Fold Augmentation/Injection',
-    specialty: 'Laryngology',
-    risks: [
-      'voice changes/worsening',
-      'airway obstruction',
-      'aspiration',
-      'injection material migration',
-      'granuloma formation',
-      'under or over-correction',
-      'temporary results requiring repeat injection',
-      'hematoma',
-      'infection',
-      'allergic reaction to material',
-      'need for revision procedure'
-    ],
-    alternatives: [
-      'Voice therapy',
-      'Observation',
-      'Thyroplasty (surgical implant)',
-      'Arytenoid adduction',
-      'No treatment'
-    ],
-    requiresLaterality: true
-  },
-
-  // ========== SLEEP / AIRWAY ==========
+  // ========== SLEEP/AIRWAY ==========
   {
     key: 'BARBED_PHARYNGO',
     name: 'Barbed Suture Pharyngoplasty (BRP)',
@@ -1316,6 +2095,108 @@ const ADDITIONAL_PROCEDURES = [
     ]
   },
   {
+    key: 'GENIOGLOSSUS',
+    name: 'Genioglossus Advancement',
+    specialty: 'Sleep/Airway',
+    risks: [
+      'dental injury/root damage',
+      'chin numbness',
+      'bleeding/hematoma',
+      'infection',
+      'bone nonunion',
+      'change in facial appearance',
+      'failure to improve sleep apnea'
+    ],
+    alternatives: [
+      'CPAP therapy',
+      'Hypoglossal nerve stimulator',
+      'UPPP',
+      'Maxillomandibular advancement',
+      'Weight loss'
+    ]
+  },
+  {
+    key: 'HYOID',
+    name: 'Hyoid Suspension',
+    specialty: 'Sleep/Airway',
+    risks: [
+      'dysphagia',
+      'aspiration',
+      'infection',
+      'bleeding',
+      'failure to improve sleep apnea',
+      'foreign body sensation'
+    ],
+    alternatives: [
+      'CPAP therapy',
+      'Other upper airway surgery',
+      'Oral appliance',
+      'Weight loss'
+    ]
+  },
+  {
+    key: 'MMA',
+    name: 'Maxillomandibular Advancement (MMA)',
+    specialty: 'Sleep/Airway',
+    risks: [
+      'facial appearance changes',
+      'malocclusion',
+      'TMJ dysfunction',
+      'facial numbness',
+      'tooth injury/loss',
+      'bleeding',
+      'infection',
+      'hardware problems',
+      'relapse of jaw position'
+    ],
+    alternatives: [
+      'CPAP therapy',
+      'Upper airway surgery',
+      'Hypoglossal nerve stimulator',
+      'Oral appliance',
+      'Weight loss'
+    ]
+  },
+  {
+    key: 'TONGUE_BASE_RFA',
+    name: 'Tongue Base Reduction/Radiofrequency Ablation',
+    specialty: 'Sleep/Airway',
+    risks: [
+      'tongue swelling/abscess',
+      'bleeding',
+      'infection',
+      'taste changes',
+      'difficulty swallowing',
+      'failure to improve sleep apnea',
+      'need for multiple treatments'
+    ],
+    alternatives: [
+      'CPAP therapy',
+      'Hypoglossal nerve stimulator',
+      'Other tongue base procedures',
+      'Weight loss'
+    ]
+  },
+  {
+    key: 'PALATAL_IMPLANTS',
+    name: 'Palatal Implants',
+    specialty: 'Sleep/Airway',
+    risks: [
+      'implant extrusion',
+      'infection',
+      'foreign body sensation',
+      'partial improvement only',
+      'palatal fistula',
+      'need for implant removal'
+    ],
+    alternatives: [
+      'CPAP therapy',
+      'UPPP',
+      'Oral appliance',
+      'Weight loss'
+    ]
+  },
+  {
     key: 'HYPOGLOSSAL_STIM',
     name: 'Hypoglossal Nerve Stimulator Implant',
     specialty: 'Sleep/Airway',
@@ -1340,7 +2221,6 @@ const ADDITIONAL_PROCEDURES = [
       'Positional therapy',
       'Maxillomandibular advancement'
     ]
-    requiresLaterality: true
   },
   {
     key: 'UPPP',
@@ -1386,7 +2266,228 @@ const ADDITIONAL_PROCEDURES = [
       'Brow lift (for upper lid issues)',
       'Glasses/visual aids for functional issues'
     ]
+  },
+  {
+    key: 'RHINOPLASTY',
+    name: 'Rhinoplasty (Cosmetic/Functional)',
+    specialty: 'Facial Plastics',
+    risks: [
+      'unsatisfactory cosmetic result',
+      'nasal obstruction',
+      'bleeding/septal hematoma',
+      'infection',
+      'septal perforation',
+      'tip asymmetry',
+      'need for revision surgery',
+      'skin necrosis (rare)',
+      'altered sensation'
+    ],
+    alternatives: [
+      'Non-surgical rhinoplasty (fillers)',
+      'Septoplasty alone (if functional)',
+      'Observation'
+    ]
+  },
+  {
+    key: 'FACELIFT',
+    name: 'Rhytidectomy (Facelift)',
+    specialty: 'Facial Plastics',
+    risks: [
+      'hematoma',
+      'facial nerve injury',
+      'skin necrosis',
+      'infection',
+      'scarring',
+      'hair loss at incisions',
+      'asymmetry',
+      'pixie ear deformity',
+      'need for revision'
+    ],
+    alternatives: [
+      'Non-surgical treatments (fillers, Botox)',
+      'Thread lift',
+      'Laser resurfacing',
+      'No treatment'
+    ]
+  },
+  {
+    key: 'BROW_LIFT',
+    name: 'Brow Lift',
+    specialty: 'Facial Plastics',
+    risks: [
+      'forehead numbness',
+      'hair loss at incisions',
+      'asymmetry',
+      'facial nerve injury',
+      'overcorrection',
+      'scarring',
+      'hematoma',
+      'inability to close eyes'
+    ],
+    alternatives: [
+      'Botox',
+      'Thread lift',
+      'Dermal fillers',
+      'Observation'
+    ]
+  },
+  {
+    key: 'OTOPLASTY',
+    name: 'Otoplasty',
+    specialty: 'Facial Plastics',
+    risks: [
+      'asymmetry',
+      'overcorrection/undercorrection',
+      'scarring',
+      'hematoma',
+      'infection',
+      'suture extrusion',
+      'cartilage deformity',
+      'recurrence'
+    ],
+    alternatives: [
+      'Observation',
+      'Non-surgical ear molding (infants)',
+      'Camouflage with hairstyling'
+    ],
     requiresLaterality: true
+  },
+  {
+    key: 'SCAR_REVISION',
+    name: 'Scar Revision',
+    specialty: 'Facial Plastics',
+    risks: [
+      'worsening of scar',
+      'hypertrophic scar/keloid',
+      'infection',
+      'bleeding',
+      'poor cosmetic outcome',
+      'altered sensation',
+      'need for multiple procedures'
+    ],
+    alternatives: [
+      'Laser therapy',
+      'Steroid injections',
+      'Silicone sheets',
+      'Observation'
+    ]
+  },
+  {
+    key: 'MOHS_RECON',
+    name: 'Mohs Reconstruction',
+    specialty: 'Facial Plastics',
+    risks: [
+      'flap/graft failure',
+      'infection',
+      'bleeding',
+      'scarring',
+      'asymmetry',
+      'ectropion/lip distortion',
+      'nerve injury',
+      'need for revision'
+    ],
+    alternatives: [
+      'Healing by secondary intention',
+      'Primary closure',
+      'Skin graft alone',
+      'Different flap design'
+    ]
+  },
+  {
+    key: 'FACIAL_REANIMATION',
+    name: 'Facial Reanimation Surgery',
+    specialty: 'Facial Plastics',
+    risks: [
+      'failure to restore movement',
+      'asymmetry',
+      'donor site morbidity',
+      'nerve graft failure',
+      'muscle transplant failure',
+      'scarring',
+      'need for multiple procedures'
+    ],
+    alternatives: [
+      'Static suspension procedures',
+      'Botox to unaffected side',
+      'Physical therapy',
+      'Observation'
+    ]
+  },
+
+  // ========== PEDIATRIC ENT ==========
+  {
+    key: 'CHOANAL',
+    name: 'Choanal Atresia Repair',
+    specialty: 'Pediatric ENT',
+    risks: [
+      'restenosis',
+      'nasal obstruction',
+      'bleeding',
+      'palatal injury',
+      'tooth bud injury',
+      'need for stenting',
+      'need for revision surgery'
+    ],
+    alternatives: [
+      'McGovern nipple (temporary)',
+      'Delayed repair',
+      'Tracheostomy (if bilateral)'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'FRENULECTOMY',
+    name: 'Lingual Frenulectomy/Tongue Tie Release',
+    specialty: 'Pediatric ENT',
+    risks: [
+      'bleeding',
+      'infection',
+      'scarring',
+      'injury to sublingual structures',
+      'recurrence',
+      'need for speech therapy'
+    ],
+    alternatives: [
+      'Observation',
+      'Speech therapy',
+      'Stretching exercises'
+    ]
+  },
+  {
+    key: 'PREAURICULAR',
+    name: 'Preauricular Pit/Sinus Excision',
+    specialty: 'Pediatric ENT',
+    risks: [
+      'recurrence',
+      'facial nerve injury',
+      'scarring',
+      'infection',
+      'incomplete excision',
+      'keloid formation'
+    ],
+    alternatives: [
+      'Observation',
+      'Antibiotics for infections only',
+      'Incision and drainage'
+    ],
+    requiresLaterality: true
+  },
+  {
+    key: 'DERMOID',
+    name: 'Dermoid Cyst Excision',
+    specialty: 'Pediatric ENT',
+    risks: [
+      'scarring',
+      'infection',
+      'recurrence',
+      'injury to surrounding structures',
+      'intracranial extension (if midline)'
+    ],
+    alternatives: [
+      'Observation',
+      'Aspiration (temporary)',
+      'Delayed excision'
+    ]
   },
 
   // ========== GENERAL ENT ==========
@@ -1408,7 +2509,6 @@ const ADDITIONAL_PROCEDURES = [
     requiresLaterality: true
   }
 ];
-
     
     const ADDITIONAL_SURGEONS = [
       'José Zevallos',
