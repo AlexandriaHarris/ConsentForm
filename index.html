@@ -772,7 +772,7 @@ const ADDITIONAL_PROCEDURES = [
   // ========== COMMON CONSULT PROCEDURES ==========
   {
     key: 'TRACH_EMERGENT',
-    name: 'Emergent Tracheostomy',
+    name: 'Emergent Tracheostomy, possible awake',
     specialty: 'Consult/Emergency',
     risks: ['bleeding', 'pneumothorax', 'subcutaneous emphysema', 'tracheal injury', 'false passage', 'cardiac arrest', 'tracheoinnominate fistula', 'tracheal stenosis', 'infection', 'tube dislodgement'],
     alternatives: ['Continued intubation', 'Cricothyrotomy', 'Awake fiberoptic intubation']
@@ -785,15 +785,15 @@ const ADDITIONAL_PROCEDURES = [
     alternatives: ['Tracheostomy', 'Intubation', 'Needle cricothyrotomy']
   },
   {
-    key: 'DLB_FB',
-    name: 'Direct Laryngoscopy/Bronchoscopy with Foreign Body Removal',
+    key: 'DLBE_FB',
+    name: 'Direct Laryngoscopy/Bronchoscopy, esophagoscopy with possible Foreign Body Removal',
     specialty: 'Consult/Emergency',
     risks: ['dental injury', 'laryngeal edema', 'bronchospasm', 'pneumothorax', 'failure to retrieve', 'pushing FB deeper', 'mucosal injury', 'bleeding', 'need for thoracotomy'],
     alternatives: ['Flexible bronchoscopy', 'Observation (if asymptomatic)', 'Surgical removal via thoracotomy']
   },
   {
     key: 'ESOPH_FB',
-    name: 'Esophagoscopy with Foreign Body Removal',
+    name: 'Esophagoscopy with possible Foreign Body Removal',
     specialty: 'Consult/Emergency',
     risks: ['esophageal perforation', 'mediastinitis', 'bleeding', 'dental injury', 'failure to retrieve', 'pushing FB into stomach', 'mucosal tear', 'stricture formation'],
     alternatives: ['Observation (for smooth objects)', 'Surgery', 'Push into stomach (for certain food boluses)']
@@ -804,6 +804,8 @@ const ADDITIONAL_PROCEDURES = [
     specialty: 'Consult/Emergency',
     risks: ['rebleeding', 'septal perforation', 'sinusitis', 'nasal obstruction', 'mucosal necrosis', 'facial numbness (if arterial ligation)', 'palatal numbness'],
     alternatives: ['Nasal packing', 'Cauterization in clinic', 'Embolization']
+    
+      requiresLaterality: true
   },
   {
     key: 'I_AND_D_DEEP_NECK',
@@ -811,6 +813,8 @@ const ADDITIONAL_PROCEDURES = [
     specialty: 'Consult/Emergency',
     risks: ['vascular injury', 'nerve injury', 'airway compromise', 'mediastinitis', 'sepsis', 'fistula formation', 'need for multiple surgeries', 'scarring'],
     alternatives: ['IV antibiotics alone', 'Needle aspiration', 'Interventional radiology drainage']
+    
+      requiresLaterality: true
   },
   {
     key: 'PERITONSILLAR_OR',
@@ -847,6 +851,8 @@ const ADDITIONAL_PROCEDURES = [
     specialty: 'Trauma',
     risks: ['reaccumulation', 'septal abscess', 'septal perforation', 'saddle nose deformity', 'bleeding', 'infection'],
     alternatives: ['Needle aspiration', 'Observation (not recommended)']
+    
+      requiresLaterality: true
   },
   {
     key: 'FACIAL_FX_ORIF',
@@ -909,6 +915,8 @@ const ADDITIONAL_PROCEDURES = [
     specialty: 'Trauma',
     risks: ['vascular injury', 'nerve injury', 'airway injury', 'esophageal injury', 'thoracic duct injury', 'pneumothorax', 'stroke', 'death'],
     alternatives: ['Observation', 'Angiography/embolization', 'Endoscopic evaluation only']
+    
+      requiresLaterality: true
   },
   {
     key: 'LARYNGEAL_FX',
@@ -916,6 +924,8 @@ const ADDITIONAL_PROCEDURES = [
     specialty: 'Trauma',
     risks: ['voice changes', 'airway stenosis', 'need for tracheostomy', 'aspiration', 'vocal cord paralysis', 'chronic dysphonia'],
     alternatives: ['Conservative management', 'Observation with airway monitoring']
+    
+      requiresLaterality: true
   },
   // ========== OTOLOGY / NEUROTOLOGY ==========
   {
@@ -1252,6 +1262,8 @@ const ADDITIONAL_PROCEDURES = [
       'Biologic therapy (dupilumab)',
       'Observation'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'SPHENOIDOTOMY',
@@ -1270,6 +1282,8 @@ const ADDITIONAL_PROCEDURES = [
       'Observation',
       'Balloon sinuplasty'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'FRONTAL_SINUS',
@@ -1290,6 +1304,8 @@ const ADDITIONAL_PROCEDURES = [
       'Frontal sinus obliteration',
       'Observation'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'NASAL_FRACTURE',
@@ -1324,6 +1340,8 @@ const ADDITIONAL_PROCEDURES = [
       'Topical hemostatic agents',
       'Embolization'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'CSF_REPAIR',
@@ -1343,6 +1361,8 @@ const ADDITIONAL_PROCEDURES = [
       'Lumbar drain alone',
       'Observation (small leaks)'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'DCR',
@@ -1387,6 +1407,8 @@ const ADDITIONAL_PROCEDURES = [
       'Combined chemoradiation',
       'Observation (for benign lesions)'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'LARYNGECTOMY',
@@ -1432,6 +1454,8 @@ const ADDITIONAL_PROCEDURES = [
       'Chemotherapy',
       'Combined chemoradiation'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'MAXILLECTOMY',
@@ -1455,6 +1479,8 @@ const ADDITIONAL_PROCEDURES = [
       'Combined chemoradiation',
       'Endoscopic resection (select cases)'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'NECK_DISSECTION',
@@ -1517,6 +1543,8 @@ const ADDITIONAL_PROCEDURES = [
       'Sclerotherapy',
       'Observation'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'BRANCHIAL',
@@ -1577,7 +1605,7 @@ const ADDITIONAL_PROCEDURES = [
   },
   {
     key: 'SKIN_LESION',
-    name: 'Skin Lesion Excision with/without Reconstruction',
+    name: 'Wide Local Excision with/without Reconstruction',
     specialty: 'Head & Neck',
     risks: [
       'scarring',
@@ -1595,7 +1623,8 @@ const ADDITIONAL_PROCEDURES = [
       'Topical therapies',
       'Cryotherapy',
       'Observation'
-    ]
+    ] 
+      requiresLaterality: true
   },
   {
     key: 'TEMPORAL_BONE',
@@ -1641,6 +1670,8 @@ const ADDITIONAL_PROCEDURES = [
       'Open surgical approach',
       'Transoral laser microsurgery'
     ]
+    
+      requiresLaterality: true
   },
   {
     key: 'TORS_TONSIL',
@@ -1932,6 +1963,7 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Primary closure (if possible)'
     ]
+      requiresLaterality: true
   },
   {
     key: 'FIBULA_FLAP',
@@ -1955,6 +1987,7 @@ const ADDITIONAL_PROCEDURES = [
       'Prosthetic reconstruction',
       'No reconstruction'
     ]
+      requiresLaterality: true
   },
   {
     key: 'RFFF',
@@ -1978,6 +2011,7 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Primary closure (if possible)'
     ]
+      requiresLaterality: true
   },
   {
     key: 'SCAPULA_FLAP',
@@ -2001,6 +2035,7 @@ const ADDITIONAL_PROCEDURES = [
       'Local/regional flap',
       'Prosthetic reconstruction'
     ]
+      requiresLaterality: true
   },
 
   // ========== ENDOCRINE ==========
@@ -2238,7 +2273,8 @@ const ADDITIONAL_PROCEDURES = [
       'CPAP therapy',
       'Oral appliance',
       'Weight loss/lifestyle modifications'
-    ]
+    ] 
+      requiresLaterality: true
   },
 
   // ========== FACIAL PLASTICS ==========
@@ -2265,7 +2301,8 @@ const ADDITIONAL_PROCEDURES = [
       'Non-surgical treatments (Botox, fillers)',
       'Brow lift (for upper lid issues)',
       'Glasses/visual aids for functional issues'
-    ]
+    ] 
+      requiresLaterality: true
   },
   {
     key: 'RHINOPLASTY',
@@ -2329,7 +2366,8 @@ const ADDITIONAL_PROCEDURES = [
       'Thread lift',
       'Dermal fillers',
       'Observation'
-    ]
+    ] 
+      requiresLaterality: true
   },
   {
     key: 'OTOPLASTY',
@@ -2370,7 +2408,8 @@ const ADDITIONAL_PROCEDURES = [
       'Steroid injections',
       'Silicone sheets',
       'Observation'
-    ]
+    ] 
+      requiresLaterality: true
   },
   {
     key: 'MOHS_RECON',
@@ -2391,7 +2430,8 @@ const ADDITIONAL_PROCEDURES = [
       'Primary closure',
       'Skin graft alone',
       'Different flap design'
-    ]
+    ] 
+      requiresLaterality: true
   },
   {
     key: 'FACIAL_REANIMATION',
@@ -2411,7 +2451,8 @@ const ADDITIONAL_PROCEDURES = [
       'Botox to unaffected side',
       'Physical therapy',
       'Observation'
-    ]
+    ] 
+      requiresLaterality: true
   },
 
   // ========== PEDIATRIC ENT ==========
@@ -2487,7 +2528,8 @@ const ADDITIONAL_PROCEDURES = [
       'Observation',
       'Aspiration (temporary)',
       'Delayed excision'
-    ]
+    ] 
+      requiresLaterality: true
   },
 
   // ========== GENERAL ENT ==========
