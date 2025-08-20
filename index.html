@@ -48,7 +48,20 @@
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
-    .footer{position:absolute;left:0;right:0;bottom:0;height:1in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0 .5in;font-size:9pt}
+    .footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1in; /* Fixed footer height */
+  border-top: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5in;
+  font-size: 9pt;
+  page-break-inside: avoid; /* Prevent footer from breaking */
+}
     .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
@@ -82,12 +95,35 @@
     /* The main content area sits between the header and footer.  Increase
      * the bottom inset slightly to ensure that long paragraphs do not
      * encroach on the footer when printed. */
-    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.8in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
+.content {
+  position: absolute;
+  left: 0.5in;
+  right: 0.5in;
+  top: 1.25in;
+  bottom: 1in; /* Increased from 0.5in to make room for footer */
+  padding: 0;
+  font: 11pt "Times New Roman", Times, serif;
+  line-height: 1.15;
+  overflow: hidden; /* Prevent content from overflowing */
+}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
+
+    /* Add to your existing CSS */
+.ol, .dash, p {
+  page-break-inside: avoid; /* Keep elements from splitting across pages */
+}
+
+/* Adjust your dash elements */
+.dash {
+  min-height: 0.5rem;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.2rem;
+  white-space: pre-wrap;
+  page-break-inside: avoid;
+}
 
     /* WITNESS/SIGNATURE BLOCK */
     .siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
@@ -136,13 +172,57 @@
     .field-container .field-label{position:absolute;top:14px;left:0;right:0;font-size:7pt;text-align:center;line-height:1}
 
     /* Print controls */
-    @page{size:8.5in 11in;margin:0}
-    @media print{
-      body{background:#fff;margin:0}
-      .no-print{display:none!important}
-      .sheet{border:none;box-shadow:none;page-break-after:always}
-      img{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-    }
+    @page {
+  size: letter; /* Explicitly set to US Letter size */
+  margin: 0; /* Remove default margins */
+}
+
+.sheet {
+  width: 100%; /* Use full page width */
+  height: auto; /* Let content determine height */
+  min-height: 11in; /* Minimum height of letter paper */
+  page-break-after: always; /* Keep existing page breaks */
+  overflow: hidden; /* Prevent content spillover */
+}
+    @media print {
+  body {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .sheet {
+    width: 100%;
+    height: 11in;
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    page-break-after: always;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Ensure images print properly */
+  img {
+    max-width: 100%;
+    height: auto;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  /* Force footer to bottom */
+  @page :footer {
+    display: none;
+  }
+  @page :header {
+    display: none;
+  }
+}
+    
   </style>
 </head>
 <body>
