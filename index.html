@@ -171,6 +171,8 @@
               <div class="list">
                 <input id="procName" type="text" placeholder="Procedure name" />
                 <textarea id="procRisks" rows="3" placeholder="Risks (comma or newline separated)"></textarea>
+                <!-- new field to capture alternatives for a procedure -->
+                <textarea id="procAlts" rows="2" placeholder="Alternatives (comma or newline separated)"></textarea>
                 <div style="text-align:right"><button class="btn" id="addProcBtn">Add to Catalog</button></div>
               </div>
             </div>
@@ -188,10 +190,11 @@
               <label for="recommendedProcedure">Recommended Procedure (auto from selection — you can edit)</label>
               <textarea id="recommendedProcedure" data-field="recommendedProcedure" rows="2"></textarea>
             </div>
-            <div>
-              <label for="alternatives">Treatment Alternatives (optional)</label>
-              <textarea id="alternatives" data-field="alternatives" rows="3"></textarea>
-            </div>
+              <div>
+                <label for="alternatives">Treatment Alternatives (auto from selection — you can edit)</label>
+                <!-- reduce rows to 2 to save space as requested -->
+                <textarea id="alternatives" data-field="alternatives" rows="2"></textarea>
+              </div>
             <div>
               <label for="otherRisks">Other risks (auto from selection — you can edit)</label>
               <textarea id="otherRisks" data-field="otherRisks" rows="4"></textarea>
@@ -314,7 +317,7 @@
             <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
 
             <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
-            <div class="dash" id="p1_alternatives" style="min-height:3rem"></div>
+            <div class="dash" id="p1_alternatives" style="min-height:1.5rem"></div>
 
             <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
             <ol class="ol">
@@ -520,13 +523,49 @@
     let surgeons = [];
 
     const DEFAULT_PROCEDURES = [
-      {key:'TandA', name:'Tonsillectomy ± Adenoidectomy', risks:['post-operative hemorrhage','dehydration','voice change/velopharyngeal insufficiency','dental or lip injury','infection','pain']},
-      {key:'BMT', name:'Bilateral Myringotomy with Tympanostomy Tubes', risks:['otorrhea','premature tube extrusion or retention','persistent tympanic membrane perforation','hearing changes','need for further procedures']},
-      {key:'FESS', name:'Functional Endoscopic Sinus Surgery', risks:['cerebrospinal fluid leak','orbital injury including diplopia or vision loss','bleeding','adhesions/scar formation','recurrence requiring revision','altered sense of smell']},
-      {key:'SEPT', name:'Septoplasty', risks:['septal perforation','persistent nasal obstruction','epistaxis','dental or upper-lip numbness','cosmetic change (e.g., saddle nose)']},
-      {key:'ITR', name:'Inferior Turbinate Reduction', risks:['bleeding','crusting/dryness','infection','empty nose syndrome (rare)','need for revision']},
-      {key:'DLB', name:'Direct Laryngoscopy and Bronchoscopy', risks:['dental injury','airway trauma','laryngospasm/bronchospasm','hypoxia','need for intubation or hospital admission']},
-      {key:'NECK', name:'Neck Mass Excision', risks:['nerve injury (e.g., marginal mandibular, spinal accessory)','seroma/hematoma','infection','scarring']},
+      {
+        key:'TandA',
+        name:'Tonsillectomy ± Adenoidectomy',
+        risks:['post-operative hemorrhage','dehydration','voice change/velopharyngeal insufficiency','dental or lip injury','infection','pain'],
+        // Generic alternatives for tonsillectomy/adenoidectomy
+        alternatives:['Observation (watchful waiting)','Medical therapy (antibiotics, steroids)']
+      },
+      {
+        key:'BMT',
+        name:'Bilateral Myringotomy with Tympanostomy Tubes',
+        risks:['otorrhea','premature tube extrusion or retention','persistent tympanic membrane perforation','hearing changes','need for further procedures'],
+        alternatives:['Observation','Antibiotic therapy']
+      },
+      {
+        key:'FESS',
+        name:'Functional Endoscopic Sinus Surgery',
+        risks:['cerebrospinal fluid leak','orbital injury including diplopia or vision loss','bleeding','adhesions/scar formation','recurrence requiring revision','altered sense of smell'],
+        alternatives:['Medical therapy (steroid sprays, saline rinses)','Allergy management']
+      },
+      {
+        key:'SEPT',
+        name:'Septoplasty',
+        risks:['septal perforation','persistent nasal obstruction','epistaxis','dental or upper-lip numbness','cosmetic change (e.g., saddle nose)'],
+        alternatives:['Medical management','Nasal decongestants']
+      },
+      {
+        key:'ITR',
+        name:'Inferior Turbinate Reduction',
+        risks:['bleeding','crusting/dryness','infection','empty nose syndrome (rare)','need for revision'],
+        alternatives:['Medical management','Allergy management']
+      },
+      {
+        key:'DLB',
+        name:'Direct Laryngoscopy and Bronchoscopy',
+        risks:['dental injury','airway trauma','laryngospasm/bronchospasm','hypoxia','need for intubation or hospital admission'],
+        alternatives:['Imaging studies (CT, MRI)','Noninvasive diagnostic tests']
+      },
+      {
+        key:'NECK',
+        name:'Neck Mass Excision',
+        risks:['nerve injury (e.g., marginal mandibular, spinal accessory)','seroma/hematoma','infection','scarring'],
+        alternatives:['Biopsy or fine-needle aspiration','Observation','Radiologic monitoring']
+      },
     ];
 
     function load(){
@@ -542,7 +581,7 @@
     }
 
     // Track manual edits to avoid overwriting auto text
-    const touched = { rec:false, risks:false };
+    const touched = { rec:false, risks:false, alts:false };
 
     // ---------- Rendering: left controls ----------
     function renderSurgeons(){
@@ -594,6 +633,7 @@
           f[k] = el.value;
           if(k==='recommendedProcedure') touched.rec = true;
           if(k==='otherRisks') touched.risks = true;
+          if(k==='alternatives') touched.alts = true;
           save(); renderPreview(); renderReview();
         });
       });
@@ -611,10 +651,13 @@
     // Add procedure
     $('#addProcBtn').addEventListener('click', () => {
       const name = $('#procName').value.trim(); if(!name) return;
-      const risksCsv = $('#procRisks').value; const risks = uniq(risksCsv.split(/[\n,]/));
+      const risksCsv = $('#procRisks').value;
+      const altsCsv = $('#procAlts').value;
+      const risks = uniq(risksCsv.split(/[\n,]/));
+      const alternatives = uniq(altsCsv.split(/[\n,]/));
       const key = (name.toUpperCase().replace(/[^A-Z0-9]+/g,'-') + '-' + Math.random().toString(36).slice(2,7).toUpperCase());
-      catalog.push({key, name, risks});
-      $('#procName').value=''; $('#procRisks').value='';
+      catalog.push({key, name, risks, alternatives});
+      $('#procName').value=''; $('#procRisks').value=''; $('#procAlts').value='';
       save(); renderProcedures(); updateDerived(); renderPreview(); renderReview();
     });
 
@@ -641,6 +684,11 @@
       // reflect in inputs if untouched
       if(!touched.rec){ const el=document.getElementById('recommendedProcedure'); if(el) el.value=f.recommendedProcedure||''; }
       if(!touched.risks){ const el=document.getElementById('otherRisks'); if(el) el.value=f.otherRisks||''; }
+      // Auto-populate alternatives from selected procedures
+      const autoAlts = uniq(selectedProcs.flatMap(p=>p.alternatives||[]));
+      const autoAltString = autoAlts.length? autoAlts.join(', ') : '';
+      if(!touched.alts) f.alternatives = autoAltString;
+      if(!touched.alts){ const el=document.getElementById('alternatives'); if(el) el.value=f.alternatives||''; }
     }
 
     // ---------- Rendering: print side ----------
