@@ -84,7 +84,7 @@
      * encroach on the footer when printed. */
     .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.8in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
+    .dash{min-height:0.5rem;border-bottom:1px solid #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
@@ -227,7 +227,7 @@
           <div class="bd list">
             <div>
               <label for="diagnosis">Diagnosis</label>
-              <textarea id="diagnosis" data-field="diagnosis" rows="3"></textarea>
+              <textarea id="diagnosis" data-field="diagnosis" rows="1"></textarea>
             </div>
             <div>
               <label for="recommendedProcedure">Recommended Procedure (auto from selection — you can edit)</label>
@@ -487,39 +487,34 @@
             <div class="signature-section" style="margin-bottom:.25in">
               <!-- Witness row: Date, Time, Witness -->
               <div class="signature-row">
-                <div class="sig-field">
-                  <span>Date:</span>
-                  <!-- Use a single element for the blank line.  Nesting a span inside
-                       another span that draws a border results in two parallel
-                       underlines.  Assign the witnessDate class directly to
-                       the underlined element so the script can fill it. -->
-                  <span class="uline u-date-time witnessDate"></span>
-                </div>
-                <div class="sig-field">
-                  <span>Time:</span>
-                  <span class="uline u-date-time witnessTime"></span>
-                </div>
-                <div class="sig-field flex-grow" style="justify-content:space-between;">
-                  <span>Witness</span>
-                  <span class="uline u-med witnessName"></span>
-                </div>
-              </div>
+  <div class="sig-field">
+    <span>Date:</span>
+    <span class="uline u-date-time witnessDate"></span>
+  </div>
+  <div class="sig-field">
+    <span>Time:</span>
+    <span class="uline u-date-time witnessTime"></span>
+  </div>
+  <div class="sig-field flex-grow" style="justify-content:space-between;">
+    <span>Witness</span>
+    <span class="uline u-med witnessName"></span>
+  </div>
+</div>
               <!-- Patient signature row: Date, Time, Signature -->
               <div class="signature-row">
-                <div class="sig-field">
-                  <span>Date:</span>
-                  <span class="uline u-date-time signerDate"></span>
-                </div>
-                <div class="sig-field">
-                  <span>Time:</span>
-                  <span class="uline u-date-time signerTime"></span>
-                </div>
-                <div class="sig-field flex-grow" style="justify-content:space-between;">
-                  <span>Signature of patient or person authorized to consent for patient</span>
-                  <!-- leave blank for signature line; no class needed -->
-                  <span class="uline u-med"></span>
-                </div>
-              </div>
+  <div class="sig-field">
+    <span>Date:</span>
+    <span class="uline u-date-time signerDate"></span>
+  </div>
+  <div class="sig-field">
+    <span>Time:</span>
+    <span class="uline u-date-time signerTime"></span>
+  </div>
+  <div class="sig-field flex-grow" style="justify-content:space-between;">
+    <span>Signature of patient or person authorized to consent for patient</span>
+    <span class="uline u-med"></span>
+  </div>
+</div>
               <!-- Relationship row -->
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
@@ -536,19 +531,19 @@
               <p>I have explained to the patient signing above all the information referred to in this consent form. I have given no guarantee or assurance as to the results that may be obtained.</p>
               <!-- Physician signature rows using flexible layout -->
               <div class="signature-row">
-                <div class="sig-field">
-                  <span>Date</span>
-                  <span class="uline u-date-time physDate"></span>
-                </div>
-                <div class="sig-field">
-                  <span>Time</span>
-                  <span class="uline u-date-time physTime"></span>
-                </div>
-                <div class="sig-field flex-grow" style="justify-content:space-between;">
-                  <span>Signature of Physician or Representative</span>
-                  <span class="uline u-med"></span>
-                </div>
-              </div>
+  <div class="sig-field">
+    <span>Date</span>
+    <span class="uline u-date-time physDate"></span>
+  </div>
+  <div class="sig-field">
+    <span>Time</span>
+    <span class="uline u-date-time physTime"></span>
+  </div>
+  <div class="sig-field flex-grow" style="justify-content:space-between;">
+    <span>Signature of Physician or Representative</span>
+    <span class="uline u-med"></span>
+  </div>
+</div>
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Printed name</span>
