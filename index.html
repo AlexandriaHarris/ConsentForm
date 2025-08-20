@@ -711,45 +711,73 @@
     const touched = { rec:false, risks:false, alts:false };
 
     // ---------- Rendering: left controls ----------
+// Modify the populateSurgeonDropdown function
 function populateSurgeonDropdown() {
   const dropdown = $('#surgeonDropdown');
   dropdown.innerHTML = '<option value="">-- Select Surgeon --</option>';
   
-  // Combine all surgeons and sort by last name
-  const allSurgeons = [...new Set([...surgeons, ...ADDITIONAL_SURGEONS])]
-    .sort((a, b) => {
-      // Split names and compare last names
-      const aLast = a.split(' ').pop();
-      const bLast = b.split(' ').pop();
-      return aLast.localeCompare(bLast);
-    });
+  // Function to convert "Firstname Lastname" to "Lastname, Firstname"
+  function formatSurgeionName(name) {
+    const parts = name.trim().split(' ');
+    if (parts.length < 2) return name;
+    
+    // Handle middle names/initials by taking everything except last as first name
+    const lastName = parts[parts.length - 1];
+    const firstName = parts.slice(0, -1).join(' ');
+    return `${lastName}, ${firstName}`;
+  }
   
-  allSurgeons.forEach(name => {
+  // Combine all surgeons, convert format, and sort by surname
+  const allSurgeons = [...new Set([...surgeons, ...ADDITIONAL_SURGEONS])]
+    .map(name => ({
+      original: name,
+      formatted: formatSurgeonName(name)
+    }))
+    .sort((a, b) => a.formatted.localeCompare(b.formatted));
+  
+  allSurgeons.forEach(surgeon => {
     const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
+    option.value = surgeon.original; // Keep original for internal use
+    option.textContent = surgeon.formatted; // Display as "Lastname, Firstname"
     dropdown.appendChild(option);
   });
 }
 
-    function renderSelectedSurgeons() {
-      const container = $('#selectedSurgeons');
-      container.innerHTML = '';
-      
-      if (f.selectedSurgeons && f.selectedSurgeons.length > 0) {
-        f.selectedSurgeons.forEach(name => {
-          const div = document.createElement('div');
-          div.className = 'surgeon-item';
-          div.innerHTML = `
-            <span>${name}</span>
-            <button class="remove-btn" onclick="removeSurgeon('${name.replace(/'/g, "\\'")}')">×</button>
-          `;
-          container.appendChild(div);
-        });
-      } else {
-        container.innerHTML = '<div class="muted" style="padding:0.5rem">No surgeons selected</div>';
-      }
-    }
+// Also update the renderSelectedSurgeons function to show the new format
+function renderSelectedSurgeons() {
+  const container = $('#selectedSurgeons');
+  container.innerHTML = '';
+  
+  // Helper function for formatting
+  function formatSurgeonName(name) {
+    const parts = name.trim().split(' ');
+    if (parts.length < 2) return name;
+    const lastName = parts[parts.length - 1];
+    const firstName = parts.slice(0, -1).join(' ');
+    return `${lastName}, ${firstName}`;
+  }
+  
+  if (f.selectedSurgeons && f.selectedSurgeons.length > 0) {
+    // Sort selected surgeons by last name for display
+    const sortedSurgeons = [...f.selectedSurgeons].sort((a, b) => {
+      const aLast = a.split(' ').pop();
+      const bLast = b.split(' ').pop();
+      return aLast.localeCompare(bLast);
+    });
+    
+    sortedSurgeons.forEach(name => {
+      const div = document.createElement('div');
+      div.className = 'surgeon-item';
+      div.innerHTML = `
+        <span>${formatSurgeonName(name)}</span>
+        <button class="remove-btn" onclick="removeSurgeon('${name.replace(/'/g, "\\'")}')">×</button>
+      `;
+      container.appendChild(div);
+    });
+  } else {
+    container.innerHTML = '<div class="muted" style="padding:0.5rem">No surgeons selected</div>';
+  }
+}
 
     function addSurgeon(name) {
       name = name.trim();
