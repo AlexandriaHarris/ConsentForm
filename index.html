@@ -867,8 +867,394 @@ const ADDITIONAL_PROCEDURES = [
           'Weight loss/lifestyle modifications'
         ]
       }
+{
+  key: 'COCHLEAR',
+  name: 'Cochlear Implant',
+  risks: [
+    'facial nerve injury/paralysis',
+    'taste disturbance',
+    'tinnitus/worsening tinnitus',
+    'vertigo/dizziness',
+    'loss of residual hearing',
+    'meningitis',
+    'CSF leak',
+    'device failure/malfunction',
+    'wound infection',
+    'device extrusion',
+    'need for revision surgery',
+    'failure to achieve benefit'
+  ],
+  alternatives: [
+    'Hearing aids',
+    'Bone-anchored hearing aid (BAHA)',
+    'Observation/no treatment',
+    'Sign language/lip reading',
+    'Assistive listening devices'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'TYMPANOPLASTY',
+  name: 'Tympanoplasty',
+  risks: [
+    'graft failure/reperforation',
+    'hearing loss/no improvement',
+    'taste disturbance',
+    'tinnitus',
+    'vertigo/dizziness',
+    'facial nerve injury (rare)',
+    'cholesteatoma formation',
+    'infection',
+    'bleeding',
+    'need for revision surgery'
+  ],
+  alternatives: [
+    'Observation',
+    'Hearing aid',
+    'Water precautions only',
+    'Paper patch (for small perforations)'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'TYMPANOMASTOID',
+  name: 'Tympanomastoidectomy',
+  risks: [
+    'facial nerve injury/paralysis',
+    'hearing loss/worsening hearing',
+    'graft failure/reperforation',
+    'taste disturbance',
+    'vertigo/dizziness',
+    'tinnitus',
+    'CSF leak',
+    'meningitis',
+    'cholesteatoma recurrence',
+    'infection/abscess',
+    'need for staged procedure',
+    'need for revision surgery'
+  ],
+  alternatives: [
+    'Observation (not recommended for cholesteatoma)',
+    'Hearing aid (if safe)',
+    'Antibiotic therapy (temporary measure)',
+    'Regular cleaning/debridement'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'MYRINGOPLASTY',
+  name: 'Myringoplasty',
+  risks: [
+    'graft failure/reperforation',
+    'hearing loss/no improvement',
+    'tinnitus',
+    'vertigo (uncommon)',
+    'infection',
+    'bleeding',
+    'scarring of ear canal',
+    'need for revision surgery'
+  ],
+  alternatives: [
+    'Observation',
+    'Water precautions only',
+    'Hearing aid (if indicated)',
+    'Paper patch procedure'
+  ],
+  requiresLaterality: true
+}, {
+  key: 'MASTOID',
+  name: 'Mastoidectomy',
+  risks: [
+    'facial nerve injury/paralysis',
+    'hearing loss/worsening hearing',
+    'vertigo/dizziness',
+    'taste disturbance',
+    'tinnitus',
+    'CSF leak',
+    'meningitis',
+    'bleeding',
+    'infection/abscess',
+    'need for revision surgery'
+  ],
+  alternatives: [
+    'Antibiotic therapy',
+    'Observation',
+    'Hearing aids (if for hearing restoration)'
+  ]
+},
+{
+  key: 'GLOSSECTOMY',
+  name: 'Glossectomy (Partial/Hemi/Total)',
+  risks: [
+    'bleeding/hemorrhage',
+    'airway obstruction',
+    'speech impairment',
+    'swallowing difficulty/aspiration',
+    'taste changes/loss',
+    'tongue numbness',
+    'need for tracheostomy',
+    'need for feeding tube',
+    'wound breakdown',
+    'fistula formation'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Chemotherapy',
+    'Combined chemoradiation',
+    'Observation (for benign lesions)'
+  ]
+},
+{
+  key: 'LARYNGECTOMY',
+  name: 'Laryngectomy (Partial/Total)',
+  risks: [
+    'permanent voice loss (total laryngectomy)',
+    'voice changes (partial laryngectomy)',
+    'permanent stoma',
+    'pharyngocutaneous fistula',
+    'swallowing difficulty',
+    'aspiration',
+    'stomal stenosis',
+    'hypothyroidism',
+    'shoulder dysfunction',
+    'need for feeding tube'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Chemoradiation',
+    'Transoral laser surgery',
+    'Observation (select cases)'
+  ]
+},
+{
+  key: 'NECK_DISSECTION',
+  name: 'Neck Dissection',
+  risks: [
+    'shoulder dysfunction/weakness',
+    'facial nerve injury',
+    'tongue weakness',
+    'lower lip weakness',
+    'numbness of ear/neck/shoulder',
+    'lymphedema',
+    'chyle leak',
+    'carotid artery injury',
+    'internal jugular vein injury',
+    'Horner syndrome'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Observation with close monitoring',
+    'Sentinel lymph node biopsy'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'MANDIBULECTOMY',
+  name: 'Mandibulectomy (Marginal/Segmental)',
+  risks: [
+    'facial deformity',
+    'malocclusion/bite changes',
+    'difficulty chewing',
+    'lip/chin numbness',
+    'tooth loss',
+    'orocutaneous fistula',
+    'plate exposure/failure',
+    'nonunion of bone',
+    'temporomandibular joint dysfunction',
+    'need for dental rehabilitation'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Chemotherapy',
+    'Combined chemoradiation'
+  ]
+},
+{
+  key: 'FIBULA_FLAP',
+  name: 'Fibula Free Flap',
+  risks: [
+    'flap failure/loss',
+    'donor site morbidity',
+    'ankle instability/weakness',
+    'foot drop',
+    'chronic leg pain',
+    'leg swelling',
+    'wound healing problems at donor site',
+    'need for skin graft at leg',
+    'hardware failure/infection',
+    'nonunion'
+  ],
+  alternatives: [
+    'Other free flap reconstruction',
+    'Local/regional flap',
+    'Prosthetic reconstruction',
+    'No reconstruction'
+  ]
+},
+{
+  key: 'SCAPULA_FLAP',
+  name: 'Scapula Free Flap',
+  risks: [
+    'flap failure/loss',
+    'shoulder dysfunction/weakness',
+    'limited shoulder range of motion',
+    'chronic shoulder pain',
+    'seroma formation',
+    'winging of scapula',
+    'wound healing problems',
+    'hardware complications',
+    'nonunion',
+    'contour deformity'
+  ],
+  alternatives: [
+    'Other free flap reconstruction',
+    'Fibula free flap',
+    'Local/regional flap',
+    'Prosthetic reconstruction'
+  ]
+},
+{
+  key: 'RFFF',
+  name: 'Radial Forearm Free Flap',
+  risks: [
+    'flap failure/loss',
+    'hand ischemia (rare)',
+    'tendon exposure at donor site',
+    'wrist stiffness/weakness',
+    'chronic forearm pain',
+    'numbness in hand/fingers',
+    'poor cosmetic outcome at forearm',
+    'need for skin graft',
+    'partial graft loss',
+    'fracture of radius (rare)'
+  ],
+  alternatives: [
+    'Anterolateral thigh flap',
+    'Other free flap reconstruction',
+    'Local/regional flap',
+    'Primary closure (if possible)'
+  ]
+},
+{
+  key: 'MAXILLECTOMY',
+  name: 'Maxillectomy (Partial/Total)',
+  risks: [
+    'oronasal/oroantral fistula',
+    'speech changes (hypernasal)',
+    'swallowing difficulty',
+    'facial deformity',
+    'enophthalmos/diplopia',
+    'epiphora (excessive tearing)',
+    'trismus',
+    'dental problems/loss',
+    'chronic sinusitis',
+    'need for prosthetic rehabilitation'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Chemotherapy',
+    'Combined chemoradiation',
+    'Endoscopic resection (select cases)'
+  ]
+},
+{
+  key: 'TORS_TONSIL',
+  name: 'TORS Tonsillectomy (Transoral Robotic Surgery)',
+  risks: [
+    'bleeding/hemorrhage',
+    'tooth injury',
+    'tongue numbness/weakness',
+    'taste changes',
+    'pharyngeal stenosis',
+    'velopharyngeal insufficiency',
+    'dysphagia',
+    'trismus',
+    'need for tracheostomy',
+    'need for feeding tube'
+  ],
+  alternatives: [
+    'Open surgical approach',
+    'Radiation therapy',
+    'Chemoradiation',
+    'Transoral laser microsurgery'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'TORS_BOT',
+  name: 'TORS Base of Tongue Resection',
+  risks: [
+    'bleeding/hemorrhage',
+    'airway obstruction',
+    'aspiration',
+    'severe dysphagia',
+    'tongue weakness',
+    'lingual artery injury',
+    'hypoglossal nerve injury',
+    'need for tracheostomy',
+    'need for feeding tube',
+    'pharyngeal stenosis'
+  ],
+  alternatives: [
+    'Radiation therapy',
+    'Chemoradiation',
+    'Open surgical approach',
+    'Transoral laser microsurgery'
+  ]
+},
+{
+  key: 'VF_AUG',
+  name: 'Vocal Fold Augmentation/Injection',
+  risks: [
+    'voice changes/worsening',
+    'airway obstruction',
+    'aspiration',
+    'injection material migration',
+    'granuloma formation',
+    'under or over-correction',
+    'temporary results requiring repeat injection',
+    'hematoma',
+    'infection',
+    'allergic reaction to material',
+    'need for revision procedure'
+  ],
+  alternatives: [
+    'Voice therapy',
+    'Observation',
+    'Thyroplasty (surgical implant)',
+    'Arytenoid adduction',
+    'No treatment'
+  ],
+  requiresLaterality: true
+},
+{
+  key: 'BLEPH',
+  name: 'Blepharoplasty (Upper/Lower)',
+  risks: [
+    'bleeding/hematoma',
+    'infection',
+    'scarring',
+    'asymmetry',
+    'dry eyes',
+    'inability to close eyes completely',
+    'ectropion (eyelid turning outward)',
+    'vision changes/loss (rare)',
+    'undercorrection/overcorrection',
+    'need for revision surgery',
+    'lagophthalmos',
+    'corneal abrasion'
+  ],
+  alternatives: [
+    'Observation/no treatment',
+    'Non-surgical treatments (Botox, fillers)',
+    'Brow lift (for upper lid issues)',
+    'Glasses/visual aids for functional issues'
+  ]
+}
     ];
 
+
+    
     const ADDITIONAL_SURGEONS = [
       'José Zevallos',
       'Eric Wang',
