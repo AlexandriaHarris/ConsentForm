@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Consent Builder – Single‑file HTML (Aligned v4)</title>
+  <title>Consent Builder – Single‑file HTML (Aligned v5)</title>
   <style>
     :root { --bg:#f7f7fb; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb; }
     *{box-sizing:border-box}
@@ -53,7 +53,15 @@
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
     /* BODY */
-    .content{position:absolute;left:0;right:0;top:1.25in;bottom:1in;padding:0 .5in;font:11pt "Times New Roman",Times,serif;line-height:1.22;letter-spacing:.003em}
+    /*
+     * The content area needs to leave enough room at the bottom of each
+     * sheet so the text never overflows into the footer when the form is
+     * populated with variable‑length user input.  Increasing the bottom
+     * inset from 1.15in to 1.25in and slightly tightening the line height
+     * provides extra breathing room and keeps the printed page close to
+     * true US Letter dimensions without pushing content off the page.
+     */
+    .content{position:absolute;left:0;right:0;top:1.25in;bottom:1.6in;padding:0 .5in .2in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.16;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
     .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
@@ -77,9 +85,9 @@
     /* Print controls */
     @page{size:8.5in 11in;margin:0}
     @media print{
-      body{background:#fff}
+      body{background:#fff;margin:0}
       .no-print{display:none!important}
-      .sheet{border:none;box-shadow:none}
+      .sheet{border:none;box-shadow:none;page-break-after:always}
       img{print-color-adjust:exact;-webkit-print-color-adjust:exact}
     }
   </style>
@@ -87,7 +95,7 @@
 <body>
   <div class="topbar no-print">
     <div class="inner">
-      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v4)</div>
+      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v5)</div>
       <div class="actions">
         <button id="resetBtn" class="btn">Reset</button>
         <button id="printBtn" class="btn primary">Print / Save PDF</button>
