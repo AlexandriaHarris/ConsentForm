@@ -84,7 +84,11 @@
     .hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
     .hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
     .pageNo{font:10pt "Times New Roman",Times,serif}
-    .logo{height:.55in;width:auto;display:block}
+.logo {
+  height: 0.35in;  /* Reduced from 0.55in */
+  width: auto;
+  display: block;
+}
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
@@ -704,20 +708,26 @@
     const touched = { rec:false, risks:false, alts:false };
 
     // ---------- Rendering: left controls ----------
-    function populateSurgeonDropdown() {
-      const dropdown = $('#surgeonDropdown');
-      dropdown.innerHTML = '<option value="">-- Select Surgeon --</option>';
-      
-      // Combine all surgeons and remove duplicates
-      const allSurgeons = [...new Set([...surgeons, ...ADDITIONAL_SURGEONS])].sort();
-      
-      allSurgeons.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        dropdown.appendChild(option);
-      });
-    }
+function populateSurgeonDropdown() {
+  const dropdown = $('#surgeonDropdown');
+  dropdown.innerHTML = '<option value="">-- Select Surgeon --</option>';
+  
+  // Combine all surgeons and sort by last name
+  const allSurgeons = [...new Set([...surgeons, ...ADDITIONAL_SURGEONS])]
+    .sort((a, b) => {
+      // Split names and compare last names
+      const aLast = a.split(' ').pop();
+      const bLast = b.split(' ').pop();
+      return aLast.localeCompare(bLast);
+    });
+  
+  allSurgeons.forEach(name => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    dropdown.appendChild(option);
+  });
+}
 
     function renderSelectedSurgeons() {
       const container = $('#selectedSurgeons');
