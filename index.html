@@ -185,9 +185,31 @@
     margin: 0;
   }
   
+  /* Hide interface elements during print */
+  .no-print {
+    display: none !important;
+  }
+  
+  .app {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .grid {
+    display: block !important;
+    margin: 0 !important;
+    gap: 0 !important;
+  }
+  
+  .right {
+    overflow: visible !important;
+  }
+  
   body {
     margin: 0;
     padding: 0;
+    background: white;
   }
   
   .sheet {
@@ -201,6 +223,11 @@
     page-break-inside: avoid;
     position: relative !important;
     overflow: hidden !important;
+  }
+  
+  /* Don't add margin between sheets when printing */
+  .sheet + .sheet {
+    margin-top: 0 !important;
   }
   
   .content {
