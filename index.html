@@ -2750,6 +2750,7 @@ const autoAlts = Object.values(altMap);
       setLine('.interpName', f.interpName, 24);
     }
 // ---------- Dynamic Page Generation ----------
+// ---------- Dynamic Page Generation ----------
 function generatePages() {
   const rightPanel = document.querySelector('.right');
   rightPanel.innerHTML = ''; // Clear existing pages
@@ -2761,7 +2762,8 @@ function generatePages() {
   const otherRisksLength = (f.otherRisks || '').length;
   
   // Determine if content will overflow standard page 1
-  const needsSplitPage1 = proceduresLength > 400 || diagnosisLength > 300 || alternativesLength > 300;
+  // Increased thresholds since we have more room
+  const needsSplitPage1 = proceduresLength > 800 || diagnosisLength > 600 || alternativesLength > 600;
   const totalPages = needsSplitPage1 ? 5 : 4;
   
   // Page 1
@@ -2782,7 +2784,7 @@ function generatePages() {
         </div>
       </div>
     </div>
-    <div class="content" style="${needsSplitPage1 ? 'max-height: 8.5in; overflow: hidden;' : ''}">
+    <div class="content">
       <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
       <p>
         I,
@@ -2799,9 +2801,9 @@ function generatePages() {
       </p>
       <p>I understand that the information in this consent form, in addition to discussions with my physicians and any other written materials they may provide, is intended to help me make an informed decision whether to voluntarily undergo the identified procedure.</p>
       <p><strong>Diagnosis:</strong> I understand that after being examined, treated, and having studies reviewed, I have been diagnosed as having:</p>
-      <div class="dash" id="p1_diagnosis" style="min-height:0.5rem${needsSplitPage1 ? '; max-height: 2in; overflow: hidden' : ''}"></div>
+      <div class="dash" id="p1_diagnosis" style="min-height:0.5rem"></div>
       <p><strong>Recommended Procedure:</strong> I understand that my physician(s) have recommended that I undergo a procedure known as</p>
-      <div class="dash" id="p1_recommended" style="${needsSplitPage1 ? 'max-height: 3in; overflow: hidden' : ''}"></div>
+      <div class="dash" id="p1_recommended"></div>
       <p>I understand that a series of the described procedure(s) in the operating room are planned.</p>
       ${!needsSplitPage1 ? `
         <p><strong>Alternatives.</strong> I understand that I may choose NOT to undergo the Recommended Treatment. I acknowledge that my physician(s) or physician representative has described the alternative treatments, the risks and benefits of the alternative treatments, the likelihood of me achieving my goals; any potential problems that might occur during recuperation and the likely medical results should I decide not to undergo the recommended procedure. These treatment alternatives may include:</p>
@@ -2848,6 +2850,10 @@ function generatePages() {
         <p><strong>Risks of Surgery.</strong> I understand that there are inherent risks in the performance of the recommended procedure. These include:</p>
         <ol class="ol">
           <li><strong>Bleeding:</strong> If needed, blood and/or blood products have the following general risks: reactions resulting in itching, rash, fever, chills, headache, or shock; respiratory distress (shortness of breath); kidney damage; systemic bacterial infection; exposure to blood borne viruses including hepatitis (an inflammatory disease affecting the liver) and Human Immunodeficiency Virus (HIV, the virus that causes AIDS); and death. Alternatives to transfusion include the use of devices that filter and return blood lost in surgery to me or by providing medications that boost my blood count prior to an elective procedure. Bleeding and/or severe anemia could put my life in danger or cause permanent brain damage. I understand that substitutes for blood or plasma might not work well enough. Blood and/or blood products might offer the only chance to preserve my life.</li>
+          <li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li>
+          <li>Injury to adjacent organs.</li>
+          <li>Pain. This should resolve within a few days but may be prolonged.</li>
+          <li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>
         </ol>
         <p>____  I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate form entitled Release from Liability for the Refusal of Blood Transfusion.</p>
         <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be removed prior to surgery.</p>
@@ -2882,11 +2888,8 @@ function generatePages() {
     </div>
     <div class="content">
       <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-      <ol class="ol" start="2">
-        <li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li>
-        <li>Injury to adjacent organs.</li>
-        <li>Pain. This should resolve within a few days but may be prolonged.</li>
-        <li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>
+      <ol class="ol" start="${needsSplitPage1 ? '6' : '2'}">
+        ${!needsSplitPage1 ? '<li>Infection: This may occur at the site of surgery or elsewhere depending upon procedure performed.</li><li>Injury to adjacent organs.</li><li>Pain. This should resolve within a few days but may be prolonged.</li><li>As with all surgeries, there is a risk of heart attack, stroke, multisystem organ failure, reactions to medications, and death, even in healthy patients.</li>' : ''}
         <li>Blood clots. These clots usually develop in the legs and can break free and move through the heart to the lungs. In the lungs, they can cause serious interference with breathing, which can lead to death. Blood clots are treated with blood‑thinning drugs that may need to be taken for an extended period of time.</li>
         <li>Nerve damage surrounding the surgical site or Damage to nerves from pressure or positioning of the arms, legs or back during the surgery. Nerve damage can cause numbness, weakness, paralysis and/or pain. In most cases these symptoms are temporary, but in rare cases they can last for extended periods or even permanently.</li>
         <li>Burns caused by use of electrical equipment that may be needed to stop bleeding or by other equipment.</li>
