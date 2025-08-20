@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Consent Builder – Single‑file HTML (Aligned v3)</title>
+  <title>Consent Builder – Single‑file HTML (Aligned v4)</title>
   <style>
     :root { --bg:#f7f7fb; --ink:#0f172a; --muted:#6b7280; --border:#e5e7eb; }
     *{box-sizing:border-box}
@@ -38,16 +38,16 @@
     /* Print preview side */
     .sheet{position:relative;width:8.5in;height:11in;background:#fff;margin:0 auto;border:1px solid var(--border);box-shadow:0 3px 24px rgba(0,0,0,.12)}
 
-    /* HEADER — page number above logo (left), patient/MRN/DOB/facility on right */
+    /* HEADER layout */
     .header{position:absolute;left:0;right:0;top:0;height:1.25in;border-bottom:1px solid #000}
-    .hdr{display:grid;grid-template-columns:1.6in 1fr;align-items:end;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in}
+    .hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in;align-items:end}
     .hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
+    .hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
     .pageNo{font:10pt "Times New Roman",Times,serif}
     .logo{height:.55in;width:auto;display:block}
-    .hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
     .line{display:inline-block;min-width:10ch}
 
-    /* FOOTER — barcode left, date right */
+    /* FOOTER minimal */
     .footer{position:absolute;left:0;right:0;bottom:0;height:1in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0 .5in;font-size:9pt}
     .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
@@ -60,7 +60,7 @@
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
 
-    /* WITNESS/SIGNATURE BLOCK — two-column label/line grid for crisp alignment */
+    /* WITNESS/SIGNATURE BLOCK */
     .siggrid{display:grid;grid-template-columns:auto 1fr;column-gap:.2in;row-gap:.14in;font-size:10pt}
     .siggrid .label{white-space:nowrap}
     .uline{display:inline-block;border-bottom:1px solid #000;min-height:14px;vertical-align:-2px}
@@ -68,6 +68,11 @@
     .u-med{min-width:2.0in}
     .u-short{min-width:1.2in}
     .u-rel{min-width:3.2in}
+
+    /* Field container for inline blanks with label underneath */
+    .field-container{display:inline-block;position:relative;border-bottom:1px solid #000;min-width:3in;padding-bottom:1px;line-height:14px}
+    .field-container .field-text{display:inline-block}
+    .field-container .field-label{position:absolute;top:14px;left:0;right:0;font-size:7pt;text-align:center;line-height:1}
 
     /* Print controls */
     @page{size:8.5in 11in;margin:0}
@@ -82,7 +87,7 @@
 <body>
   <div class="topbar no-print">
     <div class="inner">
-      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v3)</div>
+      <div><strong>Consent Builder</strong> — Single‑file HTML (aligned v4)</div>
       <div class="actions">
         <button id="resetBtn" class="btn">Reset</button>
         <button id="printBtn" class="btn primary">Print / Save PDF</button>
@@ -241,7 +246,7 @@
       </div>
 
       <!-- Right: Print Preview (exact wording/pages) -->
-      <div class="right">
+      <div class="right" style="overflow:auto;min-width:0">
         <!-- PAGE 1 -->
         <div class="sheet">
           <div class="header">
@@ -262,11 +267,17 @@
             <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
 
             <p>
-              I, <span class="inlineLine designeeName"></span> have been asked to read all the information contained in this
-              <div class="small">(Name of patient or Designee)</div>
-              consent form and to consent to the procedure described below on behalf of <span class="inlineLine consentForName"></span> or
-              <div class="small">(Name of Patient)</div>
-              myself. I have been told that I should ask questions about anything that I do not understand. (If the decision‑maker signing this form is not the patient, references to “I,” “my” or “me” should be read as if referring to “the patient.”)
+              I,
+              <span class="field-container">
+                <span class="field-text designeeName"></span>
+                <span class="field-label">(Name of patient or Designee)</span>
+              </span>
+              have been asked to read all the information contained in this consent form and to consent to the procedure described below on behalf of
+              <span class="field-container">
+                <span class="field-text consentForName"></span>
+                <span class="field-label">(Name of Patient)</span>
+              </span>
+              or myself. I have been told that I should ask questions about anything that I do not understand. (If the decision‑maker signing this form is not the patient, references to “I,” “my” or “me” should be read as if referring to “the patient.”)
             </p>
 
             <p>
@@ -289,7 +300,7 @@
             </ol>
             <p>I refuse the transfusion of blood and/or blood products and understand that I will be asked to sign a separate form entitled Release from Liability for the Refusal of Blood Transfusion.</p>
 
-            <p style="margin-bottom:25px">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be</p>
+            <p style="margin-bottom:0">If my procedure is to be performed in an Ambulatory Surgical Facility (ASF), the comparative risks, benefits and alternatives associated with performing the procedure in the ASF instead of a hospital have been fully explained to me. I understand the hospital may require that all jewelry and/or body piercing hardware be</p>
           </div>
           <div class="footer">
             <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
@@ -376,7 +387,7 @@
               <li>No guarantees or assurances concerning the results of the procedure(s) have been made.</li>
               <li>I am signing this consent voluntarily. I am not signing due to any coercion or other influence.</li>
               <li>I hereby consent and authorize Dr. <span class="inlineLine physicianName"></span> (my physician(s)) and/or those associates, assistants and other health care providers designated by my physician(s) to perform the recommended procedure described above. I understand that during the procedure, conditions may become apparent that require my physicians or their designees to take steps or perform additional procedures that they believe are medically necessary to achieve the desired benefits or for my well‑being.</li>
-              <li>I authorize and request my physician(s) or their designees to perform whatever medical acts or additional procedures they, in the exercise of their sole professional judgment, deem reasonable and necessary, and I wave any obligation on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to give additional consent at that time.</li>
+              <li>I authorize and request my physician(s) or their designees to perform whatever medical acts or additional procedures they, in the exercise of their sole professional judgment, deem reasonable and necessary, and I waive any obligation on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to give additional consent at that time.</li>
             </ol>
           </div>
           <div class="footer">
@@ -530,7 +541,7 @@
         const id = 'proc_'+p.key;
         const el = document.createElement('label');
         el.className = 'check';
-        el.innerHTML = `<input type=\"checkbox\" id=\"${id}\"> <div><div style=\"font-weight:600\">${p.name}</div>${p.risks && p.risks.length? `<div class=\"muted\" style=\"font-size:.8rem\">Risks: ${p.risks.join(', ')}</div>`:''}</div>`;
+        el.innerHTML = `<input type="checkbox" id="${id}"> <div><div style="font-weight:600">${p.name}</div>${p.risks && p.risks.length? `<div class="muted" style="font-size:.8rem">Risks: ${p.risks.join(', ')}</div>`:''}</div>`;
         const cb = el.querySelector('input');
         cb.checked = (f.selectedProcKeys||[]).includes(p.key);
         cb.addEventListener('change', () => {
@@ -569,8 +580,7 @@
     // Add procedure
     $('#addProcBtn').addEventListener('click', () => {
       const name = $('#procName').value.trim(); if(!name) return;
-      const risksCsv = $('#procRisks').value; const risks = uniq(risksCsv.split(/[
-,]/));
+      const risksCsv = $('#procRisks').value; const risks = uniq(risksCsv.split(/[\n,]/));
       const key = (name.toUpperCase().replace(/[^A-Z0-9]+/g,'-') + '-' + Math.random().toString(36).slice(2,7).toUpperCase());
       catalog.push({key, name, risks});
       $('#procName').value=''; $('#procRisks').value='';
