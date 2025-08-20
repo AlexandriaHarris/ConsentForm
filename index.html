@@ -164,21 +164,24 @@
 .field-container {
   display: inline-block;
   position: relative;
-  border-bottom: 1px solid #000;
+  /* REMOVE: border-bottom: 1px solid #000; */
   min-width: 3in;
   padding-bottom: 0;
   line-height: 1.1;
-  margin-bottom: 22px;  /* Even more space for larger text */
+  margin-bottom: 22px;
 }
 .field-container .field-text {
   display: inline-block;
+  border-bottom: 1px solid #000;  /* ADD the underline here instead */
+  min-width: 3in;  /* Ensure the line stays the right width */
+  padding-bottom: 0;
 }
 .field-container .field-label {
   position: absolute;
-  top: 16px;  /* Slightly lower */
+  top: 16px;
   left: 0;
   right: 0;
-  font-size: 9pt;  /* Compromise between 8pt and 10pt */
+  font-size: 9pt;
   text-align: center;
   line-height: 1;
 }
