@@ -1146,11 +1146,20 @@ function renderSelectedSurgeons() {
       'Christina M. Yver'
     ];
 
-    function appendCustom(){
-      if(ADDITIONAL_PROCEDURES && ADDITIONAL_PROCEDURES.length){
-        catalog = catalog.concat(ADDITIONAL_PROCEDURES.filter(p => p && p.key));
+  function appendCustom(){
+  if(ADDITIONAL_PROCEDURES && ADDITIONAL_PROCEDURES.length){
+    // Only add procedures that aren't already in the catalog
+    ADDITIONAL_PROCEDURES.forEach(newProc => {
+      if(newProc && newProc.key){
+        // Check if this procedure key already exists in catalog
+        const exists = catalog.some(existingProc => existingProc.key === newProc.key);
+        if(!exists){
+          catalog.push(newProc);
+        }
       }
-    }
+    });
+  }
+}
 
     // ---------- Derived text (auto) ----------
     function updateDerived(){
