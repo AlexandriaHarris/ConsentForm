@@ -40,16 +40,16 @@
 
     /* HEADER layout */
     .header{position:absolute;left:0;right:0;top:0;height:1.25in;border-bottom:1px solid #000}
-    .hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .25in .25in .25in;column-gap:.25in;align-items:end}
+    .hdr{display:grid;grid-template-columns:1.6in 1fr;height:100%;padding:.25in .5in .2in .5in;column-gap:.3in;align-items:end}
     .hdr-left{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start}
     .hdr-right{font:10pt "Times New Roman",Times,serif;line-height:1.1;text-align:right}
     .pageNo{font:10pt "Times New Roman",Times,serif}
-    .logo{height:.4in;width:auto;display:block}
+    .logo{height:.55in;width:auto;display:block}
     .line{display:inline-block;min-width:10ch}
 
     /* FOOTER minimal */
-    .footer{position:absolute;left:0;right:0;bottom:0.25;height:0.5in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0.2in;font-size:9pt}
-    .barcode{height:.35in;width:auto}
+    .footer{position:absolute;left:0;right:0;bottom:0;height:1in;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;padding:0 .5in;font-size:9pt}
+    .barcode{height:.45in;width:auto}
     .foot-date{font:10pt "Times New Roman",Times,serif}
 
     /* BODY */
@@ -75,9 +75,13 @@
      * fits comfortably on the page.  If further padding is required,
      * increase the bottom value again.
      */
-    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.4in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
+    /* Increase bottom inset slightly to provide more breathing room
+       at the bottom of the page.  A larger bottom value prevents
+       long paragraphs from running into the footer, especially when
+       dynamic fields contain a lot of text. */
+    .content{position:absolute;left:0;right:0;top:1.25in;bottom:2.6in;padding:0 .5in .5in .5in;font:11pt "Times New Roman",Times,serif;line-height:1.15;letter-spacing:.003em}
     .title{font-weight:700;text-align:center;margin:.15in 0;font-size:12pt}
-    .dash{min-height:2rem;border-bottom:1px solid #000;padding-bottom:.2rem;white-space:pre-wrap}
+    .dash{min-height:2rem;border-bottom:1px dashed #000;padding-bottom:.2rem;white-space:pre-wrap}
     .small{font-size:9pt;text-align:center}
     .ol{padding-left:.25in}
     .ol li{margin:.08in 0}
@@ -200,12 +204,12 @@
           </div>
         </div>
 
-        <div class="card" style="margin-top:0.5rem">
+        <div class="card" style="margin-top:1rem">
           <div class="hd">Auto‑populated Fields (editable)</div>
           <div class="bd list">
             <div>
               <label for="diagnosis">Diagnosis</label>
-              <textarea id="diagnosis" data-field="diagnosis" rows="1"></textarea>
+              <textarea id="diagnosis" data-field="diagnosis" rows="3"></textarea>
             </div>
             <div>
               <label for="recommendedProcedure">Recommended Procedure (auto from selection — you can edit)</label>
@@ -299,7 +303,7 @@
             <div class="hdr">
               <div class="hdr-left">
                 <div class="pageNo">Page 1 of 4</div>
-                <img class="logo" src="gTlSit7.png" alt="UPMC" style="height:80%;"/>
+                <img class="logo" src="gTlSit7.png" alt="UPMC" />
               </div>
               <div class="hdr-right">
                 <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
@@ -467,29 +471,34 @@
               <div class="signature-row">
                 <div class="sig-field">
                   <span>Date:</span>
-                  <span class="uline u-date-time"><span class="witnessDate"></span></span>
+                  <!-- Use a single element for the blank line.  Nesting a span inside
+                       another span that draws a border results in two parallel
+                       underlines.  Assign the witnessDate class directly to
+                       the underlined element so the script can fill it. -->
+                  <span class="uline u-date-time witnessDate"></span>
                 </div>
                 <div class="sig-field">
                   <span>Time:</span>
-                  <span class="uline u-date-time"><span class="witnessTime"></span></span>
+                  <span class="uline u-date-time witnessTime"></span>
                 </div>
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Witness</span>
-                  <span class="uline u-med"><span class="witnessName"></span></span>
+                  <span class="uline u-med witnessName"></span>
                 </div>
               </div>
               <!-- Patient signature row: Date, Time, Signature -->
               <div class="signature-row">
                 <div class="sig-field">
                   <span>Date:</span>
-                  <span class="uline u-date-time"><span class="signerDate"></span></span>
+                  <span class="uline u-date-time signerDate"></span>
                 </div>
                 <div class="sig-field">
                   <span>Time:</span>
-                  <span class="uline u-date-time"><span class="signerTime"></span></span>
+                  <span class="uline u-date-time signerTime"></span>
                 </div>
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Signature of patient or person authorized to consent for patient</span>
+                  <!-- leave blank for signature line; no class needed -->
                   <span class="uline u-med"></span>
                 </div>
               </div>
@@ -497,7 +506,7 @@
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Relationship to patient if signer is not Patient:</span>
-                  <span class="uline u-rel"><span class="signerRel"></span></span>
+                  <span class="uline u-rel signerRel"></span>
                 </div>
               </div>
             </div>
@@ -511,11 +520,11 @@
               <div class="signature-row">
                 <div class="sig-field">
                   <span>Date</span>
-                  <span class="uline u-date-time"><span class="physDate"></span></span>
+                  <span class="uline u-date-time physDate"></span>
                 </div>
                 <div class="sig-field">
                   <span>Time</span>
-                  <span class="uline u-date-time"><span class="physTime"></span></span>
+                  <span class="uline u-date-time physTime"></span>
                 </div>
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Signature of Physician or Representative</span>
@@ -525,7 +534,7 @@
               <div class="signature-row">
                 <div class="sig-field flex-grow" style="justify-content:space-between;">
                   <span>Printed name</span>
-                  <span class="uline u-rel"><span class="physName"></span></span>
+                  <span class="uline u-rel physName"></span>
                 </div>
               </div>
             </div>
@@ -614,8 +623,10 @@
         key:'NECK',
         name:'Neck Mass Excision',
         risks:['nerve injury (e.g., marginal mandibular, spinal accessory)','seroma/hematoma','infection','scarring'],
-        alternatives:['Biopsy or fine-needle aspiration','Observation','Radiologic monitoring']
-        ,requiresLaterality:true
+        alternatives:['Biopsy or fine-needle aspiration','Observation','Radiologic monitoring'],
+        // This procedure is side‑specific (e.g., left or right).  Setting
+        // requiresLaterality=true triggers the UI to request laterality.
+        requiresLaterality:true
       },
     ];
 
@@ -795,10 +806,12 @@
       const selectedProcs = (f.selectedProcKeys||[]).map(key => catalog.find(p=>p && p.key===key)).filter(Boolean);
       // Build names including laterality if required
       const namesWithLat = selectedProcs.map(p => {
+        // Prepend laterality to the procedure name when specified.  For example,
+        // "Left" + "Neck Mass Excision" becomes "Left Neck Mass Excision".
         let nm = p.name;
         if(p.requiresLaterality){
           const lat = f.laterality && f.laterality[p.key];
-          if(lat){ nm += ' ('+lat+')'; }
+          if(lat){ nm = `${lat} ${p.name}`; }
         }
         return nm;
       });
