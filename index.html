@@ -915,20 +915,36 @@ function load(){
   try{ 
     const savedCatalog = JSON.parse(localStorage.getItem('consent-proc-catalog-html')||'null');
     if(savedCatalog) {
-      catalog = savedCatalog;
+      // Use saved catalog but remove any duplicates based on key
+      const keyMap = new Map();
+      savedCatalog.forEach(proc => {
+        if(proc && proc.key && !keyMap.has(proc.key)) {
+          keyMap.set(proc.key, proc);
+        }
+      });
+      catalog = Array.from(keyMap.values());
     } else {
-      // First time - use DEFAULT_PROCEDURES
-      catalog = [...DEFAULT_PROCEDURES];
-      // Add ADDITIONAL_PROCEDURES only on first load
-      if(ADDITIONAL_PROCEDURES && ADDITIONAL_PROCEDURES.length){
-        catalog = catalog.concat(ADDITIONAL_PROCEDURES);
-      }
+      // First time - combine DEFAULT and ADDITIONAL procedures
+      const allProcs = [...DEFAULT_PROCEDURES, ...ADDITIONAL_PROCEDURES];
+      const keyMap = new Map();
+      allProcs.forEach(proc => {
+        if(proc && proc.key && !keyMap.has(proc.key)) {
+          keyMap.set(proc.key, proc);
+        }
+      });
+      catalog = Array.from(keyMap.values());
     }
   }catch{ 
-    catalog = DEFAULT_PROCEDURES;
+    catalog = [...DEFAULT_PROCEDURES, ...ADDITIONAL_PROCEDURES];
   }
   
   try{ surgeons = JSON.parse(localStorage.getItem('consent-surgeons-html')||'[]') }catch{ surgeons = [] }
+}
+
+function save(){
+  localStorage.setItem('consent-html-state', JSON.stringify(f));
+  localStorage.setItem('consent-proc-catalog-html', JSON.stringify(catalog));
+  localStorage.setItem('consent-surgeons-html', JSON.stringify(surgeons));
 }
 
     // Track manual edits to avoid overwriting auto text
