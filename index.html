@@ -2847,35 +2847,7 @@ function generatePages() {
         <li>I authorize and request my physician(s) or their designees to perform whatever medical acts or additional procedures they, in the exercise of their sole professional judgment, deem reasonable and necessary, and I waive any obligation on their part to stop or delay the continuation of my procedure to obtain additional consent if I am unable to give additional consent at that time.</li>
       </ol>
     </div>
-    <div class="footer">
-      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
-      <div class="foot-date">2/16/2024</div>
-    </div>
-  `;
-  rightPanel.appendChild(page3);
-
-  // Page 4 (or 5 if extra page)
-  const page4 = document.createElement('div');
-  page4.className = 'sheet';
-  page4.style.marginTop = '1rem';
-  page4.innerHTML = `
-    <div class="header">
-      <div class="hdr">
-        <div class="hdr-left">
-          <div class="pageNo">Page ${4 + pageOffset} of ${4 + pageOffset}</div>
-          <img class="logo" src="gTlSit7.png" alt="UPMC" />
-        </div>
-        <div class="hdr-right">
-          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
-          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
-          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
-          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
-        </div>
-      </div>
-    </div>
-    <div class="content">
-      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
-      <div class="signature-section" style="margin-bottom:.25in">
+    <div class="signature-section" style="margin-bottom:.25in">
         <div class="signature-row">
           <div class="sig-field">
             <span>Date:</span>
@@ -2934,6 +2906,35 @@ function generatePages() {
           </div>
         </div>
       </div>
+    <div class="footer">
+      <img class="barcode" src="Hh6nBGq.png" alt="barcode" />
+      <div class="foot-date">2/16/2024</div>
+    </div>
+  `;
+  rightPanel.appendChild(page3);
+
+  // Page 4 (or 5 if extra page)
+  const page4 = document.createElement('div');
+  page4.className = 'sheet';
+  page4.style.marginTop = '1rem';
+  page4.innerHTML = `
+    <div class="header">
+      <div class="hdr">
+        <div class="hdr-left">
+          <div class="pageNo">Page ${4 + pageOffset} of ${4 + pageOffset}</div>
+          <img class="logo" src="gTlSit7.png" alt="UPMC" />
+        </div>
+        <div class="hdr-right">
+          <div><strong>Patient Name:</strong> <span class="hdrPatientName line"></span></div>
+          <div><strong>Identification Number:</strong> <span class="hdrId line"></span></div>
+          <div><strong>Date of Birth:</strong> <span class="hdrDob line"></span></div>
+          <div><strong>Facility:</strong> <span class="hdrFacility line"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="title">CONSENT TO SURGERY OR SPECIAL PROCEDURE</div>
+      
       <div style="border-top:1px solid #000;padding-top:.2in">
         <div style="font-weight:700">INTERPRETER'S STATEMENT</div>
         <p>Execute if an interpreter is provided to assist the individual in understanding this informed consent form:</p>
